@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Valet Parking System": {
+      "commandName": "Project",
+      "sqlDebugging": false,
+      "nativeDebugging": false
+    }
+  }
+}
