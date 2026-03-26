@@ -34,6 +34,8 @@ namespace Valet_Parking_System.SubForms
             _MainLanding = mainLanding;
         }
 
+
+
         //-----------------------------Events-----------------------------
         private void BookingSubForm_Load(object sender, EventArgs e)
         {
@@ -85,11 +87,14 @@ namespace Valet_Parking_System.SubForms
 
 
 
-        //-----------------------------Internal Calls-----------------------------  
+        //-----------------------------Database Calls-----------------------------  
+
         //implament database functionality
+
         public void requestPickup(RetrievalQueueItem item)
         {
-            //Calls to move booking to retreval queue returns true/false for conformation on succesfully saved to db
+            //Calls to move booking to retreval queue returns true/false for conformation on succesfully saved to db and 
+            //delete booking
 
             if (true)
                 MessageBox.Show("PickipRequested", "Success");
@@ -105,6 +110,15 @@ namespace Valet_Parking_System.SubForms
                 MessageBox.Show("Booking created successfully!", "Success");
             else
                 MessageBox.Show("Failed to create booking.", "Error");
+        }
+
+        public void EditBooking(Booking booking) 
+        {
+            //Calls to edit booking then returns true/false for conformation on succesfully updated in db
+            if (true)
+                MessageBox.Show("Booking updated successfully!", "Success");
+            else
+                MessageBox.Show("Failed to update booking.", "Error");
         }
     }
 }

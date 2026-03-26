@@ -28,8 +28,7 @@ namespace Valet_Parking_System.Classes
 
         public RetrievalQueueItem(Booking booking,int pos, string newStatus) 
         {
-            //-----------------BookingRelated-----------------
-            this.BookingParkingSpaceId = booking.ParkingSpaceId;       
+            //-----------------BookingRelated-----------------     
             this.BookingParkingOperatorId = booking.OperatorId;       
             this.BookingDateFrom = booking.DateFrom;
             this.BookingTimeFrom = booking.TimeFrom;

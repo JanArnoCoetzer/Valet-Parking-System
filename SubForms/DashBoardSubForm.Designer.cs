@@ -30,7 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            upcommingbookingsWidget1 = new Valet_Parking_System.SubForms.Widgets.UpcommingbookingsWidget();
+            upcommingbookingsWidget = new Valet_Parking_System.SubForms.Widgets.UpcommingbookingsWidget();
             tableLayoutPanel3 = new TableLayoutPanel();
             roundedWidget1 = new Valet_Parking_System.SubForms.Widgets.RoundedWidget();
             roundedWidget2 = new Valet_Parking_System.SubForms.Widgets.RoundedWidget();
@@ -63,7 +63,7 @@
             // 
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Controls.Add(upcommingbookingsWidget1, 0, 2);
+            tableLayoutPanel2.Controls.Add(upcommingbookingsWidget, 0, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(20, 20);
@@ -76,16 +76,15 @@
             tableLayoutPanel2.Size = new Size(1520, 717);
             tableLayoutPanel2.TabIndex = 0;
             // 
-            // upcommingbookingsWidget1
+            // upcommingbookingsWidget
             // 
-            upcommingbookingsWidget1.BackColor = Color.FromArgb(254, 254, 254);
-            upcommingbookingsWidget1.CornerRadius = 12;
-            upcommingbookingsWidget1.Dock = DockStyle.Fill;
-            upcommingbookingsWidget1.Location = new Point(0, 229);
-            upcommingbookingsWidget1.Margin = new Padding(0);
-            upcommingbookingsWidget1.Name = "upcommingbookingsWidget1";
-            upcommingbookingsWidget1.Size = new Size(1520, 488);
-            upcommingbookingsWidget1.TabIndex = 1;
+            upcommingbookingsWidget.BackColor = Color.FromArgb(254, 254, 254);
+            upcommingbookingsWidget.Dock = DockStyle.Fill;
+            upcommingbookingsWidget.Location = new Point(0, 229);
+            upcommingbookingsWidget.Margin = new Padding(0);
+            upcommingbookingsWidget.Name = "upcommingbookingsWidget";
+            upcommingbookingsWidget.Size = new Size(1520, 488);
+            upcommingbookingsWidget.TabIndex = 1;
             // 
             // tableLayoutPanel3
             // 
@@ -170,6 +169,6 @@
         private Widgets.RoundedWidget roundedWidget1;
         private Widgets.RoundedWidget roundedWidget2;
         private Widgets.RoundedWidget roundedWidget3;
-        private Widgets.UpcommingbookingsWidget upcommingbookingsWidget1;
+        private Widgets.UpcommingbookingsWidget upcommingbookingsWidget;
     }
 }

@@ -34,7 +34,6 @@ namespace Valet_Parking_System.Repository
                 new() { ParameterName = "carColor", Value = booking.CarColor},
                 new() { ParameterName = "dateFrom", Value = booking.DateFrom},
                 new() { ParameterName = "dateTo", Value = booking.DateTo},
-                new() { ParameterName = "spaceId", Value = booking.ParkingSpaceId},
                 new() { ParameterName = "operatorId", Value = booking.OperatorId},
                 new() { ParameterName = "status", Value = booking.Status}
             };

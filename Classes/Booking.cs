@@ -7,10 +7,10 @@ namespace Valet_Parking_System.Classes
     {
         //Automatic
         public int BookingId { get; set; } = 0;
-        public int ParkingSpaceId { get; set; } = 0;
         public string Status { get; set; } = "PENDING";
         public int OperatorId { get; set; } = 0;
         public string DateFrom { get; set; } = "";
+        public ParkingSpace parkingspace { get; set; } = null;
 
         //Manual
         public string FullName { get; set; } = "";
@@ -128,6 +128,8 @@ namespace Valet_Parking_System.Classes
             return validationMsg;
             
         }
+
+        
     }
 
 }

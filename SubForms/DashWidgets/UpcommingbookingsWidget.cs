@@ -1,98 +1,96 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using Valet_Parking_System.Classes;
+using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
+using Valet_Parking_System.SubForms.DashWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.Widgets
 {
     public partial class UpcommingbookingsWidget : UserControl
     {
-        private int cornerRadius = 12;
-
-        [Category("Custom Settings")]
-        [Description("Corner radius in pixels (6-30).")]
-        [Browsable(true)]
-        public int CornerRadius
-        {
-            get => cornerRadius;
-            set
-            {
-                cornerRadius = Math.Clamp(value, 6, 30);
-                UpdateRegion();
-                Invalidate();
-            }
-        }
-
+    
         public UpcommingbookingsWidget()
         {
             InitializeComponent();
-
-            SetStyle(ControlStyles.UserPaint |
-                     ControlStyles.AllPaintingInWmPaint |
-                     ControlStyles.OptimizedDoubleBuffer |
-                     ControlStyles.ResizeRedraw, true);
-
-            BorderStyle = BorderStyle.None;
-            BackColor = Color.White;
-            UpdateRegion();
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
 
-        protected override CreateParams CreateParams
+        public async void DisplayBookings(List<Booking> bookings)
         {
-            get
+
+            var ListBookings = FilterNearestFive(bookings);
+
+            foreach (var booking in ListBookings)
             {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;
-                return cp;
+                var row = new DeDashBookingsTableRow(booking,false);
+                UpcomingBookingsTableContentPanel.Controls.Add(row);
             }
         }
 
-        protected override void OnSizeChanged(EventArgs e)
+        private List<Booking> FilterNearestFive(List<Booking> bookings) 
         {
-            base.OnSizeChanged(e);
-            UpdateRegion();
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(Parent?.BackColor ?? Color.LightGray);
-
-            Rectangle rect = new Rectangle(0, 0, Width, Height);
-            using (GraphicsPath path = GetRoundedRectPath(rect, CornerRadius))
-            using (SolidBrush brush = new SolidBrush(BackColor))
+            try
             {
-                g.FillPath(brush, path);
+                if (bookings == null || bookings.Count == 0)
+                    return null;
+
+                DateTime today = DateTime.Today;
+
+                
+                var todayBookings = new List<Booking>();
+
+                foreach (var b in bookings)
+                {
+                    
+                    DateTime fromDate = DateTime.ParseExact(
+                        b.DateFrom,
+                        "dd/MM/yyyy",
+                        CultureInfo.InvariantCulture); // [web:11]
+
+                    if (fromDate.Date == today)
+                    {
+                        todayBookings.Add(b);
+                    }
+                }
+
+                
+                var ordered =
+                    todayBookings
+                        .OrderBy(b =>
+                            DateTime.ParseExact(
+                                $"{b.DateFrom} {b.TimeFrom}",
+                                "dd/MM/yyyy HH:mm",
+                                CultureInfo.InvariantCulture))
+                        .Take(8) 
+                        .ToList();
+
+                return ordered;
             }
-
-            base.OnPaint(e);
-        }
-
-        private void UpdateRegion()
-        {
-            // GraphicsPath Region = ALL 4 corners rounded
-            using (GraphicsPath path = GetRoundedRectPath(ClientRectangle, CornerRadius))
+            catch (Exception ex)
             {
-                Region = new Region(path);
+                Debug.WriteLine($"FilterNearestFive failed: {ex.Message}");
+                MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
             }
         }
 
-        private GraphicsPath GetRoundedRectPath(RectangleF rect, int radius)
-        {
-            GraphicsPath path = new GraphicsPath();
-            float d = radius * 2f;
 
-            path.AddArc(rect.X, rect.Y, d, d, 180, 90);           // Top-left
-            path.AddArc(rect.Right - d, rect.Y, d, d, 270, 90);   // Top-right
-            path.AddArc(rect.Right - d, rect.Bottom - d, d, d, 0, 90);  // Bottom-right
-            path.AddArc(rect.X, rect.Bottom - d, d, d, 90, 90);   // Bottom-left
-            path.CloseFigure();
-            return path;
-        }
-
+        ///-----------------------------Rendering-----------------------------
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-            int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,
-            int nWidthEllipse, int nHeightEllipse);
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
+
+
     }
 }

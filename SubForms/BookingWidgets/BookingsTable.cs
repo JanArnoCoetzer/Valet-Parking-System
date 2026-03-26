@@ -22,7 +22,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             InitialiseRoundedBorders();          
         }
 
-        //public parameterless constructor
+        //public parameterless constructor 
         public BookingsTable() : this(null)
         {
         }
@@ -32,6 +32,10 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             this.parentForm = parent;
         }
 
+        public void EditBooking(Booking booking) 
+        {
+            parentForm.EditBooking(booking);
+        }
         public async void DisplayBookings(List<Booking> bookings)
         {
             //chunk based table population to avoid creating error handle overflow

@@ -24,12 +24,15 @@ namespace Valet_Parking_System
         public List<RetrievalQueueItem> QueueItems;
         private static readonly Random rand = new Random();
 
+        public List<ParkingSpace> ParkingSpaces;
+
         public MainLanding()
         {
             InitializeComponent();
             BookingsUC.setMainLanding(this);
-            LoadedBookings = CreateTestBookings(25);
-            
+            ParkingSpaces = CreateTestParking();
+            LoadedBookings = CreateTestBookings(ParkingSpaces ?? new List<ParkingSpace>());
+
 
             BookingsUC.LoadBookings(LoadedBookings);
             QueueItems = new List<RetrievalQueueItem>();
@@ -61,6 +64,8 @@ namespace Valet_Parking_System
             };
 
             SetContent(DashBoardUC, Content);
+
+            DashBoardUC.Updatenearistbookings(LoadedBookings);
 
 
         }
@@ -159,9 +164,10 @@ namespace Valet_Parking_System
 
 
         //-----------------------------Fuctions to test-----------------------------
-        private List<Booking> CreateTestBookings(int amount = 25)
+        private List<Booking> CreateTestBookings(List<ParkingSpace> ParkingSpaces, int amount = 25)
         {
             var bookings = new List<Booking>();
+            var random = new Random();
 
             string[] firstNames = { "John", "Jane", "Bob", "Alice", "Mike", "Sarah", "Tom", "Emma", "David", "Lisa" };
             string[] lastNames = { "Doe", "Smith", "Wilson", "Brown", "Taylor", "Davis", "Clark", "Lewis", "Walker", "Hall" };
@@ -169,39 +175,114 @@ namespace Valet_Parking_System
             string[] colors = { "Blue", "Red", "Black", "White", "Grey", "Silver", "Green", "Yellow", "Purple", "Orange" };
             string[] phonePrefixes = { "087", "086", "085", "083", "089" };
 
-            for (int i = 0; i < amount; i++)
+            DateTime today = DateTime.Today;
+            string todayStr = today.ToString("dd/MM/yyyy");
+
+            // Get available ParkingSpace objects
+            var availableSpaces = new List<ParkingSpace>();
+            if (ParkingSpaces != null && ParkingSpaces.Any())
             {
+                availableSpaces = ParkingSpaces.Where(ps => ps.status == "Available").ToList();
+                if (!availableSpaces.Any())
+                    availableSpaces = ParkingSpaces.ToList();
+            }
+
+            for (int i = 0; i < 20; i++)
+            {
+                ParkingSpace space = availableSpaces.Any()
+                    ? availableSpaces[random.Next(availableSpaces.Count)]
+                    : null;
+
                 var testBooking = new Booking
                 {
                     BookingId = i + 1,
-                    CarReg = GenerateIrishPlate(),
-                    FullName = $"{firstNames[rand.Next(firstNames.Length)]} {lastNames[rand.Next(lastNames.Length)]}",
-                    DateFrom = DateTime.Now.AddDays(-rand.Next(1, 365)).ToString("dd/MM/yyyy"),
-                    DateTo = DateTime.Now.AddDays(rand.Next(1, 30)).ToString("dd/MM/yyyy"),
-                    TimeTo = DateTime.Now.AddHours(rand.Next(0, 24)).AddMinutes(rand.Next(0, 60)).ToString("HH:mm"),
-                    CarModel = models[rand.Next(models.Length)],
-                    CarColor = colors[rand.Next(colors.Length)],
-                    TelephoneNum = $"{phonePrefixes[rand.Next(phonePrefixes.Length)]}{rand.Next(1000000, 9999999)}",
-                    Address = $"123{rand.Next(1, 999)} Test St, Dublin {rand.Next(1, 25)}"
+                    parkingspace = space,  // Full ParkingSpace object!
+                    CarReg = GenerateIrishPlate(random),
+                    FullName = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}",
+                    DateFrom = todayStr,
+                    DateTo = todayStr,
+                    TimeFrom = $"{random.Next(8, 18):D2}:{random.Next(0, 60):D2}",
+                    TimeTo = $"{random.Next(16, 22):D2}:{random.Next(0, 60):D2}",
+                    CarModel = models[random.Next(models.Length)],
+                    CarColor = colors[random.Next(colors.Length)],
+                    TelephoneNum = $"{phonePrefixes[random.Next(phonePrefixes.Length)]}{random.Next(1000000, 9999999)}",
+                    Address = $"123{random.Next(1, 999)} Test St, Dublin {random.Next(1, 25)}"
+                };
+
+                bookings.Add(testBooking);
+            }
+
+            int remaining = amount - 20;
+            for (int i = 0; i < remaining; i++)
+            {
+                ParkingSpace space = availableSpaces.Any()
+                    ? availableSpaces[random.Next(availableSpaces.Count)]
+                    : null;
+
+                var testBooking = new Booking
+                {
+                    BookingId = i + 21,
+                    parkingspace = space,
+                    CarReg = GenerateIrishPlate(random),
+                    FullName = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}",
+                    DateFrom = DateTime.Now.AddDays(-random.Next(1, 365)).ToString("dd/MM/yyyy"),
+                    DateTo = DateTime.Now.AddDays(random.Next(1, 30)).ToString("dd/MM/yyyy"),
+                    TimeFrom = $"{random.Next(0, 24):D2}:{random.Next(0, 60):D2}",
+                    TimeTo = $"{random.Next(0, 24):D2}:{random.Next(0, 60):D2}",
+                    CarModel = models[random.Next(models.Length)],
+                    CarColor = colors[random.Next(colors.Length)],
+                    TelephoneNum = $"{phonePrefixes[random.Next(phonePrefixes.Length)]}{random.Next(1000000, 9999999)}",
+                    Address = $"123{random.Next(1, 999)} Test St, Dublin {random.Next(1, 25)}"
                 };
 
                 bookings.Add(testBooking);
             }
 
             return bookings;
-        }    
-        private string GenerateIrishPlate()
-        {
-
-            var formats = new[]
-            {
-        $"{rand.Next(100, 1000):D3}-{rand.Next(65, 91):X1}{rand.Next(65, 91):X1}-{rand.Next(10000, 99999):D5}",
-        $"{rand.Next(100, 1000):D3}-{rand.Next(65, 91):X1}{rand.Next(65, 91):X1}{rand.Next(65, 91):X1}-{rand.Next(100, 1000):D3}",
-        $"{rand.Next(100, 200):D3}-{rand.Next(65, 91):X1}{rand.Next(65, 91):X1}-{rand.Next(10000, 99999):D5}"  // older style
-            };
-
-            return formats[rand.Next(formats.Length)];
         }
 
+
+        private string GenerateIrishPlate(Random random)
+        {
+            var formats = new[]
+            {
+        $"{random.Next(100, 1000):D3}-{random.Next(65, 91):X1}{random.Next(65, 91):X1}-{random.Next(10000, 99999):D5}",
+        $"{random.Next(100, 1000):D3}-{random.Next(65, 91):X1}{random.Next(65, 91):X1}{random.Next(65, 91):X1}-{random.Next(100, 1000):D3}",
+        $"{random.Next(100, 200):D3}-{random.Next(65, 91):X1}{random.Next(65, 91):X1}-{random.Next(10000, 99999):D5}"
+            };
+
+            return formats[random.Next(formats.Length)];
+        }
+
+        public List<ParkingSpace> CreateTestParking()
+        {
+            var parkingSpaces = new List<ParkingSpace>();
+
+            
+            char[] buildings = { 'A', 'B' };
+            char[] floors = { 'A', 'B', 'C' };
+
+            int spaceId = 1;
+
+            foreach (char building in buildings)
+            {
+                foreach (char floor in floors)
+                {
+                    for (int spaceNum = 1; spaceNum <= 50; spaceNum++)
+                    {
+                        var space = new ParkingSpace
+                        {
+                            SpaceID = spaceId++,
+                            LotIdentifier = $"{building}_{floor}{spaceNum:D2}",
+                            status = "Available"
+                        };
+
+                        parkingSpaces.Add(space);
+                    }
+                }
+            }
+
+            return parkingSpaces;  
+        }
     }
 }

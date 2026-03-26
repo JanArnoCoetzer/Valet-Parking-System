@@ -8,6 +8,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
     {
         BookingsTable bt;
         Booking BookingData;
+        EditBookingWindow parentform;
         public EditBookingWidget()
         {
             InitializeComponent();
@@ -38,6 +39,11 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             InitializeFields();
         }
 
+        public void setParentForm(EditBookingWindow parent) 
+        {
+            parentform = parent;
+        }
+
 
         private void btnCancelEditBooking_Click(object sender, EventArgs e)
         {
@@ -57,8 +63,8 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 txtCarColor.Text = BookingData.CarColor;
                 dateFromPicker.Text = BookingData.DateFrom;
                 dateToPicker.Text = BookingData.DateTo;
-                txtSpaceId.Text = BookingData.ParkingSpaceId.ToString();
                 txtStatus.Text = BookingData.Status;
+                txtSpaceId.Text = BookingData.parkingspace.LotIdentifier;
             }
         }
 
@@ -83,13 +89,19 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             if (validationCode == 0)
             {
                 ValidationErrorLabel.Visible = false;
-                                
+                bt.EditBooking(booking);
+                parentform.CloseAndDispose();
+
+
+
             }
             else
             {
                 ValidationErrorLabel.Visible = true;
                 ValidationErrorLabel.Text = booking.GetValidationErrorMsg();
             }
+
+
         }
     }
 }
