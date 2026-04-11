@@ -9,9 +9,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.DataElements
         Booking bookingdata;
         BookingsTable bookingstable;
         public bool selected = false;
-        
-        
-   
+  
 
         public DeBookingTableRow(Booking booking, BookingsTable bt, bool BackPaneldark = false)
         {
@@ -21,11 +19,11 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.DataElements
             bookingstable = bt;
 
             txtBookingId.Text = bookingdata.BookingId.ToString();
-            txtCarReg.Text = bookingdata.CarReg.ToString();
-            txtName.Text = bookingdata.FullName.ToString();
-            txtFrom.Text = bookingdata.DateFrom.ToString();
-            TxtTo.Text = bookingdata.DateTo.ToString();
-            txtTime.Text = bookingdata.TimeTo.ToString();
+            txtCarReg.Text = bookingdata.CarReg;
+            txtName.Text = bookingdata.FullName;
+            txtFrom.Text = bookingdata.DateFrom;
+            TxtTo.Text = bookingdata.DateTo;
+            txtTime.Text = bookingdata.TimeTo;
 
             if (BackPaneldark)
             {

@@ -30,7 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            parkingSpacesTable1 = new Valet_Parking_System.SubForms.AdminWidgets.ParkingSpacesTable();
+            parkingSpacesTable = new Valet_Parking_System.SubForms.AdminWidgets.ParkingSpacesTable();
             operatorsTable1 = new Valet_Parking_System.SubForms.AdminWidgets.OperatorsTable();
             analyticsWidget1 = new Valet_Parking_System.SubForms.AdminWidgets.AnalyticsWidget();
             tableLayoutPanel1.SuspendLayout();
@@ -63,7 +63,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.Controls.Add(parkingSpacesTable1, 0, 0);
+            tableLayoutPanel2.Controls.Add(parkingSpacesTable, 0, 0);
             tableLayoutPanel2.Controls.Add(operatorsTable1, 2, 0);
             tableLayoutPanel2.Controls.Add(analyticsWidget1, 4, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
@@ -75,14 +75,14 @@
             tableLayoutPanel2.Size = new Size(1520, 717);
             tableLayoutPanel2.TabIndex = 0;
             // 
-            // parkingSpacesTable1
+            // parkingSpacesTable
             // 
-            parkingSpacesTable1.BackColor = Color.FromArgb(254, 254, 254);
-            parkingSpacesTable1.Location = new Point(0, 0);
-            parkingSpacesTable1.Margin = new Padding(0);
-            parkingSpacesTable1.Name = "parkingSpacesTable1";
-            parkingSpacesTable1.Size = new Size(493, 717);
-            parkingSpacesTable1.TabIndex = 0;
+            parkingSpacesTable.BackColor = Color.FromArgb(254, 254, 254);
+            parkingSpacesTable.Location = new Point(0, 0);
+            parkingSpacesTable.Margin = new Padding(0);
+            parkingSpacesTable.Name = "parkingSpacesTable";
+            parkingSpacesTable.Size = new Size(493, 717);
+            parkingSpacesTable.TabIndex = 0;
             // 
             // operatorsTable1
             // 
@@ -118,7 +118,7 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
-        private AdminWidgets.ParkingSpacesTable parkingSpacesTable1;
+        private AdminWidgets.ParkingSpacesTable parkingSpacesTable;
         private AdminWidgets.OperatorsTable operatorsTable1;
         private AdminWidgets.AnalyticsWidget analyticsWidget1;
     }

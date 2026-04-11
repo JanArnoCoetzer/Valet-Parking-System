@@ -11,8 +11,8 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.DataElements
             this.RetrievalQueueItemData = item;
             txtPosition.Text = RetrievalQueueItemData.Position.ToString();
             txtRequestTime.Text = RetrievalQueueItemData.RequestTime;
-            txtRegistration.Text = RetrievalQueueItemData.CarReg;
-            txtSpace.Text = ""; //have to do parking spaces lot ids
+            txtRegistration.Text = RetrievalQueueItemData.bookingDetails.CarReg;
+            txtSpace.Text = RetrievalQueueItemData.bookingDetails.parkingspace.LotIdentifier; 
         }
     }
 }

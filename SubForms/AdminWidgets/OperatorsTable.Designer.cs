@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            OperatorsTableContentPanel = new FlowLayoutPanel();
             HeadingLabel = new Label();
             tableLayoutPanel2 = new TableLayoutPanel();
-            button3 = new Button();
             button2 = new Button();
+            button3 = new Button();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -41,6 +44,7 @@
             // 
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 2);
             tableLayoutPanel1.Controls.Add(HeadingLabel, 0, 0);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 4);
             tableLayoutPanel1.Dock = DockStyle.Fill;
@@ -55,6 +59,35 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
             tableLayoutPanel1.Size = new Size(493, 717);
             tableLayoutPanel1.TabIndex = 1;
+            // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 3;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Controls.Add(OperatorsTableContentPanel, 1, 0);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(0, 80);
+            tableLayoutPanel3.Margin = new Padding(0);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 1;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Size = new Size(493, 557);
+            tableLayoutPanel3.TabIndex = 5;
+            // 
+            // OperatorsTableContentPanel
+            // 
+            OperatorsTableContentPanel.BackColor = Color.FromArgb(228, 232, 233);
+            OperatorsTableContentPanel.BorderStyle = BorderStyle.Fixed3D;
+            OperatorsTableContentPanel.Dock = DockStyle.Fill;
+            OperatorsTableContentPanel.Location = new Point(20, 0);
+            OperatorsTableContentPanel.Margin = new Padding(0);
+            OperatorsTableContentPanel.Name = "OperatorsTableContentPanel";
+            OperatorsTableContentPanel.Size = new Size(453, 557);
+            OperatorsTableContentPanel.TabIndex = 6;
             // 
             // HeadingLabel
             // 
@@ -87,21 +120,6 @@
             tableLayoutPanel2.Size = new Size(493, 60);
             tableLayoutPanel2.TabIndex = 3;
             // 
-            // button3
-            // 
-            button3.BackColor = Color.FromArgb(8, 108, 236);
-            button3.Dock = DockStyle.Fill;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.FromArgb(254, 254, 254);
-            button3.Location = new Point(0, 0);
-            button3.Margin = new Padding(0);
-            button3.Name = "button3";
-            button3.Size = new Size(246, 60);
-            button3.TabIndex = 7;
-            button3.Text = "Edit Operator";
-            button3.UseVisualStyleBackColor = false;
-            // 
             // button2
             // 
             button2.BackColor = Color.FromArgb(8, 108, 236);
@@ -117,6 +135,21 @@
             button2.Text = "Add Operator";
             button2.UseVisualStyleBackColor = false;
             // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(8, 108, 236);
+            button3.Dock = DockStyle.Fill;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button3.ForeColor = Color.FromArgb(254, 254, 254);
+            button3.Location = new Point(0, 0);
+            button3.Margin = new Padding(0);
+            button3.Name = "button3";
+            button3.Size = new Size(246, 60);
+            button3.TabIndex = 7;
+            button3.Text = "Edit Operator";
+            button3.UseVisualStyleBackColor = false;
+            // 
             // OperatorsTable
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -128,6 +161,7 @@
             Size = new Size(493, 717);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -139,5 +173,7 @@
         private TableLayoutPanel tableLayoutPanel2;
         private Button button3;
         private Button button2;
+        private TableLayoutPanel tableLayoutPanel3;
+        private FlowLayoutPanel OperatorsTableContentPanel;
     }
 }

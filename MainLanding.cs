@@ -24,17 +24,18 @@ namespace Valet_Parking_System
         public List<RetrievalQueueItem> QueueItems;
         private static readonly Random rand = new Random();
 
-        public List<ParkingSpace> ParkingSpaces;
+        public List<ParkingSpace> LoadedParkingSpaces;
 
         public MainLanding()
         {
             InitializeComponent();
             BookingsUC.setMainLanding(this);
-            ParkingSpaces = CreateTestParking();
-            LoadedBookings = CreateTestBookings(ParkingSpaces ?? new List<ParkingSpace>());
+            LoadedParkingSpaces = CreateTestParking();
+            LoadedBookings = CreateTestBookings(LoadedParkingSpaces ?? new List<ParkingSpace>(),100);
 
 
             BookingsUC.LoadBookings(LoadedBookings);
+            AdminUC.LoadParkingSpaces(LoadedParkingSpaces);
             QueueItems = new List<RetrievalQueueItem>();
             
 
@@ -152,19 +153,10 @@ namespace Valet_Parking_System
         }
 
 
-        //-----------------------------External Calls Test-----------------------------
-        public void RequestPickup(RetrievalQueueItem item)
-        {
-            var _item = item;
-            QueueItems.Add(item);
-            Debug.WriteLine($"QueueItems count: {QueueItems.Count}");
-            RetrievalQueueUC.LoadQueueItems(QueueItems);
-        }
 
 
-
-        //-----------------------------Fuctions to test-----------------------------
-        private List<Booking> CreateTestBookings(List<ParkingSpace> ParkingSpaces, int amount = 25)
+        //-----------------------------Testing Fuctions-----------------------------
+        private List<Booking> CreateTestBookings(List<ParkingSpace> parkingSpaces, int amount = 25)
         {
             var bookings = new List<Booking>();
             var random = new Random();
@@ -178,25 +170,37 @@ namespace Valet_Parking_System
             DateTime today = DateTime.Today;
             string todayStr = today.ToString("dd/MM/yyyy");
 
-            // Get available ParkingSpace objects
             var availableSpaces = new List<ParkingSpace>();
-            if (ParkingSpaces != null && ParkingSpaces.Any())
+            if (parkingSpaces != null && parkingSpaces.Any())
             {
-                availableSpaces = ParkingSpaces.Where(ps => ps.status == "Available").ToList();
+                availableSpaces = parkingSpaces
+                    .Where(ps => ps.Available)
+                    .OrderBy(ps => ps.SpaceID)
+                    .ToList();
+
                 if (!availableSpaces.Any())
-                    availableSpaces = ParkingSpaces.ToList();
+                    availableSpaces = parkingSpaces
+                        .OrderBy(ps => ps.SpaceID)
+                        .ToList();
             }
 
-            for (int i = 0; i < 20; i++)
+            int firstBatch = Math.Min(20, amount);
+
+            for (int i = 0; i < firstBatch; i++)
             {
-                ParkingSpace space = availableSpaces.Any()
-                    ? availableSpaces[random.Next(availableSpaces.Count)]
-                    : null;
+                ParkingSpace? space = availableSpaces.FirstOrDefault();
+
+                if (space != null)
+                {
+                    space.setStatus("Occupied");
+                    //wasted 30 mins because i forgot to add Status = status; in ParkingSpace.SetStatus
+                    availableSpaces.Remove(space);
+                }
 
                 var testBooking = new Booking
                 {
                     BookingId = i + 1,
-                    parkingspace = space,  // Full ParkingSpace object!
+                    parkingspace = space,
                     CarReg = GenerateIrishPlate(random),
                     FullName = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}",
                     DateFrom = todayStr,
@@ -212,16 +216,21 @@ namespace Valet_Parking_System
                 bookings.Add(testBooking);
             }
 
-            int remaining = amount - 20;
+            int remaining = amount - firstBatch;
+
             for (int i = 0; i < remaining; i++)
             {
-                ParkingSpace space = availableSpaces.Any()
-                    ? availableSpaces[random.Next(availableSpaces.Count)]
-                    : null;
+                ParkingSpace? space = availableSpaces.FirstOrDefault();
+
+                if (space != null)
+                {
+                    space.setStatus("Occupied");
+                    availableSpaces.Remove(space);
+                }
 
                 var testBooking = new Booking
                 {
-                    BookingId = i + 21,
+                    BookingId = i + firstBatch + 1,
                     parkingspace = space,
                     CarReg = GenerateIrishPlate(random),
                     FullName = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}",
@@ -270,13 +279,8 @@ namespace Valet_Parking_System
                 {
                     for (int spaceNum = 1; spaceNum <= 50; spaceNum++)
                     {
-                        var space = new ParkingSpace
-                        {
-                            SpaceID = spaceId++,
-                            LotIdentifier = $"{building}_{floor}{spaceNum:D2}",
-                            status = "Available"
-                        };
 
+                        var space = new ParkingSpace(spaceId++, $"{building}_{floor}{spaceNum:D2}", "Available");
                         parkingSpaces.Add(space);
                     }
                 }
