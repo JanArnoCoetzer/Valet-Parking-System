@@ -20,9 +20,6 @@ namespace Valet_Parking_System
         private Dictionary<Button, Panel> buttonPanels;
         private Panel activePanel;
 
-        public List<Booking> LoadedBookings;
-        public List<RetrievalQueueItem> QueueItems;
-        private static readonly Random rand = new Random();
 
         public List<ParkingSpace> LoadedParkingSpaces;
 
