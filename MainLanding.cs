@@ -4,24 +4,34 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Valet_Parking_System
 {
     public partial class MainLanding : Form
     {
+        //Subforms
         Panel Content;
         private DashBoardSubForm DashBoardUC = new();
         private BookingSubForm BookingsUC = new();
         private AdminSubForm AdminUC = new();
         private RetrievalQueueSubForm RetrievalQueueUC = new();
-
         private List<UserControl> subViews = new List<UserControl>();
-        private Dictionary<Button, Panel> buttonPanels;
+        private Dictionary<System.Windows.Forms.Button, Panel> buttonPanels;
         private Panel activePanel;
+   
 
 
+        //DB loading
+        public List<Booking> LoadedBookings;
+        public List<RetrievalQueueItem> LoadedQueueItems; 
         public List<ParkingSpace> LoadedParkingSpaces;
+        public List<Operator> LoadedOperators;
+
+        //vars for testing
+        private static readonly Random rand = new Random();
 
         public MainLanding()
         {
@@ -29,12 +39,13 @@ namespace Valet_Parking_System
             BookingsUC.setMainLanding(this);
             LoadedParkingSpaces = CreateTestParking();
             LoadedBookings = CreateTestBookings(LoadedParkingSpaces ?? new List<ParkingSpace>(),100);
-
+            LoadedOperators = CreateTestOperators(16);
+            
 
             BookingsUC.LoadBookings(LoadedBookings);
-            AdminUC.LoadParkingSpaces(LoadedParkingSpaces);
-            QueueItems = new List<RetrievalQueueItem>();
-            
+            AdminUC.LoadParkingSpaces(LoadedParkingSpaces, LoadedOperators);
+            LoadedQueueItems = new List<RetrievalQueueItem>();
+             
 
             this.FormBorderStyle = FormBorderStyle.None;
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
@@ -52,8 +63,8 @@ namespace Valet_Parking_System
             }
 
 
-            // Initialize buttonPanels AFTER InitializeComponent()
-            buttonPanels = new Dictionary<Button, Panel>
+            // Initialize buttonPanels
+            buttonPanels = new Dictionary<System.Windows.Forms.Button, Panel>
             {
                 { DashBoardButton, DashHoverPanel },
                 { BookingsButton, BookingsHoverPanel },
@@ -93,7 +104,7 @@ namespace Valet_Parking_System
 
         private void NavigationButton_Click(object sender, EventArgs e)
         {
-            if (sender is Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
+            if (sender is System.Windows.Forms.Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
             {
 
                 foreach (var p in buttonPanels.Values)
@@ -124,7 +135,7 @@ namespace Valet_Parking_System
 
         private void NavigationButton_MouseEnter(object sender, EventArgs e)
         {
-            if (sender is Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
+            if (sender is System.Windows.Forms.Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
             {
                 if (panel != activePanel)
                 {
@@ -135,7 +146,7 @@ namespace Valet_Parking_System
 
         private void NavigationButton_MouseLeave(object sender, EventArgs e)
         {
-            if (sender is Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
+            if (sender is System.Windows.Forms.Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
             {
                 if (panel != activePanel)
                 {
@@ -190,7 +201,6 @@ namespace Valet_Parking_System
                 if (space != null)
                 {
                     space.setStatus("Occupied");
-                    //wasted 30 mins because i forgot to add Status = status; in ParkingSpace.SetStatus
                     availableSpaces.Remove(space);
                 }
 
@@ -284,6 +294,44 @@ namespace Valet_Parking_System
             }
 
             return parkingSpaces;  
+        }
+
+
+        private List<Operator> CreateTestOperators(int amount = 15)
+        {
+            var operators = new List<Operator>();
+
+            var random = new Random();
+
+            string[] firstNames = { "John", "Jane", "Bob", "Alice", "Mike", "Sarah", "Tom", "Emma", "David", "Lisa" };
+            string[] lastNames = { "Doe", "Smith", "Wilson", "Brown", "Taylor", "Davis", "Clark", "Lewis", "Walker", "Hall" };
+            string[] streets = { "High St", "Main St", "Park Ave", "Garden St", "King St", "Queen St", "O'Connell St", "Abbey St" };
+            string[] phonePrefixes = { "087", "086", "085", "083", "089" };
+
+            DateTime today = DateTime.Today;
+            string todayStr = today.ToString("dd/MM/yyyy");
+
+            for (int i = 0; i < amount; i++)
+            {
+                string fullName = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}";
+                string address = $"{random.Next(1, 999)} {streets[random.Next(streets.Length)]}, Dublin {random.Next(1, 25)}";
+                string telephoneStr = $"{phonePrefixes[random.Next(phonePrefixes.Length)]}{random.Next(1000000, 9999999)}";
+                int telephone = int.Parse(telephoneStr);
+                string email = $"{fullName.Replace(" ", ".").ToLower()}@example.com";
+
+                var op = new Operator(
+                    operatorID: i + 1,
+                    fullName: fullName,
+                    datejoined: todayStr,
+                    address: address,
+                    telephone: telephone,
+                    email: email
+                );
+
+                operators.Add(op);
+            }
+
+            return operators;
         }
     }
 }

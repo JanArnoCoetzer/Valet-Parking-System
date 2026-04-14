@@ -31,7 +31,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             parkingSpacesTable = new Valet_Parking_System.SubForms.AdminWidgets.ParkingSpacesTable();
-            operatorsTable1 = new Valet_Parking_System.SubForms.AdminWidgets.OperatorsTable();
+            operatorsTable = new Valet_Parking_System.SubForms.AdminWidgets.OperatorsTable();
             analyticsWidget1 = new Valet_Parking_System.SubForms.AdminWidgets.AnalyticsWidget();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -64,7 +64,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.Controls.Add(parkingSpacesTable, 0, 0);
-            tableLayoutPanel2.Controls.Add(operatorsTable1, 2, 0);
+            tableLayoutPanel2.Controls.Add(operatorsTable, 2, 0);
             tableLayoutPanel2.Controls.Add(analyticsWidget1, 4, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(20, 20);
@@ -84,14 +84,14 @@
             parkingSpacesTable.Size = new Size(493, 717);
             parkingSpacesTable.TabIndex = 0;
             // 
-            // operatorsTable1
+            // operatorsTable
             // 
-            operatorsTable1.BackColor = Color.FromArgb(254, 254, 254);
-            operatorsTable1.Location = new Point(513, 0);
-            operatorsTable1.Margin = new Padding(0);
-            operatorsTable1.Name = "operatorsTable1";
-            operatorsTable1.Size = new Size(493, 717);
-            operatorsTable1.TabIndex = 1;
+            operatorsTable.BackColor = Color.FromArgb(254, 254, 254);
+            operatorsTable.Location = new Point(513, 0);
+            operatorsTable.Margin = new Padding(0);
+            operatorsTable.Name = "operatorsTable";
+            operatorsTable.Size = new Size(493, 717);
+            operatorsTable.TabIndex = 1;
             // 
             // analyticsWidget1
             // 
@@ -119,7 +119,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private AdminWidgets.ParkingSpacesTable parkingSpacesTable;
-        private AdminWidgets.OperatorsTable operatorsTable1;
+        private AdminWidgets.OperatorsTable operatorsTable;
         private AdminWidgets.AnalyticsWidget analyticsWidget1;
     }
 }

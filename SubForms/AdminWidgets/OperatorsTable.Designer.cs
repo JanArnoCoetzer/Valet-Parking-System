@@ -33,8 +33,8 @@
             OperatorsTableContentPanel = new FlowLayoutPanel();
             HeadingLabel = new Label();
             tableLayoutPanel2 = new TableLayoutPanel();
-            button2 = new Button();
-            button3 = new Button();
+            BtnAddOperator = new Button();
+            BtnEditOperator = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -80,6 +80,7 @@
             // 
             // OperatorsTableContentPanel
             // 
+            OperatorsTableContentPanel.AutoScroll = true;
             OperatorsTableContentPanel.BackColor = Color.FromArgb(228, 232, 233);
             OperatorsTableContentPanel.BorderStyle = BorderStyle.Fixed3D;
             OperatorsTableContentPanel.Dock = DockStyle.Fill;
@@ -109,8 +110,8 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0000076F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Controls.Add(button2, 1, 0);
-            tableLayoutPanel2.Controls.Add(button3, 0, 0);
+            tableLayoutPanel2.Controls.Add(BtnAddOperator, 1, 0);
+            tableLayoutPanel2.Controls.Add(BtnEditOperator, 0, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 657);
             tableLayoutPanel2.Margin = new Padding(0);
@@ -120,35 +121,37 @@
             tableLayoutPanel2.Size = new Size(493, 60);
             tableLayoutPanel2.TabIndex = 3;
             // 
-            // button2
+            // BtnAddOperator
             // 
-            button2.BackColor = Color.FromArgb(8, 108, 236);
-            button2.Dock = DockStyle.Fill;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.FromArgb(254, 254, 254);
-            button2.Location = new Point(246, 0);
-            button2.Margin = new Padding(0);
-            button2.Name = "button2";
-            button2.Size = new Size(247, 60);
-            button2.TabIndex = 8;
-            button2.Text = "Add Operator";
-            button2.UseVisualStyleBackColor = false;
+            BtnAddOperator.BackColor = Color.FromArgb(8, 108, 236);
+            BtnAddOperator.Dock = DockStyle.Fill;
+            BtnAddOperator.FlatStyle = FlatStyle.Flat;
+            BtnAddOperator.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BtnAddOperator.ForeColor = Color.FromArgb(254, 254, 254);
+            BtnAddOperator.Location = new Point(246, 0);
+            BtnAddOperator.Margin = new Padding(0);
+            BtnAddOperator.Name = "BtnAddOperator";
+            BtnAddOperator.Size = new Size(247, 60);
+            BtnAddOperator.TabIndex = 8;
+            BtnAddOperator.Text = "Add Operator";
+            BtnAddOperator.UseVisualStyleBackColor = false;
+            BtnAddOperator.Click += BtnAddOperator_Click;
             // 
-            // button3
+            // BtnEditOperator
             // 
-            button3.BackColor = Color.FromArgb(8, 108, 236);
-            button3.Dock = DockStyle.Fill;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.FromArgb(254, 254, 254);
-            button3.Location = new Point(0, 0);
-            button3.Margin = new Padding(0);
-            button3.Name = "button3";
-            button3.Size = new Size(246, 60);
-            button3.TabIndex = 7;
-            button3.Text = "Edit Operator";
-            button3.UseVisualStyleBackColor = false;
+            BtnEditOperator.BackColor = Color.FromArgb(8, 108, 236);
+            BtnEditOperator.Dock = DockStyle.Fill;
+            BtnEditOperator.FlatStyle = FlatStyle.Flat;
+            BtnEditOperator.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BtnEditOperator.ForeColor = Color.FromArgb(254, 254, 254);
+            BtnEditOperator.Location = new Point(0, 0);
+            BtnEditOperator.Margin = new Padding(0);
+            BtnEditOperator.Name = "BtnEditOperator";
+            BtnEditOperator.Size = new Size(246, 60);
+            BtnEditOperator.TabIndex = 7;
+            BtnEditOperator.Text = "Edit Operator";
+            BtnEditOperator.UseVisualStyleBackColor = false;
+            BtnEditOperator.Click += BtnEditOperator_Click;
             // 
             // OperatorsTable
             // 
@@ -171,8 +174,8 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Label HeadingLabel;
         private TableLayoutPanel tableLayoutPanel2;
-        private Button button3;
-        private Button button2;
+        private Button BtnEditOperator;
+        private Button BtnAddOperator;
         private TableLayoutPanel tableLayoutPanel3;
         private FlowLayoutPanel OperatorsTableContentPanel;
     }

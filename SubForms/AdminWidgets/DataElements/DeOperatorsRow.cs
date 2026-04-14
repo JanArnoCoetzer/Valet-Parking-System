@@ -8,26 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets.DataElements
 {
-    
-    public partial class DeParkingSpacesRow : UserControl
+    public partial class DeOperatorsRow : UserControl
     {
-        ParkingSpacesTable parkingTable;
-        ParkingSpace parking;
+        public Operator OperatorData;
+        OperatorsTable operatorsTable;
+
         public bool selected = false;
-        public DeParkingSpacesRow(ParkingSpace parkingspace,ParkingSpacesTable pt, bool BackPaneldark = false)
+        public DeOperatorsRow(Operator operatordata, OperatorsTable pt, bool BackPaneldark = false)
         {
             InitializeComponent();
-            parkingTable = pt;
-            parking = parkingspace;
-            
-            this.txtSpaceID.Text = parking.SpaceID.ToString();
-            this.txtLotIdentifier.Text = parking.LotIdentifier;
-            this.txtStatus.Text = parking.Status;
+            OperatorData = operatordata;
+            operatorsTable = pt;
+
+            txtOperatorID.Text = operatordata.operatorID.ToString();
+            txtFullName.Text = operatordata.fullName.ToString();
+
 
             if (BackPaneldark)
             {
@@ -38,16 +37,37 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.DataElements
                 panelColor = panelLight;
             }
             SetColor(panelColor);
+        }
+        //-----------------------------Events-----------------------------
 
+        private void TableElement_Clicked(object sender, EventArgs e)
+        {
+            operatorsTable.DeselectAllElements();
+            selected = !selected;
+            SetColor(selected ? Color.FromArgb(70, 130, 180) : panelColor);
+            if (selected)
+            {
+                operatorsTable.SelectedOperatorUpdate(OperatorData);
+            }
         }
 
-        public void Deselect() 
+        ///-----------------------------Rendering-----------------------------
+        bool BackPaneldark = false;
+        Color panelColor;
+        Color panelLight = Color.FromArgb(245, 245, 245);
+        Color panelDark = Color.FromArgb(235, 235, 235);
+
+        public void Deselect()
         {
             selected = false;
             SetColor(panelColor);
         }
 
-        //-----------------------------Events-----------------------------
+        private void SetColor(Color color)
+        {
+            BackPanel.BackColor = color;
+        }
+
         private void TableElement_MouseHover(object sender, EventArgs e)
         {
             if (!selected) SetColor(Color.FromArgb(135, 206, 235));
@@ -57,31 +77,5 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.DataElements
         {
             if (!selected) SetColor(panelColor);
         }
-
-        private void TableElement_Clicked(object sender, MouseEventArgs e)
-        {
-            parkingTable.DeselectAllElements();
-            selected = !selected;
-            SetColor(selected ? Color.FromArgb(70, 130, 180) : panelColor);
-            if (selected) 
-            {          
-                parkingTable.SelectedSpaceUpdate(parking);
-            }
-        }
-            
-
-
-        ///-----------------------------Rendering-----------------------------
-        bool BackPaneldark = false;
-        Color panelColor;
-        Color panelLight = Color.FromArgb(245, 245, 245);
-        Color panelDark = Color.FromArgb(235, 235, 235);
-
-
-        private void SetColor(Color color)
-        {
-            BackPanel.BackColor = color;
-        }
-
     }
 }
