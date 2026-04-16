@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;  // For List if needed later
+﻿
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
+using Valet_Parking_System.SubForms;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets
 {
     public partial class BookingsTable : UserControl
     {
-        EditBookingWindow editBookingWindow;
+        EditBookingWindow1 editBookingWindow;
         Booking selectedBooking;
         BookingSubForm parentForm;
         bool BookingSelected = false;
@@ -96,7 +97,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             {
                 editBookingWindow?.Close();
                 editBookingWindow?.Dispose();
-                editBookingWindow = new EditBookingWindow(this, selectedBooking);
+                editBookingWindow = new EditBookingWindow1(this, selectedBooking);
                 editBookingWindow.StartPosition = FormStartPosition.CenterScreen;
                 editBookingWindow.ShowDialog();               
                 editBookingWindow = null;

@@ -8,7 +8,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
     {
         BookingsTable bt;
         Booking BookingData;
-        EditBookingWindow parentform;
+        EditBookingWindow1 parentform;
         public EditBookingWidget()
         {
             InitializeComponent();
@@ -39,7 +39,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             InitializeFields();
         }
 
-        public void setParentForm(EditBookingWindow parent) 
+        public void setParentForm(EditBookingWindow1 parent) 
         {
             parentform = parent;
         }
@@ -91,9 +91,6 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 ValidationErrorLabel.Visible = false;
                 bt.EditBooking(booking);
                 parentform.CloseAndDispose();
-
-
-
             }
             else
             {

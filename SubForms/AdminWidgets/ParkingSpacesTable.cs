@@ -87,9 +87,12 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
         }
 
         private void BtnEditSpace_Click(object sender, EventArgs e)
-        {         
-            ParkingSpace EditedSpace = new ParkingSpace(int.Parse(txtBoxSpaceID.Text), txtboxLotIdentifier.Text, StatusBox.Text);
-            parent.EditSpace(EditedSpace);
+        {
+            if (selectedSpace != null) 
+            {
+                ParkingSpace EditedSpace = new ParkingSpace(int.Parse(txtBoxSpaceID.Text), txtboxLotIdentifier.Text, StatusBox.Text);
+                parent.EditSpace(EditedSpace);
+            }      
         }
 
         public void SelectedSpaceUpdate(ParkingSpace parking) 

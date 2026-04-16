@@ -2,12 +2,15 @@
 using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms.AdminWidgets.DataElements;
+using Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets;
+using Valet_Parking_System.SubForms.BookingWidgets;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets
 {
     public partial class OperatorsTable : UserControl
     {
+        EditOperatorWindow editOperatorWindow;
         AdminSubForm parent;
         Operator Selectedoperator;
         
@@ -85,13 +88,43 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
 
         private void BtnEditOperator_Click(object sender, EventArgs e)
         {
-            parent.EditOperator(Selectedoperator);
+            if (Selectedoperator != null)
+            {
+                editOperatorWindow?.Close();
+                editOperatorWindow?.Dispose();
+                editOperatorWindow = new EditOperatorWindow(this, Selectedoperator);
+                editOperatorWindow.StartPosition = FormStartPosition.CenterScreen;
+                editOperatorWindow.ShowDialog();
+                editOperatorWindow = null;
+                parent.EditOperator(Selectedoperator);
+            }
+
+            
+        }
+
+        public void CancelEditOperator()
+        {
+            editOperatorWindow?.Close();
+            editOperatorWindow?.Dispose();
+            editOperatorWindow = null;
         }
 
         private void BtnAddOperator_Click(object sender, EventArgs e)
         {
             parent.OnOperatorAdd(Selectedoperator);
 
+        }
+
+        internal void EditOperator()
+        {
+            CancelEditOperator();
+
+
+        }
+
+        internal void RemoveOperator()
+        {
+            CancelEditOperator();
         }
     }
 }

@@ -2,39 +2,39 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.SubForms.BookingWidgets;
 
-namespace Valet_Parking_System.SubForms.BookingWidgets
+namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
 {
-    public partial class EditBookingWindow : Form
-    {       
-        EditBookingWidget Widget;
-
-        public EditBookingWindow(BookingsTable bt,Booking bookingdata)
+    public partial class EditOperatorWindow : Form
+    {
+        EditOperatorWidget Widget;
+        public EditOperatorWindow(OperatorsTable ot, Operator operatorData)
         {
             InitializeComponent();
 
-            Widget = this.EditBookingWidget;
-            Widget.setParentTable(bt);
-            Widget.setBookingData(bookingdata);
-            this.EditBookingWidget.setParentForm(this);
+            Widget = this.editOperatorWidget;
+            Widget.setParentTable(ot);
+            Widget.setOperatorData(operatorData);
+            
+            this.editOperatorWidget.setParentForm(this);
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30
                 ));
         }
-
-        public void CloseAndDispose() 
+        public void CloseAndDispose()
         {
             this.Close();
             this.Dispose();
         }
-        
+
 
         public BookingsTable BookingsTable { get; }
         public Booking SelectedBooking { get; }
@@ -49,6 +49,5 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             int nWidthEllipse,
             int nHeightEllipse
         );
-
     }
 }

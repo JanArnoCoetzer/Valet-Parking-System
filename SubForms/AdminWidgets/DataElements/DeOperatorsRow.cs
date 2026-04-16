@@ -45,6 +45,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.DataElements
             operatorsTable.DeselectAllElements();
             selected = !selected;
             SetColor(selected ? Color.FromArgb(70, 130, 180) : panelColor);
+           
             if (selected)
             {
                 operatorsTable.SelectedOperatorUpdate(OperatorData);
