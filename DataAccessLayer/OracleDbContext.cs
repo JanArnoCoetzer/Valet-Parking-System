@@ -6,29 +6,20 @@ namespace Valet_Parking_System.DataAccessLayer
 {
     internal class OracleDbContext
     {
-        private string _connectionString;
-
-
-        public bool TestConnection()
-        {
-            if (!TryLogin()) return false;
-
-            using var conn = CreateConnection();
-            return conn.State == System.Data.ConnectionState.Open;
-        }
-
-
-        private bool TryLogin()
+        private static string BuildConnectionString()
         {
             string user = Logins_db.get_username();
             string pass = Logins_db.get_password();
 
-            _connectionString = $"Data Source=oracle/orcl;User Id={user};Password={pass};";
+            return $"Data Source=oracle/orcl;User Id={user};Password={pass};";
+        }
 
+        public bool TestConnection()
+        {
             try
             {
-                using var testConn = new OracleConnection(_connectionString);
-                testConn.Open();
+                using var conn = GetConnection();
+                conn.Open();
                 Debug.WriteLine("Login successful");
                 return true;
             }
@@ -39,13 +30,10 @@ namespace Valet_Parking_System.DataAccessLayer
             }
         }
 
-
-        public OracleConnection CreateConnection()
+        public static OracleConnection GetConnection()
         {
-            if (string.IsNullOrEmpty(_connectionString))
-                throw new InvalidOperationException("Must call TestConnection() first");
-
-            return new OracleConnection(_connectionString);
+            string connectionString = BuildConnectionString();
+            return new OracleConnection(connectionString);
         }
     }
 }

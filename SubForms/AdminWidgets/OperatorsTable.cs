@@ -11,6 +11,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
     public partial class OperatorsTable : UserControl
     {
         EditOperatorWindow editOperatorWindow;
+        AddOperatorWindow addOperatorWindow;
         AdminSubForm parent;
         Operator Selectedoperator;
         
@@ -95,11 +96,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
                 editOperatorWindow = new EditOperatorWindow(this, Selectedoperator);
                 editOperatorWindow.StartPosition = FormStartPosition.CenterScreen;
                 editOperatorWindow.ShowDialog();
-                editOperatorWindow = null;
-                parent.EditOperator(Selectedoperator);
             }
-
-            
         }
 
         public void CancelEditOperator()
@@ -111,21 +108,39 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
 
         private void BtnAddOperator_Click(object sender, EventArgs e)
         {
-            parent.OnOperatorAdd(Selectedoperator);
-
+            addOperatorWindow?.Close();
+            addOperatorWindow?.Dispose();
+            addOperatorWindow = new AddOperatorWindow(this);
+            addOperatorWindow.StartPosition = FormStartPosition.CenterScreen;
+            addOperatorWindow.ShowDialog();
         }
 
-        internal void EditOperator()
+        public void CancelAddOperator()
+        {
+            addOperatorWindow?.Close();
+            addOperatorWindow?.Dispose();
+            addOperatorWindow = null;
+        }
+
+        internal void AddOperator(Operator operatordata)
+        {
+            CancelAddOperator();
+            parent.OnOperatorAdd(operatordata);
+        }
+
+        internal void EditOperator(Operator operatordata)
         {
             CancelEditOperator();
-
-
+            parent.EditOperator(operatordata);
         }
 
-        internal void RemoveOperator()
+        internal void RemoveOperator(Operator operatordata)
         {
             CancelEditOperator();
+            parent.RemoveOperator(operatordata);
         }
+
+        
     }
 }
 

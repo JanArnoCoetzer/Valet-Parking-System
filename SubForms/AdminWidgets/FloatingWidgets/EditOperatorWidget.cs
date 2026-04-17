@@ -19,13 +19,16 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
     {
         OperatorsTable ot;
         Operator OperatorDataData;
+      
         EditOperatorWindow parentform;
         private bool removeOperatorChecked = false;
         public EditOperatorWidget()
         {
             InitializeComponent();
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
 
+       
 
 
         internal void setOperatorData(Operator operatorData)
@@ -86,36 +89,82 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
 
         private void BtnUpdateorRemoveOperator_Click(object sender, EventArgs e)
         {
+
             if (!removeOperatorChecked)
             {
-                
+                if (ValidateIDtxtBox()==0)
+                {
+                    Operator EditedOperatorDataData = GetEditedData();
 
+                    if (EditedOperatorDataData.ValidateOperator() == 0)
+                    {
+                        ot.EditOperator(EditedOperatorDataData);
+                    }
 
-                ot.EditOperator();
-                
+                    else
+                    {
+                        ValidationErrorLabel.Text = EditedOperatorDataData.GetValidationErrorMsg();
+                        ValidationErrorLabel.Visible = true;
+                    }
+                }
             }
+
             else if (removeOperatorChecked) 
             {
                 switch (removeOperatorValidation())
                 {
                     case 0:
-                        ot.RemoveOperator();
+                        ot.RemoveOperator(OperatorDataData);
                         break;
 
                     case 1:
                         ValidationErrorLabel.Text = "You need to enter your ID";
+                        ValidationErrorLabel.Visible = true;
                         break;
 
                     case 2:
                         ValidationErrorLabel.Text = "You need to confirm operator removal";
+                        ValidationErrorLabel.Visible = true;
                         break;
                 }
 
             }
+        }
 
-           
+        private Operator GetEditedData() 
+        {
+            Operator EditedOperatorDataData = new Operator(
+            int.Parse(txtOperatorId.Text),
+                txtFullName.Text,
+                txtdatefrom.Text,
+                txtAddress.Text,
+                txtTelephone.Text,
+                txtEmail.Text
+            );
 
+            return EditedOperatorDataData;
 
+        }
+
+        private int ValidateIDtxtBox()
+        {
+            int returncode = -1;
+
+            ValidationErrorLabel.Text = "";
+            ValidationErrorLabel.Visible = false;
+
+            if (string.IsNullOrWhiteSpace(txtOperatorId.Text))
+            {
+                returncode = 1;
+                ValidationErrorLabel.Text = "Operator requires an ID";
+                ValidationErrorLabel.Visible = true;
+            }
+            else
+            {
+                returncode = 0;
+            }
+
+            return returncode;
         }
 
         private int removeOperatorValidation() 

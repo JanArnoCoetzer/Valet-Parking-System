@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Repository;
 using Valet_Parking_System.SubForms.BookingWidgets;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
@@ -95,7 +96,7 @@ namespace Valet_Parking_System.SubForms
         {
             //Calls to move booking to retreval queue returns true/false for conformation on succesfully saved to db and 
             //delete booking
-
+            
             if (true)
                 MessageBox.Show("PickipRequested", "Success");
             else
@@ -105,8 +106,10 @@ namespace Valet_Parking_System.SubForms
         private void OnBookingCreated(object sender, Booking booking)
         {
             //Calls to add booking then returns true/false for conformation on succesfully saved to db
+            bool addedtoDB =  BookingRepository.AddBooking(booking);
+         
 
-            if (true)
+            if (addedtoDB)
                 MessageBox.Show("Booking created successfully!", "Success");
             else
                 MessageBox.Show("Failed to create booking.", "Error");
@@ -114,8 +117,10 @@ namespace Valet_Parking_System.SubForms
 
         public void EditBooking(Booking booking) 
         {
+            bool EditedInDb = BookingRepository.EditBooking(booking);
+
             //Calls to edit booking then returns true/false for conformation on succesfully updated in db
-            if (true)
+            if (EditedInDb)
                 MessageBox.Show("Booking updated successfully!", "Success");
             else
                 MessageBox.Show("Failed to update booking.", "Error");

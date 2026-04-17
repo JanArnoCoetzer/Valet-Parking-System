@@ -316,7 +316,7 @@ namespace Valet_Parking_System
                 string fullName = $"{firstNames[random.Next(firstNames.Length)]} {lastNames[random.Next(lastNames.Length)]}";
                 string address = $"{random.Next(1, 999)} {streets[random.Next(streets.Length)]}, Dublin {random.Next(1, 25)}";
                 string telephoneStr = $"{phonePrefixes[random.Next(phonePrefixes.Length)]}{random.Next(1000000, 9999999)}";
-                int telephone = int.Parse(telephoneStr);
+                string telephone = telephoneStr;
                 string email = $"{fullName.Replace(" ", ".").ToLower()}@example.com";
 
                 var op = new Operator(

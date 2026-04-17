@@ -49,5 +49,27 @@ namespace Valet_Parking_System.Classes
                     break;
             }
         }
+
+        public string GetAddSql()
+        {
+            string sql = "INSERT INTO ParkingSpace (SpaceID, LotIdentifier, Status) VALUES (" +
+                         SpaceID + ", '" + LotIdentifier + "', '" + Status + "')";
+            return sql;
+        }
+
+        public string GetUpdateSql()
+        {
+            string sql = "UPDATE ParkingSpace SET " +
+                         "LotIdentifier = '" + LotIdentifier + "', " +
+                         "Status = '" + Status + "' " +
+                         "WHERE SpaceID = " + SpaceID;
+            return sql;
+        }
+
+        public string GetRemoveSql()
+        {
+            string sql = "DELETE FROM ParkingSpace WHERE SpaceID = " + SpaceID;
+            return sql;
+        }
     }
 }

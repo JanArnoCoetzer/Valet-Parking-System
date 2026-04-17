@@ -128,8 +128,60 @@ namespace Valet_Parking_System.Classes
             return validationMsg;
             
         }
+        public string GetAddSql()
+        {
+            if (parkingspace == null)
+                return "";
 
-        
+            string sql = "INSERT INTO Booking " +
+                         "(Status, OperatorId, DateFrom, FullName, TelephoneNum, Address, CarReg, CarModel, CarColor, TimeFrom, DateTo, TimeTo, SpaceID) " +
+                         "VALUES ('" + Status + "', " +
+                         OperatorId + ", '" +
+                         DateFrom + "', '" +
+                         FullName + "', '" +
+                         TelephoneNum + "', '" +
+                         Address + "', '" +
+                         CarReg + "', '" +
+                         CarModel + "', '" +
+                         CarColor + "', '" +
+                         TimeFrom + "', '" +
+                         DateTo + "', '" +
+                         TimeTo + "', " +
+                         parkingspace.SpaceID + ")";
+
+            return sql;
+        }
+
+        public string GetUpdateSql()
+        {
+            if (parkingspace == null)
+                return "";
+
+            string sql = "UPDATE Booking SET " +
+                         "Status = '" + Status + "', " +
+                         "OperatorId = " + OperatorId + ", " +
+                         "DateFrom = '" + DateFrom + "', " +
+                         "FullName = '" + FullName + "', " +
+                         "TelephoneNum = '" + TelephoneNum + "', " +
+                         "Address = '" + Address + "', " +
+                         "CarReg = '" + CarReg + "', " +
+                         "CarModel = '" + CarModel + "', " +
+                         "CarColor = '" + CarColor + "', " +
+                         "TimeFrom = '" + TimeFrom + "', " +
+                         "DateTo = '" + DateTo + "', " +
+                         "TimeTo = '" + TimeTo + "', " +
+                         "SpaceID = " + parkingspace.SpaceID + " " +
+                         "WHERE BookingId = " + BookingId;
+
+            return sql;
+        }
+
+        public string GetRemoveSql()
+        {
+            string sql = "DELETE FROM Booking WHERE BookingId = " + BookingId;
+            return sql;
+        }
+
     }
 
 }

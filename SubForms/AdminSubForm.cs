@@ -1,4 +1,7 @@
-﻿using Valet_Parking_System.Classes;
+﻿using System.Data.SqlTypes;
+using System.Diagnostics;
+using Valet_Parking_System.Classes;
+using Valet_Parking_System.Repository;
 
 namespace Valet_Parking_System.SubForms
 {
@@ -18,45 +21,78 @@ namespace Valet_Parking_System.SubForms
         }
 
         //-----------------------------Events-----------------------------
-       
+
 
         //-----------------------------Database Calls-----------------------------  
 
         //implament database functionality
-        public void OnSpaceAdd(ParkingSpace spacedata) 
+
+        // Space-----------------------------------------------------------
+        public void OnSpaceAdd(ParkingSpace spacedata)
         {
-            // adds a parking space to the database
-            if (true)
-                MessageBox.Show("SpaceCreated", "Success");
+            bool added = AdminRepository.AddSpace(spacedata);
+
+            if (added)
+                MessageBox.Show("Space created", "Success");
             else
-                MessageBox.Show("Failed to Create Space.", "Error");
+                MessageBox.Show("Failed to create space.", "Error");
         }
-        public void EditSpace(ParkingSpace spacedata) 
+
+        public void EditSpace(ParkingSpace spacedata)
         {
-            //Edits a parking space in the database
-            if (true)
-                MessageBox.Show("Space Edited", "Success");
+            bool edited = AdminRepository.EditSpace(spacedata);
+
+            if (edited)
+                MessageBox.Show("Space edited", "Success");
             else
-                MessageBox.Show("Failed to Edit Space.", "Error");
+                MessageBox.Show("Failed to edit space.", "Error");
         }
+
+        public void RemoveSpace(ParkingSpace spacedata)
+        {
+            bool removed = AdminRepository.RemoveSpace(spacedata);
+
+            if (removed)
+                MessageBox.Show("Space removed", "Success");
+            else
+                MessageBox.Show("Failed to remove space.", "Error");
+        }
+
+
+
+        // Operator-----------------------------------------------------------
 
 
         internal void OnOperatorAdd(Operator operatordata)
         {
-            // adds a Operator space to the database
-            if (true)
-                MessageBox.Show("OperatorCreated", "Success");
+            bool added = AdminRepository.AddOperator(operatordata);
+
+            if (added)
+                MessageBox.Show("Operator created", "Success");
             else
-                MessageBox.Show("Failed to Create Operator.", "Error");
+                MessageBox.Show("Failed to create operator.", "Error");
         }
+
         internal void EditOperator(Operator operatordata)
         {
-            //Edits an Operator space in the database
-            if (true)
-                MessageBox.Show("Operator Edited", "Success");
+            bool edited = AdminRepository.EditOperator(operatordata);
+
+            if (edited)
+                MessageBox.Show("Operator edited", "Success");
             else
-                MessageBox.Show("Failed to Edit Operator.", "Error");
+                MessageBox.Show("Failed to edit operator.", "Error");
         }
+
+        internal void RemoveOperator(Operator operatordata)
+        {
+            bool removed = AdminRepository.RemoveOperator(operatordata);
+
+            if (removed)
+                MessageBox.Show("Operator removed", "Success");
+            else
+                MessageBox.Show("Failed to remove operator.", "Error");
+        }
+
     }
 }
  
