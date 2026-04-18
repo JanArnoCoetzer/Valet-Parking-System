@@ -1,18 +1,18 @@
 ﻿using Oracle.ManagedDataAccess.Client;
+using System;
+using System.Diagnostics;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.DataAccessLayer;
 
-namespace Valet_Parking_System.Repository
+namespace Valet_Parking_System.Repository.CRUD
 {
-    public class BookingRepository
+    internal class Customer_repository
     {
-        
-
-        internal static bool AddBooking(Booking booking)
+        internal static bool AddCustomer(Customer customer)
         {
             try
             {
-                string sql = booking.GetAddSql();
+                string sql = customer.GetAddSql();
 
                 using (OracleConnection conn = OracleDbContext.GetConnection())
                 {
@@ -27,16 +27,16 @@ namespace Valet_Parking_System.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Database error: " + ex.Message, "Error");
+                Debug.WriteLine("AddCustomer error: " + ex.Message);
                 return false;
             }
         }
 
-        internal static bool EditBooking(Booking booking)
+        internal static bool EditCustomer(Customer customer)
         {
             try
             {
-                string sql = booking.GetUpdateSql();
+                string sql = customer.GetUpdateSql();
 
                 using (OracleConnection conn = OracleDbContext.GetConnection())
                 {
@@ -51,16 +51,16 @@ namespace Valet_Parking_System.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Database error: " + ex.Message, "Error");
+                Debug.WriteLine("EditCustomer error: " + ex.Message);
                 return false;
             }
         }
 
-        internal static bool DeleteBooking(Booking booking)
+        internal static bool RemoveCustomer(Customer customer)
         {
             try
             {
-                string sql = booking.GetRemoveSql();
+                string sql = customer.GetRemoveSql();
 
                 using (OracleConnection conn = OracleDbContext.GetConnection())
                 {
@@ -75,7 +75,7 @@ namespace Valet_Parking_System.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Database error: " + ex.Message, "Error");
+                Debug.WriteLine("RemoveCustomer error: " + ex.Message);
                 return false;
             }
         }

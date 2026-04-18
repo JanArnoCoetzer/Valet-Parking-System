@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.Repository;
+using Valet_Parking_System.Repository.CRUD;
 using Valet_Parking_System.SubForms.BookingWidgets;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;

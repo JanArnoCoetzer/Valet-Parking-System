@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlTypes;
 using System.Diagnostics;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.Repository;
+using Valet_Parking_System.Repository.CRUD;
 
 namespace Valet_Parking_System.SubForms
 {

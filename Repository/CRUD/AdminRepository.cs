@@ -2,7 +2,7 @@
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.DataAccessLayer;
 
-namespace Valet_Parking_System.Repository
+namespace Valet_Parking_System.Repository.CRUD
 {
     internal class AdminRepository
     {

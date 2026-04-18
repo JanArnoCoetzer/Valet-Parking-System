@@ -1,0 +1,112 @@
+﻿
+//Main
+//generated always as identity means that oracle manages the PK and automaticly asighns it 
+  so i dont have to in program
+
+
+CREATE TABLE Operators (
+    operatorID NUMBER GENERATED ALWAYS AS IDENTITY,
+    fullName VARCHAR2(50) NOT NULL,
+    datejoined VARCHAR2(20) NOT NULL,
+    fulladdress VARCHAR2(100) NOT NULL,
+    telephone VARCHAR2(20) NOT NULL,
+    email VARCHAR2(100) NOT NULL,
+    CONSTRAINT pk_operators PRIMARY KEY (operatorID)
+);
+
+CREATE TABLE ParkingSpace (
+    SpaceID NUMBER GENERATED ALWAYS AS IDENTITY,
+    LotIdentifier VARCHAR2(50) NOT NULL,
+    Status VARCHAR2(30) NOT NULL,
+    CONSTRAINT pk_parkingspace PRIMARY KEY (SpaceID)
+);
+
+CREATE TABLE Booking (
+    BookingId NUMBER GENERATED ALWAYS AS IDENTITY,
+    Status VARCHAR2(20) DEFAULT 'PENDING' NOT NULL,
+    OperatorId NUMBER NOT NULL,
+    DateFrom VARCHAR2(20) NOT NULL,
+    FullName VARCHAR2(50) NOT NULL,
+    TelephoneNum VARCHAR2(20) NOT NULL,
+    Address VARCHAR2(100) NOT NULL,
+    CarReg VARCHAR2(20) NOT NULL,
+    CarModel VARCHAR2(30) NOT NULL,
+    CarColor VARCHAR2(20) NOT NULL,
+    TimeFrom VARCHAR2(20),
+    DateTo VARCHAR2(20) NOT NULL,
+    TimeTo VARCHAR2(20),
+    SpaceID NUMBER NOT NULL,
+    CONSTRAINT pk_booking PRIMARY KEY (BookingId),
+    CONSTRAINT fk_booking_operator FOREIGN KEY (OperatorId)
+        REFERENCES Operators(operatorID),
+    CONSTRAINT fk_booking_space FOREIGN KEY (SpaceID)
+        REFERENCES ParkingSpace(SpaceID)
+);
+
+CREATE TABLE RetrievalQueueItem (
+    QueueId NUMBER GENERATED ALWAYS AS IDENTITY,
+    BookingId NUMBER NOT NULL,
+    Status VARCHAR2(20) DEFAULT 'inQueue' NOT NULL,
+    Position NUMBER NOT NULL,
+    RequestTime VARCHAR2(30) NOT NULL,
+    CONSTRAINT pk_retrievalqueue PRIMARY KEY (QueueId),
+    CONSTRAINT fk_queue_booking FOREIGN KEY (BookingId)
+        REFERENCES Booking(BookingId)
+);
+
+//Archive
+
+CREATE TABLE OperatorArchive (
+    ArchiveId NUMBER GENERATED ALWAYS AS IDENTITY,
+    OriginalOperatorId NUMBER NOT NULL,
+    FullName VARCHAR2(50) NOT NULL,
+    DateJoined VARCHAR2(20) NOT NULL,
+    FullAddress VARCHAR2(100) NOT NULL,
+    Telephone VARCHAR2(20) NOT NULL,
+    Email VARCHAR2(100) NOT NULL,
+    ArchivedAt DATE DEFAULT SYSDATE NOT NULL,
+    ArchiveReason VARCHAR2(50),
+    CONSTRAINT pk_operatorarchive PRIMARY KEY (ArchiveId)
+);
+
+CREATE TABLE ParkingSpaceArchive (
+    ArchiveId NUMBER GENERATED ALWAYS AS IDENTITY,
+    OriginalSpaceId NUMBER NOT NULL,
+    LotIdentifier VARCHAR2(50) NOT NULL,
+    Status VARCHAR2(30) NOT NULL,
+    ArchivedAt DATE DEFAULT SYSDATE NOT NULL,
+    ArchiveReason VARCHAR2(50),
+    CONSTRAINT pk_parkingspacearchive PRIMARY KEY (ArchiveId)
+);
+
+CREATE TABLE BookingArchive (
+    ArchiveId NUMBER GENERATED ALWAYS AS IDENTITY,
+    OriginalBookingId NUMBER NOT NULL,
+    Status VARCHAR2(20),
+    OperatorId NUMBER,
+    DateFrom VARCHAR2(20),
+    FullName VARCHAR2(50),
+    TelephoneNum VARCHAR2(20),
+    Address VARCHAR2(100),
+    CarReg VARCHAR2(20),
+    CarModel VARCHAR2(30),
+    CarColor VARCHAR2(20),
+    TimeFrom VARCHAR2(20),
+    DateTo VARCHAR2(20),
+    TimeTo VARCHAR2(20),
+    SpaceID NUMBER,
+    ArchivedAt DATE DEFAULT SYSDATE NOT NULL,
+    ArchiveReason VARCHAR2(50),
+    CONSTRAINT pk_bookingarchive PRIMARY KEY (ArchiveId)
+);
+
+CREATE TABLE CustomerArchive (
+    ArchiveId NUMBER GENERATED ALWAYS AS IDENTITY,
+    OriginalCustomerId NUMBER NOT NULL,
+    FullName VARCHAR2(50) NOT NULL,
+    Telephone VARCHAR2(20) NOT NULL,
+    Address VARCHAR2(100) NOT NULL,
+    ArchivedAt DATE DEFAULT SYSDATE NOT NULL,
+    ArchiveReason VARCHAR2(50),
+    CONSTRAINT pk_customerarchive PRIMARY KEY (ArchiveId)
+);
