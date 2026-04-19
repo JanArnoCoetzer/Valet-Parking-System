@@ -4,35 +4,35 @@ using Valet_Parking_System.Repository.CRUD;
 using Valet_Parking_System.SubForms.BookingWidgets;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.SubForms
 {
     public partial class BookingSubForm : UserControl
     {
         private static readonly Random rand = new Random();    
-        private BookingsTable bookingsTable;
+        private BookingsTable BookingsTable;
         private List<Booking> LoadedBookings;
-        private BookingSearchBar bookingSearch;
-        private MainLanding _MainLanding;
+        private BookingSearchBar BookingSearch;
+        public MainLanding MainLanding;
         public BookingSubForm()
         {
-            InitializeComponent();       
+            InitializeComponent();
+            BookingsTable = this.BookingTableWidget;
+            BookingSearch = this.SearchBookingsWidget;
 
-            bookingsTable = this.BookingTableWidget;
-            bookingSearch = this.SearchBookingsWidget;
-
-            bookingSearch.setParentForm(this);
-            bookingsTable.setparentform(this);
+            BookingSearch.setParentForm(this);
+            BookingsTable.setparentform(this);
         }
 
         public void LoadBookings(List<Booking> bookings) 
         {
             LoadedBookings = bookings;
-            bookingsTable.DisplayBookings(LoadedBookings);
+            BookingsTable.DisplayBookings(LoadedBookings);
         }
         public void setMainLanding(MainLanding mainLanding) 
         {
-            _MainLanding = mainLanding;
+            MainLanding = mainLanding;
         }
 
 
@@ -63,8 +63,8 @@ namespace Valet_Parking_System.SubForms
             if (!string.IsNullOrEmpty(customerNameText))
             {
                 query = query.Where(b =>
-                    !string.IsNullOrEmpty(b.FullName) &&
-                    b.FullName.IndexOf(customerNameText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    !string.IsNullOrEmpty(b.Customer.FullName) &&
+                    b.Customer.FullName.IndexOf(customerNameText, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
             // Car Registration filter 
@@ -77,7 +77,7 @@ namespace Valet_Parking_System.SubForms
 
             var filtered = query.ToList();
 
-            bookingsTable.DisplayBookings(filtered);   
+            BookingsTable.DisplayBookings(filtered);   
         }
 
 

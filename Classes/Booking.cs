@@ -7,15 +7,34 @@ namespace Valet_Parking_System.Classes
     {
         //Automatic
         public int BookingId { get; set; } = 0;
-        public string Status { get; set; } = "PENDING";
-        public int OperatorId { get; set; } = 0;
-        public string DateFrom { get; set; } = "";
-        public ParkingSpace parkingspace { get; set; } = null;
+        public Customer Customer { get; set; } = null;
+        //public string FullName 
+        //public string Telephone 
+        //public string Address 
 
+        public Operator StorageOperator { get; set; } = null;
+        //public int operatorID 
+        //public string fullName 
+        //public string datejoined 
+        //public string fulladdress 
+        //public string telephone 
+        //public string email
+        public Operator RetrievalOperator { get; set; } = null;
+        //public int operatorID 
+        //public string fullName 
+        //public string datejoined 
+        //public string fulladdress 
+        //public string telephone 
+        //public string email
+        public ParkingSpace Parkingspace { get; set; } = null;
+        //public int SpaceID;
+        //public string LotIdentifier;b
+        //public string Status;
+
+        public string Status { get; set; } = "Null";
+        public string DateFrom { get; set; } = "";  
         //Manual
-        public string FullName { get; set; } = "";
-        public string TelephoneNum { get; set; } = "";
-        public string Address { get; set; } = "";
+        
         public string CarReg { get; set; } = "";
         public string CarModel { get; set; } = "";
         public string CarColor { get; set; } = "";    
@@ -36,28 +55,28 @@ namespace Valet_Parking_System.Classes
             // 0 = VALID 
 
             // 1 FullName empty
-            if (string.IsNullOrWhiteSpace(this.FullName))
+            if (string.IsNullOrWhiteSpace(this.Customer.FullName))
                 return 1;
 
             // 2 FullName too long (>50 chars)
-            if (this.FullName.Length > 50)
+            if (this.Customer.FullName.Length > 50)
                 return 2;
 
             // 3 Phone empty
-            if (string.IsNullOrWhiteSpace(this.TelephoneNum))
+            if (string.IsNullOrWhiteSpace(this.Customer.Telephone))
                 return 3;
 
             // 4 Phone too short (<10 digits)
-            var phoneDigits = new string(this.TelephoneNum.Where(char.IsDigit).ToArray());
+            var phoneDigits = new string(this.Customer.Telephone.Where(char.IsDigit).ToArray());
             if (phoneDigits.Length < 10)
                 return 4;
 
             // 5 Address empty
-            if (string.IsNullOrWhiteSpace(this.Address))
+            if (string.IsNullOrWhiteSpace(this.Customer.Address))
                 return 5;
 
             // 6 Address too long (>100)
-            if (!string.IsNullOrWhiteSpace(this.Address) && this.Address.Length > 100)
+            if (!string.IsNullOrWhiteSpace(this.Customer.Address) && this.Customer.Address.Length > 100)
                 return 6;
 
             // 7 CarReg empty
@@ -128,58 +147,22 @@ namespace Valet_Parking_System.Classes
             return validationMsg;
             
         }
+
         public string GetAddSql()
         {
-            if (parkingspace == null)
-                return "";
-
-            string sql = "INSERT INTO Booking " +
-                         "(Status, OperatorId, DateFrom, FullName, TelephoneNum, Address, CarReg, CarModel, CarColor, TimeFrom, DateTo, TimeTo, SpaceID) " +
-                         "VALUES ('" + Status + "', " +
-                         OperatorId + ", '" +
-                         DateFrom + "', '" +
-                         FullName + "', '" +
-                         TelephoneNum + "', '" +
-                         Address + "', '" +
-                         CarReg + "', '" +
-                         CarModel + "', '" +
-                         CarColor + "', '" +
-                         TimeFrom + "', '" +
-                         DateTo + "', '" +
-                         TimeTo + "', " +
-                         parkingspace.SpaceID + ")";
-
-            return sql;
+            return "";
         }
 
         public string GetUpdateSql()
         {
-            if (parkingspace == null)
-                return "";
+        
 
-            string sql = "UPDATE Booking SET " +
-                         "Status = '" + Status + "', " +
-                         "OperatorId = " + OperatorId + ", " +
-                         "DateFrom = '" + DateFrom + "', " +
-                         "FullName = '" + FullName + "', " +
-                         "TelephoneNum = '" + TelephoneNum + "', " +
-                         "Address = '" + Address + "', " +
-                         "CarReg = '" + CarReg + "', " +
-                         "CarModel = '" + CarModel + "', " +
-                         "CarColor = '" + CarColor + "', " +
-                         "TimeFrom = '" + TimeFrom + "', " +
-                         "DateTo = '" + DateTo + "', " +
-                         "TimeTo = '" + TimeTo + "', " +
-                         "SpaceID = " + parkingspace.SpaceID + " " +
-                         "WHERE BookingId = " + BookingId;
-
-            return sql;
+            return "";
         }
 
         public string GetRemoveSql()
         {
-            string sql = "DELETE FROM Booking WHERE BookingId = " + BookingId;
-            return sql;
+            return "";
         }
 
     }

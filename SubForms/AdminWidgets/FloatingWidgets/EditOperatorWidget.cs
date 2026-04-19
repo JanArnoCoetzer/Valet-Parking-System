@@ -34,7 +34,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
         internal void setOperatorData(Operator operatorData)
         {
             OperatorDataData = operatorData;
-            txtOperatorId.Text = operatorData.operatorID.ToString();
+            txtOperatorId.Text = operatorData.OperatorID.ToString();
             txtFullName.Text = operatorData.fullName.ToString();
             txtTelephone.Text = operatorData.telephone.ToString();
             txtAddress.Text = operatorData.fulladdress.ToString();

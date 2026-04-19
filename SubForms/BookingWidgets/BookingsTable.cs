@@ -3,24 +3,28 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms;
+using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
+using Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets
 {
     public partial class BookingsTable : UserControl
     {
         EditBookingWindow1 editBookingWindow;
+        InformationPanelWindow informationPanelWindow;
         Booking selectedBooking;
         BookingSubForm parentForm;
+
         bool BookingSelected = false;
         
-        private FlowLayoutPanel TableContentPanel => this.BookingsTableContentPanel;   
-             
+
+        private FlowLayoutPanel TableContentPanel => this.BookingsTableContentPanel;
+
         public BookingsTable(List<Booking> bookings)
         {
             InitializeComponent();
-            InitialiseRoundedBorders();          
+            InitialiseRoundedBorders();
         }
 
         //public parameterless constructor 
@@ -28,12 +32,12 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
         {
         }
 
-        public void setparentform(BookingSubForm parent) 
+        public void setparentform(BookingSubForm parent)
         {
             this.parentForm = parent;
         }
 
-        public void EditBooking(Booking booking) 
+        public void EditBooking(Booking booking)
         {
             parentForm.EditBooking(booking);
         }
@@ -47,7 +51,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 if (bookings == null || bookings.Count == 0)
                     return;
 
-                const int chunkSize = 20;  
+                const int chunkSize = 20;
                 int totalChunks = (bookings.Count + chunkSize - 1) / chunkSize;
 
                 for (int chunk = 0; chunk < totalChunks; chunk++)
@@ -76,7 +80,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
         }
 
         //-----------------------------ExternalCalls-----------------------------
-        public void DeselectAllElements() 
+        public void DeselectAllElements()
         {
             foreach (Control c in TableContentPanel.Controls)
             {
@@ -84,22 +88,22 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                     row.Deselect();
             }
         }
-        public void selectedElement(Booking booking) 
+        public void selectedElement(Booking booking)
         {
             selectedBooking = booking;
-            BookingSelected = true; 
+            BookingSelected = true;
         }
 
         //-----------------------------Events-----------------------------
         private void btnEditBooking_Click(object sender, EventArgs e)
         {
-            if (selectedBooking != null)  
+            if (selectedBooking != null)
             {
                 editBookingWindow?.Close();
                 editBookingWindow?.Dispose();
                 editBookingWindow = new EditBookingWindow1(this, selectedBooking);
                 editBookingWindow.StartPosition = FormStartPosition.CenterScreen;
-                editBookingWindow.ShowDialog();               
+                editBookingWindow.ShowDialog();
                 editBookingWindow = null;
             }
         }
@@ -113,10 +117,20 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
 
         private void BtnMarkForRetrieval_Click(object sender, EventArgs e)
         {
-            RetrievalQueueItem item = new RetrievalQueueItem(selectedBooking, 0,"pending");
+            RetrievalQueueItem item = new RetrievalQueueItem(selectedBooking, 0, "pending");
             parentForm.requestPickup(item);
         }
+        private void BtnInformation_Click(object sender, EventArgs e)
+        {
+            informationPanelWindow = new InformationPanelWindow(this, selectedBooking);
 
+            informationPanelWindow.FormBorderStyle = FormBorderStyle.None;
+            informationPanelWindow.StartPosition = FormStartPosition.Manual;
+            informationPanelWindow.StartPosition = FormStartPosition.CenterScreen;
+            informationPanelWindow.ShowInTaskbar = false;
+            informationPanelWindow.Size = new Size(1600, 900);
+            informationPanelWindow.Show(this);
+        }
 
 
 

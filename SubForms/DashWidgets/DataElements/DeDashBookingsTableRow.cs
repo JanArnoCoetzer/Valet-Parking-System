@@ -25,8 +25,8 @@ namespace Valet_Parking_System.SubForms.DashWidgets.DataElements
 
             txtBookingId.Text = bookingdata.BookingId.ToString();
             txtCarReg.Text = bookingdata.CarReg.ToString();
-            txtName.Text = bookingdata.FullName.ToString();
-            txtParkingSpace.Text = bookingdata.parkingspace.LotIdentifier.ToString();
+            txtName.Text = bookingdata.Customer.FullName.ToString();
+            txtParkingSpace.Text = bookingdata.Parkingspace.LotIdentifier.ToString();
 
             txtTime.Text = bookingdata.DateTo.ToString();
             txtTime.Text = bookingdata.TimeTo.ToString();

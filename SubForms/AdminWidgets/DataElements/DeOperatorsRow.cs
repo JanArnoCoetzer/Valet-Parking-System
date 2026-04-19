@@ -24,7 +24,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.DataElements
             OperatorData = operatordata;
             operatorsTable = pt;
 
-            txtOperatorID.Text = operatordata.operatorID.ToString();
+            txtOperatorID.Text = operatordata.OperatorID.ToString();
             txtFullName.Text = operatordata.fullName.ToString();
 
 

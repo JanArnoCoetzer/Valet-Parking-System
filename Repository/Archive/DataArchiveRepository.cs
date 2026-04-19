@@ -22,22 +22,20 @@ namespace Valet_Parking_System.Repository.Archive
                         {
                             string insertSql =
                                 "INSERT INTO BookingArchive " +
-                                "(OriginalBookingId, Status, OperatorId, DateFrom, FullName, TelephoneNum, Address, CarReg, CarModel, CarColor, TimeFrom, DateTo, TimeTo, SpaceID, ArchivedAt, ArchiveReason) " +
+                                "(OriginalBookingId, Status, OperatorId, DateFrom, FullName, CarReg, CarModel, CarColor, TimeFrom, DateTo, TimeTo, SpaceID, ArchivedAt, ArchiveReason) " +
                                 "VALUES (" +
                                 booking.BookingId + ", '" +
                                 booking.Status + "', " +
-                                booking.OperatorId + ", '" +
+                                booking.StorageOperator.OperatorID + ", '" +
                                 booking.DateFrom + "', '" +
-                                booking.FullName + "', '" +
-                                booking.TelephoneNum + "', '" +
-                                booking.Address + "', '" +
+                                booking.Customer.CustomerID+ "', '" +
                                 booking.CarReg + "', '" +
                                 booking.CarModel + "', '" +
                                 booking.CarColor + "', '" +
                                 booking.TimeFrom + "', '" +
                                 booking.DateTo + "', '" +
                                 booking.TimeTo + "', " +
-                                booking.parkingspace.SpaceID + ", SYSDATE, '" +
+                                booking.Parkingspace.SpaceID + ", SYSDATE, '" +
                                 archiveReason + "')";
 
                             string deleteSql =
@@ -96,7 +94,7 @@ namespace Valet_Parking_System.Repository.Archive
                                 "INSERT INTO OperatorArchive " +
                                 "(OriginalOperatorId, FullName, DateJoined, FullAddress, Telephone, Email, ArchivedAt, ArchiveReason) " +
                                 "VALUES (" +
-                                operatordata.operatorID + ", '" +
+                                operatordata.OperatorID + ", '" +
                                 operatordata.fullName + "', '" +
                                 operatordata.datejoined + "', '" +
                                 operatordata.fulladdress + "', '" +
@@ -105,7 +103,7 @@ namespace Valet_Parking_System.Repository.Archive
                                 archiveReason + "')";
 
                             string deleteSql =
-                                "DELETE FROM Operators WHERE operatorID = " + operatordata.operatorID;
+                                "DELETE FROM Operators WHERE operatorID = " + operatordata.OperatorID;
 
                             using (OracleCommand insertCmd = new OracleCommand(insertSql, conn))
                             {

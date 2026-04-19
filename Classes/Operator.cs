@@ -7,7 +7,7 @@ namespace Valet_Parking_System.Classes
 {
     public class Operator
     {
-        public int operatorID = 0;
+        public int OperatorID = 0;
         public string fullName = "";
         public string datejoined = "";
         public string fulladdress = "";
@@ -22,7 +22,7 @@ namespace Valet_Parking_System.Classes
 
         public Operator(int operatorID, string fullName, string datejoined, string address, string telephone, string email)
         {
-            this.operatorID = operatorID;
+            this.OperatorID = operatorID;
             this.fullName = fullName;
             this.datejoined = datejoined;
             this.fulladdress = address;
@@ -100,7 +100,7 @@ namespace Valet_Parking_System.Classes
         public string GetAddSql()
         {
             string sql = "INSERT INTO OperatorTable (operatorID, fullName, datejoined, fulladdress, telephone, email) VALUES (" +
-                         operatorID + ", '" + fullName + "', '" + datejoined + "', '" + fulladdress + "', '" + telephone + "', '" + email + "')";
+                         OperatorID + ", '" + fullName + "', '" + datejoined + "', '" + fulladdress + "', '" + telephone + "', '" + email + "')";
             return sql;
         }
 
@@ -112,13 +112,13 @@ namespace Valet_Parking_System.Classes
                          "fulladdress = '" + fulladdress + "', " +
                          "telephone = '" + telephone + "', " +
                          "email = '" + email + "' " +
-                         "WHERE operatorID = " + operatorID;
+                         "WHERE operatorID = " + OperatorID;
             return sql;
         }
 
         public string GetRemoveSql()
         {
-            string sql = "DELETE FROM OperatorTable WHERE operatorID = " + operatorID;
+            string sql = "DELETE FROM OperatorTable WHERE operatorID = " + OperatorID;
             return sql;
         }
     }

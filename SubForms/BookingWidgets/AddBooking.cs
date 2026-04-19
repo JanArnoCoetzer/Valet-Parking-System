@@ -20,12 +20,11 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
+            Customer customer = new Customer(-1,txtFullName.Text.Trim(), txtTelephone.Text.Trim(), txtAddress.Text.Trim());
 
             var booking = new Booking
             {
-                FullName = txtFullName.Text.Trim(),
-                TelephoneNum = txtTelephone.Text.Trim(),
-                Address = txtAddress.Text.Trim(),
+                Customer = customer,
                 CarReg = txtCarReg.Text.Trim().ToUpper(),
                 CarModel = txtCarModel.Text.Trim(),
                 CarColor = txtCarColor.Text.Trim(),

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Net;
+using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 
 
@@ -55,27 +56,30 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             if (BookingData != null)
             {
 
-                txtFullName.Text = BookingData.FullName;
-                txtTelephone.Text = BookingData.TelephoneNum;
-                txtAddress.Text = BookingData.Address;
+                txtFullName.Text = BookingData.Customer.FullName;
+                txtTelephone.Text = BookingData.Customer.Telephone;
+                txtAddress.Text = BookingData.Customer.Address;
                 txtCarReg.Text = BookingData.CarReg;
                 txtCarModel.Text = BookingData.CarModel;
                 txtCarColor.Text = BookingData.CarColor;
                 dateFromPicker.Text = BookingData.DateFrom;
                 dateToPicker.Text = BookingData.DateTo;
                 txtStatus.Text = BookingData.Status;
-                txtSpaceId.Text = BookingData.parkingspace.LotIdentifier;
+                txtSpaceId.Text = BookingData.Parkingspace.LotIdentifier;
             }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-
+            var customer = new Customer(
+                -1,
+                txtFullName.Text.Trim(),
+                txtTelephone.Text.Trim(),
+                txtAddress.Text.Trim()
+                );
             var booking = new Booking
             {
-                FullName = txtFullName.Text.Trim(),
-                TelephoneNum = txtTelephone.Text.Trim(),
-                Address = txtAddress.Text.Trim(),
+                Customer = customer,
                 CarReg = txtCarReg.Text.Trim().ToUpper(),
                 CarModel = txtCarModel.Text.Trim(),
                 CarColor = txtCarColor.Text.Trim(),

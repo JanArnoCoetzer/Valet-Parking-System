@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 
 namespace Valet_Parking_System.Classes
 {
@@ -7,6 +8,7 @@ namespace Valet_Parking_System.Classes
     {
         // Automatic
         public int CustomerID { get; set; } = 0;
+        public bool CarStored = false;
 
         // Manual
         public string FullName { get; set; } = "";
@@ -14,6 +16,15 @@ namespace Valet_Parking_System.Classes
         public string Address { get; set; } = "";
 
         public int validationResault = -1;
+
+        public Customer(int ID,string fullName, string telephone, string address) 
+        {
+            CustomerID = ID;
+            FullName = fullName;
+            Telephone = telephone;
+            Address = address;
+        }
+
 
         public int ValidateCustomer()
         {

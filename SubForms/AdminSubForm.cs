@@ -14,7 +14,7 @@ namespace Valet_Parking_System.SubForms
             this.operatorsTable.SetParent(this);
         }
 
-        public void LoadParkingSpaces(List<ParkingSpace> parkingSpaces, List<Operator> loadedOperators) 
+        public void LoadParkingSpaces(List<ParkingSpace> parkingSpaces, List<Operator> loadedOperators)
         {
             this.parkingSpacesTable.LoadParkingSpacesAsync(parkingSpaces);
             this.operatorsTable.LoadOperatorsAsync(loadedOperators);
@@ -92,7 +92,6 @@ namespace Valet_Parking_System.SubForms
             else
                 MessageBox.Show("Failed to remove operator.", "Error");
         }
-
     }
 }
  

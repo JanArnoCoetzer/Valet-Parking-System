@@ -42,6 +42,7 @@
             BtnMarkForRetrieval = new Button();
             button2 = new Button();
             btnEditBooking = new Button();
+            BtnInformation = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -216,14 +217,17 @@
             // 
             // tableLayoutPanel4
             // 
-            tableLayoutPanel4.ColumnCount = 5;
+            tableLayoutPanel4.ColumnCount = 7;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 142F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
+            tableLayoutPanel4.Controls.Add(BtnInformation, 4, 0);
             tableLayoutPanel4.Controls.Add(BtnMarkForRetrieval, 2, 0);
-            tableLayoutPanel4.Controls.Add(button2, 4, 0);
+            tableLayoutPanel4.Controls.Add(button2, 6, 0);
             tableLayoutPanel4.Controls.Add(btnEditBooking, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(20, 488);
@@ -241,7 +245,7 @@
             BtnMarkForRetrieval.FlatStyle = FlatStyle.Flat;
             BtnMarkForRetrieval.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BtnMarkForRetrieval.ForeColor = Color.FromArgb(254, 254, 254);
-            BtnMarkForRetrieval.Location = new Point(330, 0);
+            BtnMarkForRetrieval.Location = new Point(286, 0);
             BtnMarkForRetrieval.Margin = new Padding(0);
             BtnMarkForRetrieval.Name = "BtnMarkForRetrieval";
             BtnMarkForRetrieval.Size = new Size(300, 50);
@@ -257,10 +261,10 @@
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.FromArgb(254, 254, 254);
-            button2.Location = new Point(810, 0);
+            button2.Location = new Point(884, 0);
             button2.Margin = new Padding(0);
             button2.Name = "button2";
-            button2.Size = new Size(150, 50);
+            button2.Size = new Size(76, 50);
             button2.TabIndex = 5;
             button2.Text = "Print";
             button2.UseVisualStyleBackColor = false;
@@ -280,6 +284,22 @@
             btnEditBooking.Text = "Edit Booking";
             btnEditBooking.UseVisualStyleBackColor = false;
             btnEditBooking.Click += btnEditBooking_Click;
+            // 
+            // BtnInformation
+            // 
+            BtnInformation.BackColor = Color.FromArgb(8, 108, 236);
+            BtnInformation.Dock = DockStyle.Fill;
+            BtnInformation.FlatStyle = FlatStyle.Flat;
+            BtnInformation.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BtnInformation.ForeColor = Color.FromArgb(254, 254, 254);
+            BtnInformation.Location = new Point(722, 0);
+            BtnInformation.Margin = new Padding(0);
+            BtnInformation.Name = "BtnInformation";
+            BtnInformation.Size = new Size(142, 50);
+            BtnInformation.TabIndex = 7;
+            BtnInformation.Text = "Information";
+            BtnInformation.UseVisualStyleBackColor = false;
+            BtnInformation.Click += BtnInformation_Click;
             // 
             // BookingsTable
             // 
@@ -322,5 +342,6 @@
         private DataElements.DeBookingTableRow deBookingTableRow8;
         private DataElements.DeBookingTableRow deBookingTableRow9;
         private FlowLayoutPanel BookingsTableContentPanel;
+        private Button BtnInformation;
     }
 }
