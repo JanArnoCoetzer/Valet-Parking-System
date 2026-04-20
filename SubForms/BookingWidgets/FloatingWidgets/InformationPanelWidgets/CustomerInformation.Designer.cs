@@ -31,8 +31,8 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
+            txtAdress = new TextBox();
+            txtTelephone = new TextBox();
             txtFullName = new TextBox();
             tableLayoutPanel4 = new TableLayoutPanel();
             HeadingLabel = new Label();
@@ -85,10 +85,10 @@
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.46255F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.5374451F));
-            tableLayoutPanel3.Controls.Add(textBox2, 1, 3);
-            tableLayoutPanel3.Controls.Add(textBox1, 1, 2);
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 83.3333359F));
+            tableLayoutPanel3.Controls.Add(txtAdress, 1, 3);
+            tableLayoutPanel3.Controls.Add(txtTelephone, 1, 2);
             tableLayoutPanel3.Controls.Add(txtFullName, 1, 1);
             tableLayoutPanel3.Controls.Add(tableLayoutPanel4, 0, 0);
             tableLayoutPanel3.Controls.Add(label3, 0, 3);
@@ -107,43 +107,46 @@
             tableLayoutPanel3.Size = new Size(660, 210);
             tableLayoutPanel3.TabIndex = 1;
             // 
-            // textBox2
+            // txtAdress
             // 
-            textBox2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.BackColor = Color.FromArgb(228, 232, 233);
-            textBox2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.ForeColor = Color.FromArgb(37, 42, 53);
-            textBox2.Location = new Point(234, 167);
-            textBox2.Margin = new Padding(0);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "...";
-            textBox2.Size = new Size(426, 41);
-            textBox2.TabIndex = 30;
+            txtAdress.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtAdress.BackColor = Color.FromArgb(228, 232, 233);
+            txtAdress.Enabled = false;
+            txtAdress.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtAdress.ForeColor = Color.FromArgb(37, 42, 53);
+            txtAdress.Location = new Point(110, 167);
+            txtAdress.Margin = new Padding(0);
+            txtAdress.Name = "txtAdress";
+            txtAdress.PlaceholderText = "...";
+            txtAdress.Size = new Size(550, 41);
+            txtAdress.TabIndex = 30;
             // 
-            // textBox1
+            // txtTelephone
             // 
-            textBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.BackColor = Color.FromArgb(228, 232, 233);
-            textBox1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.ForeColor = Color.FromArgb(37, 42, 53);
-            textBox1.Location = new Point(234, 122);
-            textBox1.Margin = new Padding(0);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "...";
-            textBox1.Size = new Size(426, 41);
-            textBox1.TabIndex = 29;
+            txtTelephone.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtTelephone.BackColor = Color.FromArgb(228, 232, 233);
+            txtTelephone.Enabled = false;
+            txtTelephone.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtTelephone.ForeColor = Color.FromArgb(37, 42, 53);
+            txtTelephone.Location = new Point(110, 122);
+            txtTelephone.Margin = new Padding(0);
+            txtTelephone.Name = "txtTelephone";
+            txtTelephone.PlaceholderText = "...";
+            txtTelephone.Size = new Size(550, 41);
+            txtTelephone.TabIndex = 29;
             // 
             // txtFullName
             // 
             txtFullName.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtFullName.BackColor = Color.FromArgb(228, 232, 233);
+            txtFullName.Enabled = false;
             txtFullName.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtFullName.ForeColor = Color.FromArgb(37, 42, 53);
-            txtFullName.Location = new Point(234, 78);
+            txtFullName.Location = new Point(110, 78);
             txtFullName.Margin = new Padding(0);
             txtFullName.Name = "txtFullName";
             txtFullName.PlaceholderText = "...";
-            txtFullName.Size = new Size(426, 41);
+            txtFullName.Size = new Size(550, 41);
             txtFullName.TabIndex = 28;
             // 
             // tableLayoutPanel4
@@ -185,7 +188,7 @@
             label3.Location = new Point(0, 165);
             label3.Margin = new Padding(0);
             label3.Name = "label3";
-            label3.Size = new Size(234, 45);
+            label3.Size = new Size(110, 45);
             label3.TabIndex = 16;
             label3.Text = "Address";
             label3.TextAlign = ContentAlignment.MiddleLeft;
@@ -200,7 +203,7 @@
             label2.Location = new Point(0, 121);
             label2.Margin = new Padding(0);
             label2.Name = "label2";
-            label2.Size = new Size(234, 44);
+            label2.Size = new Size(110, 44);
             label2.TabIndex = 15;
             label2.Text = "Telephone";
             label2.TextAlign = ContentAlignment.MiddleLeft;
@@ -215,7 +218,7 @@
             label1.Location = new Point(0, 77);
             label1.Margin = new Padding(0);
             label1.Name = "label1";
-            label1.Size = new Size(234, 44);
+            label1.Size = new Size(110, 44);
             label1.TabIndex = 14;
             label1.Text = "Full Name";
             label1.TextAlign = ContentAlignment.MiddleLeft;
@@ -242,8 +245,8 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox txtAdress;
+        private TextBox txtTelephone;
         private TextBox txtFullName;
         private TableLayoutPanel tableLayoutPanel4;
         private Label HeadingLabel;

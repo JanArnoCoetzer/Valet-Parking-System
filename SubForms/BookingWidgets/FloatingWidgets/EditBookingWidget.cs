@@ -59,13 +59,14 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 txtFullName.Text = BookingData.Customer.FullName;
                 txtTelephone.Text = BookingData.Customer.Telephone;
                 txtAddress.Text = BookingData.Customer.Address;
-                txtCarReg.Text = BookingData.CarReg;
-                txtCarModel.Text = BookingData.CarModel;
-                txtCarColor.Text = BookingData.CarColor;
+                txtCarReg.Text = BookingData.Vehicle.Registation;
+                txtCarModel.Text = BookingData.Vehicle.Model;
+                txtCarColor.Text = BookingData.Vehicle.Color;
                 dateFromPicker.Text = BookingData.DateFrom;
                 dateToPicker.Text = BookingData.DateTo;
                 txtStatus.Text = BookingData.Status;
-                txtSpaceId.Text = BookingData.Parkingspace.LotIdentifier;
+                txtSpaceId.Text = BookingData.ParkingSpace.LotIdentifier;
+                txtStatus.Text = BookingData.Vehicle.Status;
             }
         }
 
@@ -77,12 +78,18 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 txtTelephone.Text.Trim(),
                 txtAddress.Text.Trim()
                 );
+            Vehicle vehicle = new Vehicle(
+                -1, 
+                txtCarReg.Text.Trim().ToUpper(),
+                txtCarModel.Text.Trim(), 
+                txtCarColor.Text.Trim(),
+                txtStatus.Text.Trim()
+                );
+
             var booking = new Booking
             {
                 Customer = customer,
-                CarReg = txtCarReg.Text.Trim().ToUpper(),
-                CarModel = txtCarModel.Text.Trim(),
-                CarColor = txtCarColor.Text.Trim(),
+                Vehicle = vehicle,
                 DateFrom = dateFromPicker.Text,
                 DateTo = dateToPicker.Text,
                 //time from //time to //

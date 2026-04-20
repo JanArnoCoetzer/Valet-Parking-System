@@ -11,7 +11,6 @@ namespace Valet_Parking_System.Classes
         //public string FullName 
         //public string Telephone 
         //public string Address 
-
         public Operator StorageOperator { get; set; } = null;
         //public int operatorID 
         //public string fullName 
@@ -26,21 +25,26 @@ namespace Valet_Parking_System.Classes
         //public string fulladdress 
         //public string telephone 
         //public string email
-        public ParkingSpace Parkingspace { get; set; } = null;
+        public ParkingSpace ParkingSpace { get; set; } = null;
         //public int SpaceID;
         //public string LotIdentifier;b
         //public string Status;
+        public Vehicle Vehicle { get; set; } = null;
+        //public string ID 
+        //public string Registation 
+        //public string Model
+        //public string Color 
+        //public string Status
 
-        public string Status { get; set; } = "Null";
-        public string DateFrom { get; set; } = "";  
-        //Manual
         
-        public string CarReg { get; set; } = "";
-        public string CarModel { get; set; } = "";
-        public string CarColor { get; set; } = "";    
-        public string TimeFrom { get; set; } = "";
+        public string DateFrom { get; set; } = "";
         public string DateTo { get; set; } = "";
         public string TimeTo { get; set; } = "";
+        public string TimeFrom { get; set; } = "";
+
+        public string Status { get; set; } = "Null";
+
+
 
         public int validationResault = -1;
 
@@ -80,27 +84,27 @@ namespace Valet_Parking_System.Classes
                 return 6;
 
             // 7 CarReg empty
-            if (string.IsNullOrWhiteSpace(this.CarReg))
+            if (string.IsNullOrWhiteSpace(Vehicle.Registation))
                 return 7;
 
             // 8 CarReg invalid format (alphanumeric only)
-            if (!System.Text.RegularExpressions.Regex.IsMatch(this.CarReg, @"^[A-Z0-9\s-]+$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(Vehicle.Registation, @"^[A-Z0-9\s-]+$"))
                 return 8;
 
             // 9 CarModel empty
-            if (string.IsNullOrWhiteSpace(this.CarModel))
+            if (string.IsNullOrWhiteSpace(Vehicle.Model))
                 return 9;
 
             // 10 CarModel too long (>30)
-            if (this.CarModel.Length > 30)
+            if (Vehicle.Model.Length > 30)
                 return 10;
 
             // 11 CarColor empty
-            if (string.IsNullOrWhiteSpace(this.CarColor))
+            if (string.IsNullOrWhiteSpace(Vehicle.Color))
                 return 11;
 
             // 12 CarColor too long (>20)
-            if (this.CarColor.Length > 20)
+            if (Vehicle.Color.Length > 20)
                 return 12;
             // 13 DateFrom empty/invalid
             if (string.IsNullOrWhiteSpace(this.DateFrom) ||

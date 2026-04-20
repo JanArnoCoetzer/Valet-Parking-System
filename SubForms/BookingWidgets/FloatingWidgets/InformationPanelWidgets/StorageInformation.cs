@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Valet_Parking_System.Classes;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets
 {
@@ -26,5 +27,19 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.Informati
             int nRightRect, int nBottomRect,
             int nWidthEllipse, int nHeightEllipse
         );
+
+        internal void setInformation(string dateFrom,string timeFrom, string dateTo,string timeTo,ParkingSpace parkingSpace, Operator storageOperator)
+        {
+            txtSpace.Text = parkingSpace.LotIdentifier.ToString();
+
+            txtDatestored.Text = dateFrom.ToString();
+            txtTimestored.Text = timeFrom.ToString();
+            txtDatepickup.Text = dateTo.ToString();
+            txtTimepickup.Text = timeTo.ToString();
+
+            txtStorageName.Text = storageOperator.fullName.ToString();
+            txtStorageTelephone.Text = storageOperator.telephone.ToString();
+            txtStorageEmail.Text = storageOperator.email.ToString();
+        }
     }
 }

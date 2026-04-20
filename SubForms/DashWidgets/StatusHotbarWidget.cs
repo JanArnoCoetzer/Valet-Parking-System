@@ -8,18 +8,24 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Valet_Parking_System.Classes;
 
-namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets
+namespace Valet_Parking_System.SubForms.DashWidgets.DataElements
 {
-    public partial class CustomerInformation : UserControl
+    public partial class StatusHotbarWidget : UserControl
     {
-
-        public CustomerInformation()
+        public StatusHotbarWidget()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
+
+        public void setValues(string todaysbookings,string spacesavailable,string carsforretrieval) 
+        {
+            txtTodaysBookings.Text = todaysbookings;
+            txtParkingAvailable.Text = spacesavailable;
+            txtCarsFoRetrieval.Text = carsforretrieval;
+        }
+
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
@@ -28,12 +34,5 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.Informati
             int nRightRect, int nBottomRect,
             int nWidthEllipse, int nHeightEllipse
         );
-
-        internal void setInformation(Customer customer)
-        {
-           txtFullName.Text = customer.FullName;
-           txtAdress.Text = customer.Address;
-           txtTelephone.Text = customer.Telephone;
-        }
     }
 }

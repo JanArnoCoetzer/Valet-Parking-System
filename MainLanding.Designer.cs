@@ -31,6 +31,8 @@
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
+            OperatorHoverPanel = new Panel();
+            OperatorButton = new Button();
             AdminHoverPanel = new Panel();
             RetrievalQueueHoverPanel = new Panel();
             BookingsHoverPanel = new Panel();
@@ -40,7 +42,7 @@
             DashBoardButton = new Button();
             DashHoverPanel = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            label1 = new Label();
+            UserNameLabel = new Label();
             label2 = new Label();
             tableLayoutPanel4 = new TableLayoutPanel();
             ContentPanel = new Panel();
@@ -66,7 +68,7 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 61F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 3F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Size = new Size(1600, 900);
@@ -75,17 +77,20 @@
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.BackColor = Color.FromArgb(254, 254, 254);
-            tableLayoutPanel3.ColumnCount = 6;
+            tableLayoutPanel3.ColumnCount = 7;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel3.Controls.Add(AdminHoverPanel, 4, 1);
+            tableLayoutPanel3.Controls.Add(OperatorHoverPanel, 4, 1);
+            tableLayoutPanel3.Controls.Add(OperatorButton, 4, 0);
+            tableLayoutPanel3.Controls.Add(AdminHoverPanel, 5, 1);
             tableLayoutPanel3.Controls.Add(RetrievalQueueHoverPanel, 3, 1);
             tableLayoutPanel3.Controls.Add(BookingsHoverPanel, 2, 1);
-            tableLayoutPanel3.Controls.Add(AdminButton, 4, 0);
+            tableLayoutPanel3.Controls.Add(AdminButton, 5, 0);
             tableLayoutPanel3.Controls.Add(RetrievalQueueButton, 3, 0);
             tableLayoutPanel3.Controls.Add(BookingsButton, 2, 0);
             tableLayoutPanel3.Controls.Add(DashBoardButton, 1, 0);
@@ -97,34 +102,63 @@
             tableLayoutPanel3.RowCount = 2;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 2F));
-            tableLayoutPanel3.Size = new Size(1600, 60);
+            tableLayoutPanel3.Size = new Size(1600, 61);
             tableLayoutPanel3.TabIndex = 1;
+            // 
+            // OperatorHoverPanel
+            // 
+            OperatorHoverPanel.Dock = DockStyle.Fill;
+            OperatorHoverPanel.Location = new Point(952, 59);
+            OperatorHoverPanel.Margin = new Padding(0);
+            OperatorHoverPanel.Name = "OperatorHoverPanel";
+            OperatorHoverPanel.Size = new Size(304, 2);
+            OperatorHoverPanel.TabIndex = 10;
+            // 
+            // OperatorButton
+            // 
+            OperatorButton.Dock = DockStyle.Fill;
+            OperatorButton.FlatAppearance.BorderColor = Color.FromArgb(254, 254, 254);
+            OperatorButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(254, 254, 254);
+            OperatorButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 254, 254);
+            OperatorButton.FlatStyle = FlatStyle.Flat;
+            OperatorButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            OperatorButton.ForeColor = Color.FromArgb(37, 42, 53);
+            OperatorButton.Location = new Point(952, 0);
+            OperatorButton.Margin = new Padding(0);
+            OperatorButton.Name = "OperatorButton";
+            OperatorButton.Size = new Size(304, 59);
+            OperatorButton.TabIndex = 9;
+            OperatorButton.Text = "Operator";
+            OperatorButton.UseVisualStyleBackColor = true;
+            OperatorButton.Click += NavigationButton_Click;
+            OperatorButton.MouseEnter += NavigationButton_MouseEnter;
+            OperatorButton.MouseLeave += NavigationButton_MouseLeave;
             // 
             // AdminHoverPanel
             // 
             AdminHoverPanel.Dock = DockStyle.Fill;
-            AdminHoverPanel.Location = new Point(1180, 58);
+            AdminHoverPanel.Location = new Point(1256, 59);
             AdminHoverPanel.Margin = new Padding(0);
             AdminHoverPanel.Name = "AdminHoverPanel";
-            AdminHoverPanel.Size = new Size(380, 2);
+            AdminHoverPanel.Size = new Size(304, 2);
             AdminHoverPanel.TabIndex = 7;
             // 
             // RetrievalQueueHoverPanel
             // 
             RetrievalQueueHoverPanel.Dock = DockStyle.Fill;
-            RetrievalQueueHoverPanel.Location = new Point(800, 58);
+            RetrievalQueueHoverPanel.Location = new Point(648, 59);
             RetrievalQueueHoverPanel.Margin = new Padding(0);
             RetrievalQueueHoverPanel.Name = "RetrievalQueueHoverPanel";
-            RetrievalQueueHoverPanel.Size = new Size(380, 2);
+            RetrievalQueueHoverPanel.Size = new Size(304, 2);
             RetrievalQueueHoverPanel.TabIndex = 6;
             // 
             // BookingsHoverPanel
             // 
             BookingsHoverPanel.Dock = DockStyle.Fill;
-            BookingsHoverPanel.Location = new Point(420, 58);
+            BookingsHoverPanel.Location = new Point(344, 59);
             BookingsHoverPanel.Margin = new Padding(0);
             BookingsHoverPanel.Name = "BookingsHoverPanel";
-            BookingsHoverPanel.Size = new Size(380, 2);
+            BookingsHoverPanel.Size = new Size(304, 2);
             BookingsHoverPanel.TabIndex = 5;
             // 
             // AdminButton
@@ -136,10 +170,10 @@
             AdminButton.FlatStyle = FlatStyle.Flat;
             AdminButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             AdminButton.ForeColor = Color.FromArgb(37, 42, 53);
-            AdminButton.Location = new Point(1180, 0);
+            AdminButton.Location = new Point(1256, 0);
             AdminButton.Margin = new Padding(0);
             AdminButton.Name = "AdminButton";
-            AdminButton.Size = new Size(380, 58);
+            AdminButton.Size = new Size(304, 59);
             AdminButton.TabIndex = 3;
             AdminButton.Text = "Admin";
             AdminButton.UseVisualStyleBackColor = true;
@@ -156,10 +190,10 @@
             RetrievalQueueButton.FlatStyle = FlatStyle.Flat;
             RetrievalQueueButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RetrievalQueueButton.ForeColor = Color.FromArgb(37, 42, 53);
-            RetrievalQueueButton.Location = new Point(800, 0);
+            RetrievalQueueButton.Location = new Point(648, 0);
             RetrievalQueueButton.Margin = new Padding(0);
             RetrievalQueueButton.Name = "RetrievalQueueButton";
-            RetrievalQueueButton.Size = new Size(380, 58);
+            RetrievalQueueButton.Size = new Size(304, 59);
             RetrievalQueueButton.TabIndex = 2;
             RetrievalQueueButton.Text = "Retrieval Queue";
             RetrievalQueueButton.UseVisualStyleBackColor = true;
@@ -176,10 +210,10 @@
             BookingsButton.FlatStyle = FlatStyle.Flat;
             BookingsButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BookingsButton.ForeColor = Color.FromArgb(37, 42, 53);
-            BookingsButton.Location = new Point(420, 0);
+            BookingsButton.Location = new Point(344, 0);
             BookingsButton.Margin = new Padding(0);
             BookingsButton.Name = "BookingsButton";
-            BookingsButton.Size = new Size(380, 58);
+            BookingsButton.Size = new Size(304, 59);
             BookingsButton.TabIndex = 1;
             BookingsButton.Text = "Bookings";
             BookingsButton.UseVisualStyleBackColor = true;
@@ -199,7 +233,7 @@
             DashBoardButton.Location = new Point(40, 0);
             DashBoardButton.Margin = new Padding(0);
             DashBoardButton.Name = "DashBoardButton";
-            DashBoardButton.Size = new Size(380, 58);
+            DashBoardButton.Size = new Size(304, 59);
             DashBoardButton.TabIndex = 0;
             DashBoardButton.Text = "DashBoard";
             DashBoardButton.UseVisualStyleBackColor = true;
@@ -210,24 +244,23 @@
             // DashHoverPanel
             // 
             DashHoverPanel.Dock = DockStyle.Fill;
-            DashHoverPanel.Location = new Point(40, 58);
+            DashHoverPanel.Location = new Point(40, 59);
             DashHoverPanel.Margin = new Padding(0);
             DashHoverPanel.Name = "DashHoverPanel";
-            DashHoverPanel.Size = new Size(380, 2);
+            DashHoverPanel.Size = new Size(304, 2);
             DashHoverPanel.TabIndex = 4;
             // 
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.BackColor = Color.FromArgb(37, 42, 53);
-            tableLayoutPanel2.ColumnCount = 6;
+            tableLayoutPanel2.ColumnCount = 5;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 310F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 59F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 88F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 53.8461533F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 46.1538467F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Controls.Add(label1, 4, 0);
+            tableLayoutPanel2.Controls.Add(UserNameLabel, 3, 0);
             tableLayoutPanel2.Controls.Add(label2, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 0);
@@ -238,19 +271,20 @@
             tableLayoutPanel2.Size = new Size(1600, 60);
             tableLayoutPanel2.TabIndex = 0;
             // 
-            // label1
+            // UserNameLabel
             // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Fill;
-            label1.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(254, 254, 254);
-            label1.Location = new Point(1472, 0);
-            label1.Margin = new Padding(0);
-            label1.Name = "label1";
-            label1.Size = new Size(88, 60);
-            label1.TabIndex = 1;
-            label1.Text = "John";
-            label1.TextAlign = ContentAlignment.MiddleLeft;
+            UserNameLabel.AutoSize = true;
+            UserNameLabel.Dock = DockStyle.Top;
+            UserNameLabel.Font = new Font("Dubai", 11.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            UserNameLabel.ForeColor = Color.FromArgb(254, 254, 254);
+            UserNameLabel.Location = new Point(1001, 0);
+            UserNameLabel.Margin = new Padding(0);
+            UserNameLabel.Name = "UserNameLabel";
+            UserNameLabel.Size = new Size(558, 40);
+            UserNameLabel.TabIndex = 1;
+            UserNameLabel.Text = "TestOperator";
+            UserNameLabel.TextAlign = ContentAlignment.MiddleRight;
+            UserNameLabel.Visible = false;
             // 
             // label2
             // 
@@ -275,13 +309,13 @@
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel4.Controls.Add(ContentPanel, 1, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(0, 123);
+            tableLayoutPanel4.Location = new Point(0, 124);
             tableLayoutPanel4.Margin = new Padding(0);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 2;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.Size = new Size(1600, 777);
+            tableLayoutPanel4.Size = new Size(1600, 776);
             tableLayoutPanel4.TabIndex = 2;
             // 
             // ContentPanel
@@ -290,7 +324,7 @@
             ContentPanel.Location = new Point(20, 0);
             ContentPanel.Margin = new Padding(0);
             ContentPanel.Name = "ContentPanel";
-            ContentPanel.Size = new Size(1560, 757);
+            ContentPanel.Size = new Size(1560, 756);
             ContentPanel.TabIndex = 0;
             ContentPanel.Paint += ContentPanel_Paint;
             // 
@@ -298,7 +332,7 @@
             // 
             panel1.BackColor = Color.FromArgb(218, 222, 223);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 120);
+            panel1.Location = new Point(0, 121);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1600, 3);
@@ -343,6 +377,8 @@
         private TableLayoutPanel tableLayoutPanel4;
         private Panel ContentPanel;
         private Panel panel1;
-        private Label label1;
+        private Label UserNameLabel;
+        private Button OperatorButton;
+        private Panel OperatorHoverPanel;
     }
 }

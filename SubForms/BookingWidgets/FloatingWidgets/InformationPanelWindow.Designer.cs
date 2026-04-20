@@ -35,22 +35,22 @@
             ContentPanel = new Panel();
             tableLayoutPanel5 = new TableLayoutPanel();
             tableLayoutPanel6 = new TableLayoutPanel();
-            customerInformation1 = new Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets.CustomerInformation();
-            carInformation2 = new Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets.CarInformation();
-            storageInformation1 = new Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets.StorageInformation();
+            customerInformation = new Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets.CustomerInformation();
+            carInformation = new Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets.CarInformation();
+            storageInformation = new Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets.StorageInformation();
+            tableLayoutPanel7 = new TableLayoutPanel();
+            btnCloseInformationPanel = new Button();
             panel1 = new Panel();
             tableLayoutPanel3 = new TableLayoutPanel();
             HeadingLabel = new Label();
-            tableLayoutPanel7 = new TableLayoutPanel();
-            btnCloseInformationPanel = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             ContentPanel.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel6.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel7.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -158,9 +158,9 @@
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Controls.Add(customerInformation1, 0, 0);
-            tableLayoutPanel6.Controls.Add(carInformation2, 0, 2);
-            tableLayoutPanel6.Controls.Add(storageInformation1, 2, 0);
+            tableLayoutPanel6.Controls.Add(customerInformation, 0, 0);
+            tableLayoutPanel6.Controls.Add(carInformation, 0, 2);
+            tableLayoutPanel6.Controls.Add(storageInformation, 2, 0);
             tableLayoutPanel6.Controls.Add(tableLayoutPanel7, 0, 4);
             tableLayoutPanel6.Dock = DockStyle.Fill;
             tableLayoutPanel6.Location = new Point(20, 20);
@@ -174,37 +174,68 @@
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 16F));
             tableLayoutPanel6.Size = new Size(1520, 717);
             tableLayoutPanel6.TabIndex = 0;
-
             // 
-            // customerInformation1
+            // customerInformation
             // 
-            customerInformation1.BackColor = Color.FromArgb(254, 254, 254);
-            customerInformation1.Dock = DockStyle.Fill;
-            customerInformation1.Location = new Point(0, 0);
-            customerInformation1.Margin = new Padding(0);
-            customerInformation1.Name = "customerInformation1";
-            customerInformation1.Size = new Size(740, 230);
-            customerInformation1.TabIndex = 0;
+            customerInformation.BackColor = Color.FromArgb(254, 254, 254);
+            customerInformation.Dock = DockStyle.Fill;
+            customerInformation.Location = new Point(0, 0);
+            customerInformation.Margin = new Padding(0);
+            customerInformation.Name = "customerInformation";
+            customerInformation.Size = new Size(740, 230);
+            customerInformation.TabIndex = 0;
             // 
-            // carInformation2
+            // carInformation
             // 
-            carInformation2.BackColor = Color.FromArgb(254, 254, 254);
-            carInformation2.Dock = DockStyle.Fill;
-            carInformation2.Location = new Point(3, 273);
-            carInformation2.Name = "carInformation2";
-            carInformation2.Size = new Size(734, 324);
-            carInformation2.TabIndex = 2;
+            carInformation.BackColor = Color.FromArgb(254, 254, 254);
+            carInformation.Dock = DockStyle.Fill;
+            carInformation.Location = new Point(3, 273);
+            carInformation.Name = "carInformation";
+            carInformation.Size = new Size(734, 324);
+            carInformation.TabIndex = 2;
             // 
-            // storageInformation1
+            // storageInformation
             // 
-            storageInformation1.BackColor = Color.FromArgb(254, 254, 254);
-            storageInformation1.Dock = DockStyle.Fill;
-            storageInformation1.Location = new Point(780, 0);
-            storageInformation1.Margin = new Padding(0);
-            storageInformation1.Name = "storageInformation1";
-            tableLayoutPanel6.SetRowSpan(storageInformation1, 5);
-            storageInformation1.Size = new Size(740, 717);
-            storageInformation1.TabIndex = 3;
+            storageInformation.BackColor = Color.FromArgb(254, 254, 254);
+            storageInformation.Dock = DockStyle.Fill;
+            storageInformation.Location = new Point(780, 0);
+            storageInformation.Margin = new Padding(0);
+            storageInformation.Name = "storageInformation";
+            tableLayoutPanel6.SetRowSpan(storageInformation, 5);
+            storageInformation.Size = new Size(740, 717);
+            storageInformation.TabIndex = 3;
+            // 
+            // tableLayoutPanel7
+            // 
+            tableLayoutPanel7.ColumnCount = 2;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 31.4864864F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 68.51351F));
+            tableLayoutPanel7.Controls.Add(btnCloseInformationPanel, 0, 0);
+            tableLayoutPanel7.Dock = DockStyle.Fill;
+            tableLayoutPanel7.Location = new Point(0, 640);
+            tableLayoutPanel7.Margin = new Padding(0);
+            tableLayoutPanel7.Name = "tableLayoutPanel7";
+            tableLayoutPanel7.RowCount = 1;
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel7.Size = new Size(740, 77);
+            tableLayoutPanel7.TabIndex = 4;
+            // 
+            // btnCloseInformationPanel
+            // 
+            btnCloseInformationPanel.BackColor = Color.FromArgb(8, 108, 236);
+            btnCloseInformationPanel.Dock = DockStyle.Fill;
+            btnCloseInformationPanel.FlatStyle = FlatStyle.Flat;
+            btnCloseInformationPanel.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCloseInformationPanel.ForeColor = Color.FromArgb(254, 254, 254);
+            btnCloseInformationPanel.Location = new Point(0, 0);
+            btnCloseInformationPanel.Margin = new Padding(0);
+            btnCloseInformationPanel.Name = "btnCloseInformationPanel";
+            btnCloseInformationPanel.Size = new Size(233, 77);
+            btnCloseInformationPanel.TabIndex = 24;
+            btnCloseInformationPanel.Text = "Close";
+            btnCloseInformationPanel.UseVisualStyleBackColor = false;
+            btnCloseInformationPanel.Click += btnCloseInformationPanel_Click;
             // 
             // panel1
             // 
@@ -248,38 +279,6 @@
             HeadingLabel.Text = "Booking Information";
             HeadingLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // tableLayoutPanel7
-            // 
-            tableLayoutPanel7.ColumnCount = 2;
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 31.4864864F));
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 68.51351F));
-            tableLayoutPanel7.Controls.Add(btnCloseInformationPanel, 0, 0);
-            tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(0, 640);
-            tableLayoutPanel7.Margin = new Padding(0);
-            tableLayoutPanel7.Name = "tableLayoutPanel7";
-            tableLayoutPanel7.RowCount = 1;
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel7.Size = new Size(740, 77);
-            tableLayoutPanel7.TabIndex = 4;
-            // 
-            // btnCloseInformationPanel
-            // 
-            btnCloseInformationPanel.BackColor = Color.FromArgb(8, 108, 236);
-            btnCloseInformationPanel.Dock = DockStyle.Fill;
-            btnCloseInformationPanel.FlatStyle = FlatStyle.Flat;
-            btnCloseInformationPanel.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCloseInformationPanel.ForeColor = Color.FromArgb(254, 254, 254);
-            btnCloseInformationPanel.Location = new Point(0, 0);
-            btnCloseInformationPanel.Margin = new Padding(0);
-            btnCloseInformationPanel.Name = "btnCloseInformationPanel";
-            btnCloseInformationPanel.Size = new Size(233, 77);
-            btnCloseInformationPanel.TabIndex = 24;
-            btnCloseInformationPanel.Text = "Close";
-            btnCloseInformationPanel.UseVisualStyleBackColor = false;
-            btnCloseInformationPanel.Click += btnCloseInformationPanel_Click;
-            // 
             // InformationPanelWindow
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -296,9 +295,9 @@
             ContentPanel.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel6.ResumeLayout(false);
+            tableLayoutPanel7.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
-            tableLayoutPanel7.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -314,9 +313,9 @@
         private Label HeadingLabel;
         private TableLayoutPanel tableLayoutPanel5;
         private TableLayoutPanel tableLayoutPanel6;
-        private InformationPanelWidgets.CustomerInformation customerInformation1;
-        private InformationPanelWidgets.CarInformation carInformation2;
-        private InformationPanelWidgets.StorageInformation storageInformation1;
+        private InformationPanelWidgets.CustomerInformation customerInformation;
+        private InformationPanelWidgets.CarInformation carInformation;
+        private InformationPanelWidgets.StorageInformation storageInformation;
         private TableLayoutPanel tableLayoutPanel7;
         private Button btnCloseInformationPanel;
     }

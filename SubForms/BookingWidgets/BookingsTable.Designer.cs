@@ -39,10 +39,10 @@
             label2 = new Label();
             label5 = new Label();
             tableLayoutPanel4 = new TableLayoutPanel();
-            BtnMarkForRetrieval = new Button();
-            button2 = new Button();
-            btnEditBooking = new Button();
             BtnInformation = new Button();
+            BtnMarkForRetrieval = new Button();
+            BtnPrint = new Button();
+            btnEditBooking = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -227,7 +227,7 @@
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
             tableLayoutPanel4.Controls.Add(BtnInformation, 4, 0);
             tableLayoutPanel4.Controls.Add(BtnMarkForRetrieval, 2, 0);
-            tableLayoutPanel4.Controls.Add(button2, 6, 0);
+            tableLayoutPanel4.Controls.Add(BtnPrint, 6, 0);
             tableLayoutPanel4.Controls.Add(btnEditBooking, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(20, 488);
@@ -238,10 +238,28 @@
             tableLayoutPanel4.Size = new Size(960, 50);
             tableLayoutPanel4.TabIndex = 1;
             // 
+            // BtnInformation
+            // 
+            BtnInformation.BackColor = Color.FromArgb(8, 108, 236);
+            BtnInformation.Dock = DockStyle.Fill;
+            BtnInformation.Enabled = false;
+            BtnInformation.FlatStyle = FlatStyle.Flat;
+            BtnInformation.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BtnInformation.ForeColor = Color.FromArgb(254, 254, 254);
+            BtnInformation.Location = new Point(722, 0);
+            BtnInformation.Margin = new Padding(0);
+            BtnInformation.Name = "BtnInformation";
+            BtnInformation.Size = new Size(142, 50);
+            BtnInformation.TabIndex = 7;
+            BtnInformation.Text = "Information";
+            BtnInformation.UseVisualStyleBackColor = false;
+            BtnInformation.Click += BtnInformation_Click;
+            // 
             // BtnMarkForRetrieval
             // 
             BtnMarkForRetrieval.BackColor = Color.FromArgb(8, 108, 236);
             BtnMarkForRetrieval.Dock = DockStyle.Fill;
+            BtnMarkForRetrieval.Enabled = false;
             BtnMarkForRetrieval.FlatStyle = FlatStyle.Flat;
             BtnMarkForRetrieval.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BtnMarkForRetrieval.ForeColor = Color.FromArgb(254, 254, 254);
@@ -254,25 +272,27 @@
             BtnMarkForRetrieval.UseVisualStyleBackColor = false;
             BtnMarkForRetrieval.Click += BtnMarkForRetrieval_Click;
             // 
-            // button2
+            // BtnPrint
             // 
-            button2.BackColor = Color.FromArgb(8, 108, 236);
-            button2.Dock = DockStyle.Fill;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.FromArgb(254, 254, 254);
-            button2.Location = new Point(884, 0);
-            button2.Margin = new Padding(0);
-            button2.Name = "button2";
-            button2.Size = new Size(76, 50);
-            button2.TabIndex = 5;
-            button2.Text = "Print";
-            button2.UseVisualStyleBackColor = false;
+            BtnPrint.BackColor = Color.FromArgb(8, 108, 236);
+            BtnPrint.Dock = DockStyle.Fill;
+            BtnPrint.Enabled = false;
+            BtnPrint.FlatStyle = FlatStyle.Flat;
+            BtnPrint.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BtnPrint.ForeColor = Color.FromArgb(254, 254, 254);
+            BtnPrint.Location = new Point(884, 0);
+            BtnPrint.Margin = new Padding(0);
+            BtnPrint.Name = "BtnPrint";
+            BtnPrint.Size = new Size(76, 50);
+            BtnPrint.TabIndex = 5;
+            BtnPrint.Text = "Print";
+            BtnPrint.UseVisualStyleBackColor = false;
             // 
             // btnEditBooking
             // 
             btnEditBooking.BackColor = Color.FromArgb(8, 108, 236);
             btnEditBooking.Dock = DockStyle.Fill;
+            btnEditBooking.Enabled = false;
             btnEditBooking.FlatStyle = FlatStyle.Flat;
             btnEditBooking.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnEditBooking.ForeColor = Color.FromArgb(254, 254, 254);
@@ -284,22 +304,6 @@
             btnEditBooking.Text = "Edit Booking";
             btnEditBooking.UseVisualStyleBackColor = false;
             btnEditBooking.Click += btnEditBooking_Click;
-            // 
-            // BtnInformation
-            // 
-            BtnInformation.BackColor = Color.FromArgb(8, 108, 236);
-            BtnInformation.Dock = DockStyle.Fill;
-            BtnInformation.FlatStyle = FlatStyle.Flat;
-            BtnInformation.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BtnInformation.ForeColor = Color.FromArgb(254, 254, 254);
-            BtnInformation.Location = new Point(722, 0);
-            BtnInformation.Margin = new Padding(0);
-            BtnInformation.Name = "BtnInformation";
-            BtnInformation.Size = new Size(142, 50);
-            BtnInformation.TabIndex = 7;
-            BtnInformation.Text = "Information";
-            BtnInformation.UseVisualStyleBackColor = false;
-            BtnInformation.Click += BtnInformation_Click;
             // 
             // BookingsTable
             // 
@@ -322,7 +326,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel4;
-        private Button button2;
+        private Button BtnPrint;
         private Button btnEditBooking;
         private Button BtnMarkForRetrieval;
         private TableLayoutPanel tableLayoutPanel3;

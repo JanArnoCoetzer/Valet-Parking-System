@@ -19,7 +19,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.DataElements
             bookingstable = bt;
 
             txtBookingId.Text = bookingdata.BookingId.ToString();
-            txtCarReg.Text = bookingdata.CarReg;
+            txtCarReg.Text = bookingdata.Vehicle.Registation;
             txtName.Text = bookingdata.Customer.FullName;
             txtFrom.Text = bookingdata.DateFrom;
             TxtTo.Text = bookingdata.DateTo;

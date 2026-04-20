@@ -23,6 +23,9 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets
             this.bookingsTable = bookingsTable;
             this.selectedBooking = selectedBooking;
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            this.carInformation.setInformation(selectedBooking.Vehicle);
+            this.customerInformation.setInformation(selectedBooking.Customer);
+            this.storageInformation.setInformation(selectedBooking.DateFrom,selectedBooking.TimeFrom,selectedBooking.DateTo,selectedBooking.TimeTo,selectedBooking.ParkingSpace,selectedBooking.StorageOperator);
         }
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]

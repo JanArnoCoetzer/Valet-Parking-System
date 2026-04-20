@@ -55,8 +55,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
                         var parkingSpace = parkingSpaces[i];
                         bool isDarkRow = i % 2 == 0;
                         var row = new DeParkingSpacesRow(parkingSpace, this, isDarkRow);
-                        ParkingSpacesTableContentPanel.Controls.Add(row);
-                        Debug.WriteLine("status = " + parkingSpace.Status);
+                        ParkingSpacesTableContentPanel.Controls.Add(row);   
                     }
 
                     if (chunk < totalChunks - 1)

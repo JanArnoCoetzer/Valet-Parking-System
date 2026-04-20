@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.Classes
 {
@@ -43,6 +44,7 @@ namespace Valet_Parking_System.Classes
             List<ParkingSpace> parkingSpaces,
             List<Customer> customers,
             List<Operator> operators,
+            List<Vehicle> vehicles,
             int amount = 25)
         {
             var bookings = new List<Booking>();
@@ -59,7 +61,7 @@ namespace Valet_Parking_System.Classes
                     : parkingSpaces.OrderBy(ps => ps.SpaceID).ToList())
                 : new List<ParkingSpace>();
 
-            // Customers (prefer those with CarStored = true)
+            // Customers
             var owningCustomers = customers != null && customers.Any()
                 ? (customers.Any(c => c.CarStored)
                     ? customers.Where(c => c.CarStored)
@@ -68,10 +70,15 @@ namespace Valet_Parking_System.Classes
                     : customers.OrderBy(c => c.CustomerID).ToList())
                 : new List<Customer>();
 
-            // All operators (sorted by ID)
+            // All operators 
             var storageOperators = operators != null && operators.Any()
                 ? operators.OrderBy(o => o.OperatorID).ToList()
                 : new List<Operator>();
+            
+            // All operators 
+            var storedVehicles = vehicles != null && vehicles.Any()
+                ? vehicles.OrderBy(v => v.ID).ToList()
+                : new List<Vehicle>();
 
             for (int i = 0; i < amount; i++)
             {
@@ -84,16 +91,17 @@ namespace Valet_Parking_System.Classes
 
                 var selectedCustomer = GetRandomItem(owningCustomers);
                 var selectedOperator = GetRandomItem(storageOperators);
-
+                var selectedVehicle = GetRandomItem(storedVehicles);
                 bool isTodayBooking = i < firstBatch;
 
                 var booking = new Booking
                 {
                     BookingId = i + 1,
                     Customer = selectedCustomer,
-                    Parkingspace = space,
+                    ParkingSpace = space,
                     StorageOperator = selectedOperator,
-                    CarReg = GenerateIrishPlate(),
+                    Vehicle = selectedVehicle,
+
                     DateFrom = isTodayBooking
                         ? todayStr
                         : DateTime.Now.AddDays(-rand.Next(1, 365)).ToString("dd/MM/yyyy"),
@@ -106,8 +114,7 @@ namespace Valet_Parking_System.Classes
                     TimeTo = isTodayBooking
                         ? $"{rand.Next(16, 22):D2}:{rand.Next(0, 60):D2}"
                         : $"{rand.Next(0, 24):D2}:{rand.Next(0, 60):D2}",
-                    CarModel = GenerateRandomCarModel(),
-                    CarColor = GenerateRandomCarColor()
+                    
                 };
 
                 bookings.Add(booking);
@@ -149,8 +156,13 @@ namespace Valet_Parking_System.Classes
             var operators = new List<Operator>();
             string todayStr = DateTime.Today.ToString("dd/MM/yyyy");
 
-            for (int i = 0; i < amount; i++)
+            for (int i = 1; i < amount; i++)
             {
+                var opMe = new Operator(
+                    1, "Arno Coetzer", "10/11/1999", GenerateRandomAddress(), GenerateRandomPhone(), "arno.coetzer@gmail.com"
+                    );
+                operators.Add(opMe);
+
                 string fullName = GenerateRandomFullName();
                 string address = GenerateRandomAddress();
                 string telephone = GenerateRandomPhone();
@@ -188,6 +200,21 @@ namespace Valet_Parking_System.Classes
             }
 
             return customers;
+        }
+
+        public List<Vehicle> CreateTestVehcles(int amount = 20) 
+        {
+            var Vehicles = new List<Vehicle>();
+            for (int i = 0; i < amount; i++)
+            {
+                var vehicle = new Vehicle(
+                    i + 1, GenerateIrishPlate(), GenerateRandomCarModel(), GenerateRandomCarColor()
+                    ,"Stored"
+
+                );
+                Vehicles.Add(vehicle);
+            }
+          return Vehicles;
         }
 
 

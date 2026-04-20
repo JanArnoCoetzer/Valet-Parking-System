@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Valet_Parking_System.Classes;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.InformationPanelWidgets
 {
@@ -17,6 +18,14 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.Informati
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            
+        }
+        public void setInformation(Vehicle vehicle) 
+        {
+            txtRegistration.Text = vehicle.Registation;
+            txtModel.Text = vehicle.Model;
+            txtColor.Text = vehicle.Color;
+            txtStatus.Text = vehicle.Status;
         }
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]

@@ -21,13 +21,11 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
         private void btnCreate_Click(object sender, EventArgs e)
         {
             Customer customer = new Customer(-1,txtFullName.Text.Trim(), txtTelephone.Text.Trim(), txtAddress.Text.Trim());
-
+            Vehicle vehicle = new Vehicle(-1, txtCarReg.Text.Trim().ToUpper(), txtCarModel.Text.Trim(), txtCarColor.Text.Trim(),"pending");
             var booking = new Booking
             {
                 Customer = customer,
-                CarReg = txtCarReg.Text.Trim().ToUpper(),
-                CarModel = txtCarModel.Text.Trim(),
-                CarColor = txtCarColor.Text.Trim(),
+                Vehicle = vehicle,
                 DateFrom = dateFromPicker.Text,
                 DateTo = dateToPicker.Text,
             };

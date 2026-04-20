@@ -13,7 +13,7 @@ namespace Valet_Parking_System.Classes
         public string fulladdress = "";
         public string telephone = "";
         public string email = "";
-
+        public string Password = "12345678";
         public int validationResault = -1;
 
         public Operator()

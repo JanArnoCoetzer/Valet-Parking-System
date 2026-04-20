@@ -71,8 +71,8 @@ namespace Valet_Parking_System.SubForms
             if (!string.IsNullOrEmpty(carRegText))
             {
                 query = query.Where(b =>
-                    !string.IsNullOrEmpty(b.CarReg) &&
-                    b.CarReg.IndexOf(carRegText, StringComparison.OrdinalIgnoreCase) >= 0);
+                    !string.IsNullOrEmpty(b.Vehicle.Registation) &&
+                    b.Vehicle.Registation.IndexOf(carRegText, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
             var filtered = query.ToList();

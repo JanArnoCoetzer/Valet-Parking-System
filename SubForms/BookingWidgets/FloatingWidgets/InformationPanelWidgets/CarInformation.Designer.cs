@@ -30,18 +30,16 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            txtFullName = new TextBox();
+            txtStatus = new TextBox();
+            txtColor = new TextBox();
+            txtModel = new TextBox();
             tableLayoutPanel3 = new TableLayoutPanel();
             HeadingLabel = new Label();
-            label8 = new Label();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
+            txtRegistration = new TextBox();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -76,19 +74,17 @@
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.46255F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.5374451F));
-            tableLayoutPanel2.Controls.Add(textBox4, 1, 5);
-            tableLayoutPanel2.Controls.Add(textBox3, 1, 4);
-            tableLayoutPanel2.Controls.Add(textBox2, 1, 3);
-            tableLayoutPanel2.Controls.Add(textBox1, 1, 2);
-            tableLayoutPanel2.Controls.Add(txtFullName, 1, 1);
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.1902F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 77.8098F));
+            tableLayoutPanel2.Controls.Add(txtStatus, 1, 4);
+            tableLayoutPanel2.Controls.Add(txtColor, 1, 3);
+            tableLayoutPanel2.Controls.Add(txtModel, 1, 2);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
-            tableLayoutPanel2.Controls.Add(label8, 0, 5);
             tableLayoutPanel2.Controls.Add(label7, 0, 4);
             tableLayoutPanel2.Controls.Add(label6, 0, 3);
             tableLayoutPanel2.Controls.Add(label5, 0, 2);
             tableLayoutPanel2.Controls.Add(label4, 0, 1);
+            tableLayoutPanel2.Controls.Add(txtRegistration, 1, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(20, 0);
             tableLayoutPanel2.Margin = new Padding(0);
@@ -104,70 +100,47 @@
             tableLayoutPanel2.Size = new Size(694, 304);
             tableLayoutPanel2.TabIndex = 1;
             // 
-            // textBox4
+            // txtStatus
             // 
-            textBox4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox4.BackColor = Color.FromArgb(228, 232, 233);
-            textBox4.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.FromArgb(37, 42, 53);
-            textBox4.Location = new Point(246, 260);
-            textBox4.Margin = new Padding(0);
-            textBox4.Name = "textBox4";
-            textBox4.PlaceholderText = "...";
-            textBox4.Size = new Size(448, 41);
-            textBox4.TabIndex = 31;
+            txtStatus.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtStatus.BackColor = Color.FromArgb(228, 232, 233);
+            txtStatus.Enabled = false;
+            txtStatus.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStatus.ForeColor = Color.FromArgb(37, 42, 53);
+            txtStatus.Location = new Point(153, 214);
+            txtStatus.Margin = new Padding(0);
+            txtStatus.Name = "txtStatus";
+            txtStatus.PlaceholderText = "...";
+            txtStatus.Size = new Size(541, 41);
+            txtStatus.TabIndex = 30;
             // 
-            // textBox3
+            // txtColor
             // 
-            textBox3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox3.BackColor = Color.FromArgb(228, 232, 233);
-            textBox3.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox3.ForeColor = Color.FromArgb(37, 42, 53);
-            textBox3.Location = new Point(246, 214);
-            textBox3.Margin = new Padding(0);
-            textBox3.Name = "textBox3";
-            textBox3.PlaceholderText = "...";
-            textBox3.Size = new Size(448, 41);
-            textBox3.TabIndex = 30;
+            txtColor.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtColor.BackColor = Color.FromArgb(228, 232, 233);
+            txtColor.Enabled = false;
+            txtColor.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtColor.ForeColor = Color.FromArgb(37, 42, 53);
+            txtColor.Location = new Point(153, 169);
+            txtColor.Margin = new Padding(0);
+            txtColor.Name = "txtColor";
+            txtColor.PlaceholderText = "...";
+            txtColor.Size = new Size(541, 41);
+            txtColor.TabIndex = 29;
             // 
-            // textBox2
+            // txtModel
             // 
-            textBox2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox2.BackColor = Color.FromArgb(228, 232, 233);
-            textBox2.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.ForeColor = Color.FromArgb(37, 42, 53);
-            textBox2.Location = new Point(246, 169);
-            textBox2.Margin = new Padding(0);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "...";
-            textBox2.Size = new Size(448, 41);
-            textBox2.TabIndex = 29;
-            // 
-            // textBox1
-            // 
-            textBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.BackColor = Color.FromArgb(228, 232, 233);
-            textBox1.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.ForeColor = Color.FromArgb(37, 42, 53);
-            textBox1.Location = new Point(246, 124);
-            textBox1.Margin = new Padding(0);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "...";
-            textBox1.Size = new Size(448, 41);
-            textBox1.TabIndex = 28;
-            // 
-            // txtFullName
-            // 
-            txtFullName.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtFullName.BackColor = Color.FromArgb(228, 232, 233);
-            txtFullName.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtFullName.ForeColor = Color.FromArgb(37, 42, 53);
-            txtFullName.Location = new Point(246, 79);
-            txtFullName.Margin = new Padding(0);
-            txtFullName.Name = "txtFullName";
-            txtFullName.PlaceholderText = "...";
-            txtFullName.Size = new Size(448, 41);
-            txtFullName.TabIndex = 27;
+            txtModel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtModel.BackColor = Color.FromArgb(228, 232, 233);
+            txtModel.Enabled = false;
+            txtModel.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtModel.ForeColor = Color.FromArgb(37, 42, 53);
+            txtModel.Location = new Point(153, 124);
+            txtModel.Margin = new Padding(0);
+            txtModel.Name = "txtModel";
+            txtModel.PlaceholderText = "...";
+            txtModel.Size = new Size(541, 41);
+            txtModel.TabIndex = 28;
             // 
             // tableLayoutPanel3
             // 
@@ -198,20 +171,6 @@
             HeadingLabel.TabIndex = 3;
             HeadingLabel.Text = "CarInformation";
             // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Dock = DockStyle.Fill;
-            label8.Font = new Font("Dubai", 10F);
-            label8.ForeColor = Color.FromArgb(37, 42, 53);
-            label8.Location = new Point(0, 257);
-            label8.Margin = new Padding(0);
-            label8.Name = "label8";
-            label8.Size = new Size(246, 47);
-            label8.TabIndex = 21;
-            label8.Text = "Date To";
-            label8.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -221,9 +180,9 @@
             label7.Location = new Point(0, 212);
             label7.Margin = new Padding(0);
             label7.Name = "label7";
-            label7.Size = new Size(246, 45);
+            label7.Size = new Size(153, 45);
             label7.TabIndex = 20;
-            label7.Text = "Date From";
+            label7.Text = "Status";
             label7.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label6
@@ -235,7 +194,7 @@
             label6.Location = new Point(0, 167);
             label6.Margin = new Padding(0);
             label6.Name = "label6";
-            label6.Size = new Size(246, 45);
+            label6.Size = new Size(153, 45);
             label6.TabIndex = 19;
             label6.Text = "Car Color";
             label6.TextAlign = ContentAlignment.MiddleLeft;
@@ -249,7 +208,7 @@
             label5.Location = new Point(0, 122);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
-            label5.Size = new Size(246, 45);
+            label5.Size = new Size(153, 45);
             label5.TabIndex = 18;
             label5.Text = "Car Model";
             label5.TextAlign = ContentAlignment.MiddleLeft;
@@ -263,10 +222,24 @@
             label4.Location = new Point(0, 77);
             label4.Margin = new Padding(0);
             label4.Name = "label4";
-            label4.Size = new Size(246, 45);
+            label4.Size = new Size(153, 45);
             label4.TabIndex = 17;
             label4.Text = "Car Registration";
             label4.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // txtRegistration
+            // 
+            txtRegistration.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtRegistration.BackColor = Color.FromArgb(228, 232, 233);
+            txtRegistration.Enabled = false;
+            txtRegistration.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtRegistration.ForeColor = Color.FromArgb(37, 42, 53);
+            txtRegistration.Location = new Point(153, 79);
+            txtRegistration.Margin = new Padding(0);
+            txtRegistration.Name = "txtRegistration";
+            txtRegistration.PlaceholderText = "...";
+            txtRegistration.Size = new Size(541, 41);
+            txtRegistration.TabIndex = 27;
             // 
             // CarInformation
             // 
@@ -298,6 +271,9 @@
         private TextBox textBox3;
         private TextBox textBox2;
         private TextBox textBox1;
-        private TextBox txtFullName;
+        private TextBox txtRegistration;
+        private TextBox txtStatus;
+        private TextBox txtColor;
+        private TextBox txtModel;
     }
 }

@@ -20,10 +20,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
-        internal void SetParent(AdminSubForm adminSubForm)
-        {
-            parent = adminSubForm;
-        }
+        
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
@@ -35,7 +32,10 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             int nWidthEllipse,
             int nHeightEllipse
         );
-
+        internal void SetParent(AdminSubForm adminSubForm)
+        {
+            parent = adminSubForm;
+        }
         internal void DeselectAllElements()
         {
             foreach (Control c in OperatorsTableContentPanel.Controls)
