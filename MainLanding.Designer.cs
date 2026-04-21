@@ -34,10 +34,8 @@
             OperatorHoverPanel = new Panel();
             OperatorButton = new Button();
             AdminHoverPanel = new Panel();
-            RetrievalQueueHoverPanel = new Panel();
             BookingsHoverPanel = new Panel();
             AdminButton = new Button();
-            RetrievalQueueButton = new Button();
             BookingsButton = new Button();
             DashBoardButton = new Button();
             DashHoverPanel = new Panel();
@@ -77,21 +75,19 @@
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.BackColor = Color.FromArgb(254, 254, 254);
-            tableLayoutPanel3.ColumnCount = 7;
+            tableLayoutPanel3.ColumnCount = 6;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel3.Controls.Add(OperatorHoverPanel, 4, 1);
-            tableLayoutPanel3.Controls.Add(OperatorButton, 4, 0);
-            tableLayoutPanel3.Controls.Add(AdminHoverPanel, 5, 1);
-            tableLayoutPanel3.Controls.Add(RetrievalQueueHoverPanel, 3, 1);
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Controls.Add(OperatorHoverPanel, 3, 1);
+            tableLayoutPanel3.Controls.Add(OperatorButton, 3, 0);
+            tableLayoutPanel3.Controls.Add(AdminHoverPanel, 4, 1);
             tableLayoutPanel3.Controls.Add(BookingsHoverPanel, 2, 1);
-            tableLayoutPanel3.Controls.Add(AdminButton, 5, 0);
-            tableLayoutPanel3.Controls.Add(RetrievalQueueButton, 3, 0);
+            tableLayoutPanel3.Controls.Add(AdminButton, 4, 0);
             tableLayoutPanel3.Controls.Add(BookingsButton, 2, 0);
             tableLayoutPanel3.Controls.Add(DashBoardButton, 1, 0);
             tableLayoutPanel3.Controls.Add(DashHoverPanel, 1, 1);
@@ -108,25 +104,26 @@
             // OperatorHoverPanel
             // 
             OperatorHoverPanel.Dock = DockStyle.Fill;
-            OperatorHoverPanel.Location = new Point(952, 59);
+            OperatorHoverPanel.Location = new Point(800, 59);
             OperatorHoverPanel.Margin = new Padding(0);
             OperatorHoverPanel.Name = "OperatorHoverPanel";
-            OperatorHoverPanel.Size = new Size(304, 2);
+            OperatorHoverPanel.Size = new Size(380, 2);
             OperatorHoverPanel.TabIndex = 10;
             // 
             // OperatorButton
             // 
             OperatorButton.Dock = DockStyle.Fill;
+            OperatorButton.Enabled = false;
             OperatorButton.FlatAppearance.BorderColor = Color.FromArgb(254, 254, 254);
             OperatorButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(254, 254, 254);
             OperatorButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 254, 254);
             OperatorButton.FlatStyle = FlatStyle.Flat;
             OperatorButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             OperatorButton.ForeColor = Color.FromArgb(37, 42, 53);
-            OperatorButton.Location = new Point(952, 0);
+            OperatorButton.Location = new Point(800, 0);
             OperatorButton.Margin = new Padding(0);
             OperatorButton.Name = "OperatorButton";
-            OperatorButton.Size = new Size(304, 59);
+            OperatorButton.Size = new Size(380, 59);
             OperatorButton.TabIndex = 9;
             OperatorButton.Text = "Operator";
             OperatorButton.UseVisualStyleBackColor = true;
@@ -137,43 +134,35 @@
             // AdminHoverPanel
             // 
             AdminHoverPanel.Dock = DockStyle.Fill;
-            AdminHoverPanel.Location = new Point(1256, 59);
+            AdminHoverPanel.Location = new Point(1180, 59);
             AdminHoverPanel.Margin = new Padding(0);
             AdminHoverPanel.Name = "AdminHoverPanel";
-            AdminHoverPanel.Size = new Size(304, 2);
+            AdminHoverPanel.Size = new Size(380, 2);
             AdminHoverPanel.TabIndex = 7;
-            // 
-            // RetrievalQueueHoverPanel
-            // 
-            RetrievalQueueHoverPanel.Dock = DockStyle.Fill;
-            RetrievalQueueHoverPanel.Location = new Point(648, 59);
-            RetrievalQueueHoverPanel.Margin = new Padding(0);
-            RetrievalQueueHoverPanel.Name = "RetrievalQueueHoverPanel";
-            RetrievalQueueHoverPanel.Size = new Size(304, 2);
-            RetrievalQueueHoverPanel.TabIndex = 6;
             // 
             // BookingsHoverPanel
             // 
             BookingsHoverPanel.Dock = DockStyle.Fill;
-            BookingsHoverPanel.Location = new Point(344, 59);
+            BookingsHoverPanel.Location = new Point(420, 59);
             BookingsHoverPanel.Margin = new Padding(0);
             BookingsHoverPanel.Name = "BookingsHoverPanel";
-            BookingsHoverPanel.Size = new Size(304, 2);
+            BookingsHoverPanel.Size = new Size(380, 2);
             BookingsHoverPanel.TabIndex = 5;
             // 
             // AdminButton
             // 
             AdminButton.Dock = DockStyle.Fill;
+            AdminButton.Enabled = false;
             AdminButton.FlatAppearance.BorderColor = Color.FromArgb(254, 254, 254);
             AdminButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(254, 254, 254);
             AdminButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 254, 254);
             AdminButton.FlatStyle = FlatStyle.Flat;
             AdminButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             AdminButton.ForeColor = Color.FromArgb(37, 42, 53);
-            AdminButton.Location = new Point(1256, 0);
+            AdminButton.Location = new Point(1180, 0);
             AdminButton.Margin = new Padding(0);
             AdminButton.Name = "AdminButton";
-            AdminButton.Size = new Size(304, 59);
+            AdminButton.Size = new Size(380, 59);
             AdminButton.TabIndex = 3;
             AdminButton.Text = "Admin";
             AdminButton.UseVisualStyleBackColor = true;
@@ -181,39 +170,20 @@
             AdminButton.MouseEnter += NavigationButton_MouseEnter;
             AdminButton.MouseLeave += NavigationButton_MouseLeave;
             // 
-            // RetrievalQueueButton
-            // 
-            RetrievalQueueButton.Dock = DockStyle.Fill;
-            RetrievalQueueButton.FlatAppearance.BorderColor = Color.FromArgb(254, 254, 254);
-            RetrievalQueueButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(254, 254, 254);
-            RetrievalQueueButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 254, 254);
-            RetrievalQueueButton.FlatStyle = FlatStyle.Flat;
-            RetrievalQueueButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RetrievalQueueButton.ForeColor = Color.FromArgb(37, 42, 53);
-            RetrievalQueueButton.Location = new Point(648, 0);
-            RetrievalQueueButton.Margin = new Padding(0);
-            RetrievalQueueButton.Name = "RetrievalQueueButton";
-            RetrievalQueueButton.Size = new Size(304, 59);
-            RetrievalQueueButton.TabIndex = 2;
-            RetrievalQueueButton.Text = "Retrieval Queue";
-            RetrievalQueueButton.UseVisualStyleBackColor = true;
-            RetrievalQueueButton.Click += NavigationButton_Click;
-            RetrievalQueueButton.MouseEnter += NavigationButton_MouseEnter;
-            RetrievalQueueButton.MouseLeave += NavigationButton_MouseLeave;
-            // 
             // BookingsButton
             // 
             BookingsButton.Dock = DockStyle.Fill;
+            BookingsButton.Enabled = false;
             BookingsButton.FlatAppearance.BorderColor = Color.FromArgb(254, 254, 254);
             BookingsButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(254, 254, 254);
             BookingsButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 254, 254);
             BookingsButton.FlatStyle = FlatStyle.Flat;
             BookingsButton.Font = new Font("Dubai", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BookingsButton.ForeColor = Color.FromArgb(37, 42, 53);
-            BookingsButton.Location = new Point(344, 0);
+            BookingsButton.Location = new Point(420, 0);
             BookingsButton.Margin = new Padding(0);
             BookingsButton.Name = "BookingsButton";
-            BookingsButton.Size = new Size(304, 59);
+            BookingsButton.Size = new Size(380, 59);
             BookingsButton.TabIndex = 1;
             BookingsButton.Text = "Bookings";
             BookingsButton.UseVisualStyleBackColor = true;
@@ -224,6 +194,7 @@
             // DashBoardButton
             // 
             DashBoardButton.Dock = DockStyle.Fill;
+            DashBoardButton.Enabled = false;
             DashBoardButton.FlatAppearance.BorderColor = Color.FromArgb(254, 254, 254);
             DashBoardButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(254, 254, 254);
             DashBoardButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(254, 254, 254);
@@ -233,7 +204,7 @@
             DashBoardButton.Location = new Point(40, 0);
             DashBoardButton.Margin = new Padding(0);
             DashBoardButton.Name = "DashBoardButton";
-            DashBoardButton.Size = new Size(304, 59);
+            DashBoardButton.Size = new Size(380, 59);
             DashBoardButton.TabIndex = 0;
             DashBoardButton.Text = "DashBoard";
             DashBoardButton.UseVisualStyleBackColor = true;
@@ -247,7 +218,7 @@
             DashHoverPanel.Location = new Point(40, 59);
             DashHoverPanel.Margin = new Padding(0);
             DashHoverPanel.Name = "DashHoverPanel";
-            DashHoverPanel.Size = new Size(304, 2);
+            DashHoverPanel.Size = new Size(380, 2);
             DashHoverPanel.TabIndex = 4;
             // 
             // tableLayoutPanel2
@@ -368,12 +339,10 @@
         private Label label2;
         private Button DashBoardButton;
         private Button AdminButton;
-        private Button RetrievalQueueButton;
         private Button BookingsButton;
         private Panel BookingsHoverPanel;
         private Panel DashHoverPanel;
         private Panel AdminHoverPanel;
-        private Panel RetrievalQueueHoverPanel;
         private TableLayoutPanel tableLayoutPanel4;
         private Panel ContentPanel;
         private Panel panel1;

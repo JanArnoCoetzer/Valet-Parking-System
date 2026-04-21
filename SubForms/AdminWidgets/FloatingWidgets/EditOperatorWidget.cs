@@ -135,6 +135,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
         {
             Operator EditedOperatorDataData = new Operator(
             int.Parse(txtOperatorId.Text),
+                "O",
                 txtFullName.Text,
                 txtdatefrom.Text,
                 txtAddress.Text,

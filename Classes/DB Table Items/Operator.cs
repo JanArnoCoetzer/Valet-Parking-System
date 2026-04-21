@@ -14,15 +14,17 @@ namespace Valet_Parking_System.Classes
         public string telephone = "";
         public string email = "";
         public string Password = "12345678";
+        public string Permissions = "O";
         public int validationResault = -1;
 
         public Operator()
         {
         }
 
-        public Operator(int operatorID, string fullName, string datejoined, string address, string telephone, string email)
+        public Operator(int operatorID,string permissions,string fullName, string datejoined, string address, string telephone, string email)
         {
             this.OperatorID = operatorID;
+            this.Permissions = permissions;
             this.fullName = fullName;
             this.datejoined = datejoined;
             this.fulladdress = address;

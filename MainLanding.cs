@@ -21,7 +21,6 @@ namespace Valet_Parking_System
         private LoginSubform LoginUC = new();
         private DashBoardSubForm DashBoardUC = new();
         private BookingSubForm BookingsUC = new();
-        private RetrievalQueueSubForm RetrievalQueueUC = new();
         private OperatorSubForm OperatorUC = new();
         private AdminSubForm AdminUC = new();
         
@@ -34,7 +33,6 @@ namespace Valet_Parking_System
 
         //DB loading
         public List<Booking> LoadedBookings;
-        public List<RetrievalQueueItem> LoadedQueueItems; 
         public List<ParkingSpace> LoadedParkingSpaces;
         public List<Operator> LoadedOperators;
         public List<Customer> LoadedCustomers;
@@ -42,8 +40,8 @@ namespace Valet_Parking_System
 
         //vars for testing
         public TestFunctions test = new TestFunctions();
-        private int customeramount = 25;
-        private bool useLogin = true;
+        private int customeramount = 100;
+        private bool useLogin = false;
         public MainLanding()
         {
             InitializeComponent();
@@ -65,9 +63,8 @@ namespace Valet_Parking_System
             
             
 
-            BookingsUC.LoadBookings(LoadedBookings);
+            BookingsUC.LoadLists(LoadedBookings, LoadedParkingSpaces);
             AdminUC.LoadParkingSpaces(LoadedParkingSpaces, LoadedOperators);
-            LoadedQueueItems = new List<RetrievalQueueItem>();
              
 
             this.FormBorderStyle = FormBorderStyle.None;
@@ -79,7 +76,6 @@ namespace Valet_Parking_System
             subViews.Add(BookingsUC);
             subViews.Add(OperatorUC);
             subViews.Add(AdminUC);
-            subViews.Add(RetrievalQueueUC);
 
             foreach (var view in subViews)
             {
@@ -92,7 +88,6 @@ namespace Valet_Parking_System
             {
                 { DashBoardButton, DashHoverPanel },
                 { BookingsButton, BookingsHoverPanel },
-                { RetrievalQueueButton, RetrievalQueueHoverPanel },
                 { OperatorButton,OperatorHoverPanel},
                 { AdminButton, AdminHoverPanel }
             };
@@ -109,6 +104,7 @@ namespace Valet_Parking_System
             {
                 SetContent(DashBoardUC, Content);
                 UserNameLabel.Visible = true;
+                SetPermissions("A");
             }
 
             DashBoardUC.Updatenearistbookings(LoadedBookings);
@@ -122,7 +118,27 @@ namespace Valet_Parking_System
             UsingOperator = usingOperator;
             UserNameLabel.Text = usingOperator.fullName;
             UserNameLabel.Visible = true;
+            SetPermissions(usingOperator.Permissions);
             SetContent(DashBoardUC, Content);
+        }
+
+        public void SetPermissions(string permissions) 
+        {
+            switch (permissions) 
+            {
+                case "A":
+                    DashBoardButton.Enabled = true;
+                    BookingsButton.Enabled = true;
+                    OperatorButton.Enabled = true;
+                    AdminButton.Enabled = true;
+                    break;
+                case "O":
+                    DashBoardButton.Enabled = true;
+                    BookingsButton.Enabled = true;
+                    OperatorButton.Enabled = true;
+                    AdminButton.Enabled = false;
+                    break;
+            }
         }
 
         private void UpdateCycle(int secondsPerUpdate)
@@ -148,57 +164,8 @@ namespace Valet_Parking_System
 
         private void UpdateHotbar() 
         {
-            DashBoardUC.UpdatestatusHotbarWidget(
-                CountTodayBookings(),
-                CountSpaces(),
-                CountQueueItems()
-            );
-        }
-        private string CountSpaces() 
-        {
-            int freeSpaces = 0;
-            foreach (ParkingSpace space in LoadedParkingSpaces)
-            {
-                if (space.Available)
-                {
-                    freeSpaces++;
-                }
-            }
-            return freeSpaces.ToString();
-        }
-        private string CountQueueItems()
-        {
-            if (LoadedQueueItems == null)
-                return "0";
-
-            return LoadedQueueItems.Count.ToString();
-        }
-
-        private string CountTodayBookings()
-        {
-            try
-            {
-                if (LoadedBookings == null || LoadedBookings.Count == 0)
-                    return "0";
-
-                DateTime today = DateTime.Today;
-
-                int count = LoadedBookings.Count(b =>
-                    DateTime.ParseExact(
-                        b.DateFrom,
-                        "dd/MM/yyyy",
-                        CultureInfo.InvariantCulture).Date == today);
-
-                return count.ToString();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"CountTodayBookings failed: {ex.Message}");
-                MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return "0";
-            }
-        }
+            DashBoardUC.UpdatestatusHotbarWidget(LoadedBookings,LoadedParkingSpaces);
+        }  
 
         
 
@@ -248,9 +215,6 @@ namespace Valet_Parking_System
                         break;
                     case "AdminButton":
                         SetContent(AdminUC, Content);
-                        break;
-                    case "RetrievalQueueButton":
-                        SetContent(RetrievalQueueUC, Content);
                         break;
                     case "OperatorButton":
                         SetContent(OperatorUC, Content);

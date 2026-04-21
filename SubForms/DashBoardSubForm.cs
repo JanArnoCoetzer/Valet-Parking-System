@@ -18,9 +18,9 @@ namespace Valet_Parking_System.SubForms
         }
 
 
-        public void UpdatestatusHotbarWidget(string todaysbookings, string spacesavailable, string carsforretrieval) 
+        public void UpdatestatusHotbarWidget(List<Booking> bookings, List<ParkingSpace> spaces) 
         {
-            statusHotbarWidget.setValues(todaysbookings, spacesavailable, carsforretrieval);
+            statusHotbarWidget.setValues(bookings, spaces);
         }
     }
 }

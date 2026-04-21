@@ -125,8 +125,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
 
         private void BtnMarkForRetrieval_Click(object sender, EventArgs e)
         {
-            RetrievalQueueItem item = new RetrievalQueueItem(SelectedBooking, 0, "pending");
-            ParentForm.requestPickup(item);
+
         }
         private void BtnInformation_Click(object sender, EventArgs e)
         {

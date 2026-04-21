@@ -45,17 +45,6 @@ namespace Valet_Parking_System.Repository.Queries
             }
         }
 
-        public static bool LoadRetrievalQueue(List<RetrievalQueueItem> queue, List<Booking> bookings)
-        {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
         public static bool LoadCustomers(List<Customer> customers)
         {
             try

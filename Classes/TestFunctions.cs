@@ -10,31 +10,32 @@ namespace Valet_Parking_System.Classes
         public readonly Random rand = new Random();
 
         // Shared data arrays
-        private readonly string[] _firstNames = {
+        private readonly string[] firstNames = {
             "John", "Jane", "Bob", "Alice", "Mike", "Sarah", "Tom", "Emma", "David", "Lisa"
         };
 
-        private readonly string[] _lastNames = {
+        private readonly string[] lastNames = {
             "Doe", "Smith", "Wilson", "Brown", "Taylor", "Davis", "Clark", "Lewis", "Walker", "Hall"
         };
 
-        private readonly string[] _models = {
+        private readonly string[] models = {
             "Toyota Corolla", "Ford Focus", "VW Golf", "Honda Civic", "BMW 3 Series",
             "Mercedes C-Class", "Audi A4", "Skoda Octavia", "Hyundai i30", "Kia Sportage"
         };
 
-        private readonly string[] _colors = {
+        private readonly string[] colors = {
             "Blue", "Red", "Black", "White", "Grey", "Silver", "Green", "Yellow", "Purple", "Orange"
         };
 
-        private readonly string[] _streets = {
+        private readonly string[] streets = {
             "High St", "Main St", "Park Ave", "Garden St", "King St",
             "Queen St", "O'Connell St", "Abbey St"
         };
 
-        private readonly string[] _phonePrefixes = { "087", "086", "085", "083", "089" };
+        private readonly string[] phonePrefixes = { "087", "086", "085", "083", "089" };
 
-
+        private readonly string[] statusList = { "Stored", "AwaitingStorage", "AwaitingPickUp", "AwaitingOwner" };
+        private readonly float[] statusWeights = { 0.6f, 0.1f, 0.1f,0.2f};
 
 
         // -------------------------------------Test data generators-------------------------------------
@@ -101,6 +102,7 @@ namespace Valet_Parking_System.Classes
                     ParkingSpace = space,
                     StorageOperator = selectedOperator,
                     Vehicle = selectedVehicle,
+                    Status = WeightedStatuses(statusList, statusWeights),
 
                     DateFrom = isTodayBooking
                         ? todayStr
@@ -114,7 +116,6 @@ namespace Valet_Parking_System.Classes
                     TimeTo = isTodayBooking
                         ? $"{rand.Next(16, 22):D2}:{rand.Next(0, 60):D2}"
                         : $"{rand.Next(0, 24):D2}:{rand.Next(0, 60):D2}",
-                    
                 };
 
                 bookings.Add(booking);
@@ -156,12 +157,18 @@ namespace Valet_Parking_System.Classes
             var operators = new List<Operator>();
             string todayStr = DateTime.Today.ToString("dd/MM/yyyy");
 
-            for (int i = 1; i < amount; i++)
-            {
-                var opMe = new Operator(
-                    1, "Arno Coetzer", "10/11/1999", GenerateRandomAddress(), GenerateRandomPhone(), "arno.coetzer@gmail.com"
+            var opAdmin = new Operator(
+                    1, "A","Admin", todayStr, GenerateRandomAddress(), GenerateRandomPhone(), "Admin@gmail.com"
                     );
-                operators.Add(opMe);
+            operators.Add(opAdmin);
+            var opOperator = new Operator(
+                    2, "O","Operator", todayStr, GenerateRandomAddress(), GenerateRandomPhone(), "Operator@gmail.com"
+                    );
+            operators.Add(opOperator);
+
+            for (int i = 3; i < amount; i++)
+            {
+                
 
                 string fullName = GenerateRandomFullName();
                 string address = GenerateRandomAddress();
@@ -170,6 +177,7 @@ namespace Valet_Parking_System.Classes
 
                 var op = new Operator(
                     operatorID: i + 1,
+                    "O",
                     fullName: fullName,
                     datejoined: todayStr,
                     address: address,
@@ -219,11 +227,28 @@ namespace Valet_Parking_System.Classes
 
 
         // -------------------------------------Helper functions-------------------------------------
+        private string WeightedStatuses(string[] statusList, float[] statusWeights)
+        {
+            
+            float totalWeight = statusWeights.Sum();
 
+            float randomValue = (float)(rand.NextDouble() * totalWeight);
+            float cumulativeWeight = 0f;
+
+            for (int i = 0; i < statusList.Length; i++)
+            {
+                cumulativeWeight += statusWeights[i];
+
+                if (randomValue < cumulativeWeight)
+                    return statusList[i];
+            }
+
+            return statusList[statusList.Length - 1];
+        }
         private string GenerateRandomFullName()
         {
-            string firstName = _firstNames[rand.Next(_firstNames.Length)];
-            string lastName = _lastNames[rand.Next(_lastNames.Length)];
+            string firstName = firstNames[rand.Next(firstNames.Length)];
+            string lastName = lastNames[rand.Next(lastNames.Length)];
             return $"{firstName} {lastName}";
         }
 
@@ -234,7 +259,7 @@ namespace Valet_Parking_System.Classes
        
             if (choice < 80)
             {
-                string prefix = _phonePrefixes[rand.Next(_phonePrefixes.Length)];
+                string prefix = phonePrefixes[rand.Next(phonePrefixes.Length)];
                 string number = rand.Next(1000000, 10000000).ToString();
                 return $"{prefix} {number}";
             }
@@ -251,19 +276,19 @@ namespace Valet_Parking_System.Classes
         private string GenerateRandomAddress()
         {
             int houseNum = rand.Next(1, 999);
-            string street = _streets[rand.Next(_streets.Length)];
+            string street = streets[rand.Next(streets.Length)];
             int dublinArea = rand.Next(1, 25);
             return $"{houseNum} {street}, Dublin {dublinArea}";
         }
 
         private string GenerateRandomCarModel()
         {
-            return _models[rand.Next(_models.Length)];
+            return models[rand.Next(models.Length)];
         }
 
         private string GenerateRandomCarColor()
         {
-            return _colors[rand.Next(_colors.Length)];
+            return colors[rand.Next(colors.Length)];
         }
 
         private string GenerateIrishPlate()

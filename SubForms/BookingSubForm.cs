@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.Repository.CRUD;
+using Valet_Parking_System.Services;
 using Valet_Parking_System.SubForms.BookingWidgets;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
@@ -13,6 +14,7 @@ namespace Valet_Parking_System.SubForms
         private static readonly Random rand = new Random();    
         private BookingsTable BookingsTable;
         private List<Booking> LoadedBookings;
+        private List<ParkingSpace> LoadedParking;
         private BookingSearchBar BookingSearch;
         public MainLanding MainLanding;
         public BookingSubForm()
@@ -25,9 +27,10 @@ namespace Valet_Parking_System.SubForms
             BookingsTable.setparentform(this);
         }
 
-        public void LoadBookings(List<Booking> bookings) 
+        public void LoadLists(List<Booking> bookings, List<ParkingSpace> parking) 
         {
             LoadedBookings = bookings;
+            LoadedParking = parking;
             BookingsTable.DisplayBookings(LoadedBookings);
         }
         public void setMainLanding(MainLanding mainLanding) 
@@ -92,20 +95,12 @@ namespace Valet_Parking_System.SubForms
 
         //implament database functionality
 
-        public void requestPickup(RetrievalQueueItem item)
-        {
-            //Calls to move booking to retreval queue returns true/false for conformation on succesfully saved to db and 
-            //delete booking
-            
-            if (true)
-                MessageBox.Show("PickipRequested", "Success");
-            else
-                MessageBox.Show("Failed to Create Request.", "Error");
-        }
 
         private void OnBookingCreated(object sender, Booking booking)
         {
             //Calls to add booking then returns true/false for conformation on succesfully saved to db
+            booking.ParkingSpace = ParkingServices.GetNextAvailableSpace(LoadedParking);
+
             bool addedtoDB =  BookingRepository.AddBooking(booking);
          
 
