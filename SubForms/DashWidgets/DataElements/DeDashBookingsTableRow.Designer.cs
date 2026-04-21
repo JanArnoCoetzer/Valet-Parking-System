@@ -55,7 +55,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 1F));
-            tableLayoutPanel1.Size = new Size(1440, 40);
+            tableLayoutPanel1.Size = new Size(1410, 40);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // BackPanel
@@ -80,7 +80,7 @@
             BackPanel.Name = "BackPanel";
             BackPanel.RowCount = 1;
             BackPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            BackPanel.Size = new Size(1440, 39);
+            BackPanel.Size = new Size(1410, 39);
             BackPanel.TabIndex = 3;
             // 
             // txtTime
@@ -90,10 +90,10 @@
             txtTime.Dock = DockStyle.Fill;
             txtTime.Font = new Font("Dubai Medium", 8F, FontStyle.Bold);
             txtTime.ForeColor = Color.FromArgb(37, 42, 53);
-            txtTime.Location = new Point(1152, 0);
+            txtTime.Location = new Point(1128, 0);
             txtTime.Margin = new Padding(0);
             txtTime.Name = "txtTime";
-            txtTime.Size = new Size(288, 39);
+            txtTime.Size = new Size(282, 39);
             txtTime.TabIndex = 20;
             txtTime.Text = "Time";
             txtTime.TextAlign = ContentAlignment.MiddleCenter;
@@ -105,10 +105,10 @@
             txtParkingSpace.Dock = DockStyle.Fill;
             txtParkingSpace.Font = new Font("Dubai Medium", 8F, FontStyle.Bold);
             txtParkingSpace.ForeColor = Color.FromArgb(37, 42, 53);
-            txtParkingSpace.Location = new Point(864, 0);
+            txtParkingSpace.Location = new Point(846, 0);
             txtParkingSpace.Margin = new Padding(0);
             txtParkingSpace.Name = "txtParkingSpace";
-            txtParkingSpace.Size = new Size(288, 39);
+            txtParkingSpace.Size = new Size(282, 39);
             txtParkingSpace.TabIndex = 19;
             txtParkingSpace.Text = "ParkingSpace";
             txtParkingSpace.TextAlign = ContentAlignment.MiddleCenter;
@@ -120,10 +120,10 @@
             txtCarReg.Dock = DockStyle.Fill;
             txtCarReg.Font = new Font("Dubai Medium", 8F, FontStyle.Bold);
             txtCarReg.ForeColor = Color.FromArgb(37, 42, 53);
-            txtCarReg.Location = new Point(576, 0);
+            txtCarReg.Location = new Point(564, 0);
             txtCarReg.Margin = new Padding(0);
             txtCarReg.Name = "txtCarReg";
-            txtCarReg.Size = new Size(288, 39);
+            txtCarReg.Size = new Size(282, 39);
             txtCarReg.TabIndex = 18;
             txtCarReg.Text = "Registration";
             txtCarReg.TextAlign = ContentAlignment.MiddleCenter;
@@ -135,10 +135,10 @@
             txtName.Dock = DockStyle.Fill;
             txtName.Font = new Font("Dubai Medium", 8F, FontStyle.Bold);
             txtName.ForeColor = Color.FromArgb(37, 42, 53);
-            txtName.Location = new Point(288, 0);
+            txtName.Location = new Point(282, 0);
             txtName.Margin = new Padding(0);
             txtName.Name = "txtName";
-            txtName.Size = new Size(288, 39);
+            txtName.Size = new Size(282, 39);
             txtName.TabIndex = 17;
             txtName.Text = "Name";
             txtName.TextAlign = ContentAlignment.MiddleCenter;
@@ -153,7 +153,7 @@
             txtBookingId.Location = new Point(0, 0);
             txtBookingId.Margin = new Padding(0);
             txtBookingId.Name = "txtBookingId";
-            txtBookingId.Size = new Size(288, 39);
+            txtBookingId.Size = new Size(282, 39);
             txtBookingId.TabIndex = 11;
             txtBookingId.Text = "ID";
             txtBookingId.TextAlign = ContentAlignment.MiddleCenter;
@@ -165,7 +165,7 @@
             pictureBox1.Location = new Point(0, 39);
             pictureBox1.Margin = new Padding(0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1440, 1);
+            pictureBox1.Size = new Size(1410, 1);
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
@@ -175,10 +175,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Margin = new Padding(0);
-            MaximumSize = new Size(1440, 40);
-            MinimumSize = new Size(1440, 40);
             Name = "DeDashBookingsTableRow";
-            Size = new Size(1440, 40);
+            Size = new Size(1410, 40);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             BackPanel.ResumeLayout(false);

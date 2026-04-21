@@ -30,6 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             HeadingLabel = new Label();
+            CarStorageTableContentPanel = new FlowLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -39,6 +40,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(CarStorageTableContentPanel, 1, 1);
             tableLayoutPanel1.Controls.Add(HeadingLabel, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
@@ -65,6 +67,18 @@
             HeadingLabel.Text = "Car Storage";
             HeadingLabel.TextAlign = ContentAlignment.TopCenter;
             // 
+            // CarStorageTableContentPanel
+            // 
+            CarStorageTableContentPanel.AutoScroll = true;
+            CarStorageTableContentPanel.BackColor = Color.FromArgb(228, 232, 233);
+            CarStorageTableContentPanel.BorderStyle = BorderStyle.Fixed3D;
+            CarStorageTableContentPanel.Dock = DockStyle.Fill;
+            CarStorageTableContentPanel.Location = new Point(20, 100);
+            CarStorageTableContentPanel.Margin = new Padding(0);
+            CarStorageTableContentPanel.Name = "CarStorageTableContentPanel";
+            CarStorageTableContentPanel.Size = new Size(700, 597);
+            CarStorageTableContentPanel.TabIndex = 7;
+            // 
             // CarStorageWidget
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -82,5 +96,6 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Label HeadingLabel;
+        private FlowLayoutPanel CarStorageTableContentPanel;
     }
 }

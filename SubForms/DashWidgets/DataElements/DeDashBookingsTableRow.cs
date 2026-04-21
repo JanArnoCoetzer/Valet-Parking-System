@@ -14,6 +14,7 @@ namespace Valet_Parking_System.SubForms.DashWidgets.DataElements
 {
     public partial class DeDashBookingsTableRow : UserControl
     {
+        OperatorSubForm Parent;
         Booking bookingdata;
         public bool selected = false;
 

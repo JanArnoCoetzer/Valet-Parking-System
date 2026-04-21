@@ -21,7 +21,7 @@ namespace Valet_Parking_System.SubForms.Widgets
         public async void DisplayBookings(List<Booking> bookings)
         {
 
-            var ListBookings = FilterNearestFive(bookings);
+            var ListBookings = FilterNearest(bookings);
 
             foreach (var booking in ListBookings)
             {
@@ -30,50 +30,38 @@ namespace Valet_Parking_System.SubForms.Widgets
             }
         }
 
-        private List<Booking> FilterNearestFive(List<Booking> bookings) 
+        private List<Booking> FilterNearest(List<Booking> bookings)
         {
             try
             {
                 if (bookings == null || bookings.Count == 0)
                     return null;
 
-                DateTime today = DateTime.Today;
+                DateTime now = DateTime.Now;
 
-                
-                var todayBookings = new List<Booking>();
-
-                foreach (var b in bookings)
-                {
-                    
-                    DateTime fromDate = DateTime.ParseExact(
-                        b.DateFrom,
-                        "dd/MM/yyyy",
-                        CultureInfo.InvariantCulture); // [web:11]
-
-                    if (fromDate.Date == today)
+                var ordered = bookings
+                    .Select(b => new
                     {
-                        todayBookings.Add(b);
-                    }
-                }
-
-                
-                var ordered =
-                    todayBookings
-                        .OrderBy(b =>
-                            DateTime.ParseExact(
-                                $"{b.DateFrom} {b.TimeFrom}",
-                                "dd/MM/yyyy HH:mm",
-                                CultureInfo.InvariantCulture))
-                        .Take(8) 
-                        .ToList();
+                        Booking = b,
+                        PickupDateTime = DateTime.ParseExact(
+                            $"{b.DateTo} {b.TimeTo}",
+                            "dd/MM/yyyy HH:mm",
+                            CultureInfo.InvariantCulture)
+                    })
+                    .Where(x => x.Booking.Status == "Stored")
+                    .Where(x => x.PickupDateTime.Date == now.Date)
+                    .Where(x => x.PickupDateTime >= now)
+                    .OrderBy(x => x.PickupDateTime)
+                    .Select(x => x.Booking)
+                    .ToList();
 
                 return ordered;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"FilterNearestFive failed: {ex.Message}");
+                Debug.WriteLine($"FilterNearest failed: {ex.Message}");
                 MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return null;
             }
         }

@@ -64,6 +64,7 @@ namespace Valet_Parking_System
             
 
             BookingsUC.LoadLists(LoadedBookings, LoadedParkingSpaces);
+            OperatorUC.LoadBookings(LoadedBookings);
             AdminUC.LoadParkingSpaces(LoadedParkingSpaces, LoadedOperators);
              
 

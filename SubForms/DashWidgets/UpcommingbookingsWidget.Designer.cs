@@ -65,6 +65,7 @@
             // 
             // UpcomingBookingsTableContentPanel
             // 
+            UpcomingBookingsTableContentPanel.AutoScroll = true;
             UpcomingBookingsTableContentPanel.BackColor = Color.FromArgb(228, 232, 233);
             UpcomingBookingsTableContentPanel.BorderStyle = BorderStyle.Fixed3D;
             UpcomingBookingsTableContentPanel.Dock = DockStyle.Fill;

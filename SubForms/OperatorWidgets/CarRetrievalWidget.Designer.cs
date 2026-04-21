@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
+            CarRetrievalTableContentPanel = new FlowLayoutPanel();
             HeadingLabel = new Label();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -39,6 +40,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(CarRetrievalTableContentPanel, 1, 1);
             tableLayoutPanel1.Controls.Add(HeadingLabel, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
@@ -50,6 +52,18 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(740, 717);
             tableLayoutPanel1.TabIndex = 2;
+            // 
+            // CarRetrievalTableContentPanel
+            // 
+            CarRetrievalTableContentPanel.AutoScroll = true;
+            CarRetrievalTableContentPanel.BackColor = Color.FromArgb(228, 232, 233);
+            CarRetrievalTableContentPanel.BorderStyle = BorderStyle.Fixed3D;
+            CarRetrievalTableContentPanel.Dock = DockStyle.Fill;
+            CarRetrievalTableContentPanel.Location = new Point(20, 100);
+            CarRetrievalTableContentPanel.Margin = new Padding(0);
+            CarRetrievalTableContentPanel.Name = "CarRetrievalTableContentPanel";
+            CarRetrievalTableContentPanel.Size = new Size(700, 597);
+            CarRetrievalTableContentPanel.TabIndex = 7;
             // 
             // HeadingLabel
             // 
@@ -71,6 +85,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(254, 254, 254);
             Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(0);
             Name = "CarRetrievalWidget";
             Size = new Size(740, 717);
             tableLayoutPanel1.ResumeLayout(false);
@@ -82,5 +97,6 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Label HeadingLabel;
+        private FlowLayoutPanel CarRetrievalTableContentPanel;
     }
 }
