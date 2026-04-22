@@ -47,13 +47,13 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             try
             {
                 TableContentPanel.Controls.Clear();
-
+                
                 if (bookings == null || bookings.Count == 0)
                     return;
 
                 const int chunkSize = 20;
                 int totalChunks = (bookings.Count + chunkSize - 1) / chunkSize;
-
+                disablebuttons();
                 for (int chunk = 0; chunk < totalChunks; chunk++)
                 {
                     int start = chunk * chunkSize;
@@ -68,7 +68,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                     }
 
                     if (chunk < totalChunks - 1)
-                        await Task.Delay(5);
+                        await Task.Delay(1);
                 }
             }
             catch (Exception ex)
@@ -102,6 +102,14 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             BtnPrint.Enabled = true;
         }
 
+        private void disablebuttons()
+        {
+            btnEditBooking.Enabled = false;
+            BtnMarkForRetrieval.Enabled = false;
+            BtnInformation.Enabled = false;
+            BtnPrint.Enabled = false;
+            SelectedBooking = null;
+        }
         //-----------------------------Events-----------------------------
         private void btnEditBooking_Click(object sender, EventArgs e)
         {

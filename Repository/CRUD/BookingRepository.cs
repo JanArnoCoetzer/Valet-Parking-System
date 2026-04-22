@@ -79,5 +79,17 @@ namespace Valet_Parking_System.Repository.CRUD
                 return false;
             }
         }
+
+        internal static bool UpdateBookingStatus(Booking booking, string status)
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

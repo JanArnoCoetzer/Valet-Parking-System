@@ -5,43 +5,43 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.Classes
 {
-    public class TestFunctions
+    public static class TestFunctions
     {
-        public readonly Random rand = new Random();
+        public static readonly Random rand = new Random();
 
         // Shared data arrays
-        private readonly string[] firstNames = {
+        private static readonly string[] firstNames = {
             "John", "Jane", "Bob", "Alice", "Mike", "Sarah", "Tom", "Emma", "David", "Lisa"
         };
 
-        private readonly string[] lastNames = {
+        private static readonly string[] lastNames = {
             "Doe", "Smith", "Wilson", "Brown", "Taylor", "Davis", "Clark", "Lewis", "Walker", "Hall"
         };
 
-        private readonly string[] models = {
+        private static readonly string[] models = {
             "Toyota Corolla", "Ford Focus", "VW Golf", "Honda Civic", "BMW 3 Series",
             "Mercedes C-Class", "Audi A4", "Skoda Octavia", "Hyundai i30", "Kia Sportage"
         };
 
-        private readonly string[] colors = {
+        private static readonly string[] colors = {
             "Blue", "Red", "Black", "White", "Grey", "Silver", "Green", "Yellow", "Purple", "Orange"
         };
 
-        private readonly string[] streets = {
+        private static readonly string[] streets = {
             "High St", "Main St", "Park Ave", "Garden St", "King St",
             "Queen St", "O'Connell St", "Abbey St"
         };
 
-        private readonly string[] phonePrefixes = { "087", "086", "085", "083", "089" };
+        private static readonly string[] phonePrefixes = { "087", "086", "085", "083", "089" };
 
-        private readonly string[] statusList = { "Stored", "AwaitingStorage", "AwaitingPickUp", "AwaitingOwner" };
-        private readonly float[] statusWeights = { 0.6f, 0.1f, 0.1f,0.2f};
+        private static readonly string[] statusList = { "Stored", "AwaitingStorage", "AwaitingPickUp", "AwaitingOwner" };
+        private static readonly float[] statusWeights = { 0.7f, 0.1f, 0.1f,0.1f};
 
 
         // -------------------------------------Test data generators-------------------------------------
 
 
-        public List<Booking> CreateTestBookings(
+        public static List<Booking> CreateTestBookings(
             List<ParkingSpace> parkingSpaces,
             List<Customer> customers,
             List<Operator> operators,
@@ -124,7 +124,7 @@ namespace Valet_Parking_System.Classes
             return bookings;
         }
 
-        public List<ParkingSpace> CreateTestParking()
+        public static List<ParkingSpace> CreateTestParking()
         {
             var parkingSpaces = new List<ParkingSpace>();
 
@@ -152,7 +152,7 @@ namespace Valet_Parking_System.Classes
             return parkingSpaces;
         }
 
-        public List<Operator> CreateTestOperators(int amount = 15)
+        public static List<Operator> CreateTestOperators(int amount = 15)
         {
             var operators = new List<Operator>();
             string todayStr = DateTime.Today.ToString("dd/MM/yyyy");
@@ -191,7 +191,7 @@ namespace Valet_Parking_System.Classes
             return operators;
         }
 
-        public List<Customer> CreateTestCustomers(int amount = 20)
+        public static List<Customer> CreateTestCustomers(int amount = 20)
         {
             var customers = new List<Customer>();
 
@@ -210,7 +210,7 @@ namespace Valet_Parking_System.Classes
             return customers;
         }
 
-        public List<Vehicle> CreateTestVehcles(int amount = 20) 
+        public static List<Vehicle> CreateTestVehcles(int amount = 20) 
         {
             var Vehicles = new List<Vehicle>();
             for (int i = 0; i < amount; i++)
@@ -227,7 +227,7 @@ namespace Valet_Parking_System.Classes
 
 
         // -------------------------------------Helper functions-------------------------------------
-        private string WeightedStatuses(string[] statusList, float[] statusWeights)
+        private static string WeightedStatuses(string[] statusList, float[] statusWeights)
         {
             
             float totalWeight = statusWeights.Sum();
@@ -245,14 +245,14 @@ namespace Valet_Parking_System.Classes
 
             return statusList[statusList.Length - 1];
         }
-        private string GenerateRandomFullName()
+        private static string GenerateRandomFullName()
         {
             string firstName = firstNames[rand.Next(firstNames.Length)];
             string lastName = lastNames[rand.Next(lastNames.Length)];
             return $"{firstName} {lastName}";
         }
 
-        private string GenerateRandomPhone()
+        private static string GenerateRandomPhone()
         {
             int choice = rand.Next(100);
 
@@ -273,7 +273,7 @@ namespace Valet_Parking_System.Classes
             return $"({part1}) {part2:D2} {part3:D3} {part4:D4}";
         }
 
-        private string GenerateRandomAddress()
+        private static string GenerateRandomAddress()
         {
             int houseNum = rand.Next(1, 999);
             string street = streets[rand.Next(streets.Length)];
@@ -281,17 +281,17 @@ namespace Valet_Parking_System.Classes
             return $"{houseNum} {street}, Dublin {dublinArea}";
         }
 
-        private string GenerateRandomCarModel()
+        private static string GenerateRandomCarModel()
         {
             return models[rand.Next(models.Length)];
         }
 
-        private string GenerateRandomCarColor()
+        private static string GenerateRandomCarColor()
         {
             return colors[rand.Next(colors.Length)];
         }
 
-        private string GenerateIrishPlate()
+        private static string GenerateIrishPlate()
         {
             string[] countyCodes =
             {
@@ -310,7 +310,7 @@ namespace Valet_Parking_System.Classes
             return $"{yearCode}-{county}-{sequence}";
         }
 
-        private T GetRandomItem<T>(IList<T> list)
+        private static T GetRandomItem<T>(IList<T> list)
         {
             if (list == null || list.Count == 0)
                 return default!;

@@ -20,7 +20,7 @@ namespace Valet_Parking_System.SubForms.Widgets
 
         public async void DisplayBookings(List<Booking> bookings)
         {
-
+            UpcomingBookingsTableContentPanel.Controls.Clear();
             var ListBookings = FilterNearest(bookings);
 
             foreach (var booking in ListBookings)
@@ -79,6 +79,9 @@ namespace Valet_Parking_System.SubForms.Widgets
             int nHeightEllipse
         );
 
-
+        internal void ClearTable()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

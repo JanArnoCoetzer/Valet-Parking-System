@@ -11,20 +11,19 @@ namespace Valet_Parking_System.Classes
         //public string FullName 
         //public string Telephone 
         //public string Address 
+        public Operator BookingOperator { get; set; } = null;
         public Operator StorageOperator { get; set; } = null;
-        //public int operatorID 
-        //public string fullName 
-        //public string datejoined 
-        //public string fulladdress 
-        //public string telephone 
-        //public string email
         public Operator RetrievalOperator { get; set; } = null;
+        public Operator HandingOverOperator { get; set; } = null;
         //public int operatorID 
         //public string fullName 
         //public string datejoined 
         //public string fulladdress 
         //public string telephone 
         //public string email
+
+        public List<int> EditedOperatorsIds { get; set; } = null;
+
         public ParkingSpace ParkingSpace { get; set; } = null;
         //public int SpaceID;
         //public string LotIdentifier;b

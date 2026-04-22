@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms.AdminWidgets.DataElements;
+using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms.OperatorWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets
@@ -35,6 +36,14 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
             LoadCarsToStoreAsync(bookings);
         }
 
+        Booking SelectedBooking;
+        public void SelectBooking(Booking selectedBookin)
+        {
+            SelectedBooking = selectedBookin;
+        }
+
+      
+
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
        (
@@ -42,6 +51,15 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
            int nRightRect, int nBottomRect,
            int nWidthEllipse, int nHeightEllipse
        );
+
+        public void DeselectAllElements()
+        {
+            foreach (Control c in CarStorageTableContentPanel.Controls)
+            {
+                if (c is DECarStorageTableRow row)
+                    row.Deselect();
+            }
+        }
 
         internal async Task LoadCarsToStoreAsync(List<Booking> bookings)
         {
@@ -64,7 +82,7 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
                     {
                         var booking = bookings[i];
                         bool isDarkRow = i % 2 == 0;
-                        var row = new DEoperatorSubWidgetRow(booking, Parent, isDarkRow);
+                        var row = new DECarStorageTableRow(booking, this, isDarkRow);
                         CarStorageTableContentPanel.Controls.Add(row);
                     }
 
@@ -78,6 +96,15 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
                 MessageBox.Show($"Error loading Operators: {ex.Message}", "Error",
                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void BtnCarStored_Click(object sender, EventArgs e)
+        {
+            if (SelectedBooking != null) 
+            { 
+                Parent.SetStatusStored(SelectedBooking);
+            }
+            
         }
     }
 

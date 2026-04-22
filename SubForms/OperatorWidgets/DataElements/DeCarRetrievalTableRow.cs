@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 {
-    public partial class DEoperatorSubWidgetRow : UserControl
+    public partial class DeCarRetrievalTableRow : UserControl
     {
         public bool selected = false;
+        CarRetrievalWidget Parent;
         Booking Booking;
-        public DEoperatorSubWidgetRow(Booking booking, OperatorSubForm Parent, bool BackPaneldark = false)
+        public DeCarRetrievalTableRow(Booking booking, CarRetrievalWidget parent, bool BackPaneldark = false)
         {
             InitializeComponent();
             Booking = booking;
-
+            Parent = parent;
             if (BackPaneldark)
             {
                 panelColor = panelDark;
@@ -35,18 +33,10 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 
             txtCarRegistration.Text = booking.Vehicle.Registation;
             txtCarDiscription.Text = MakeCarDescription(booking.Vehicle);
-            switch (booking.Status)
-            {
-                case "AwaitingStorage":
-                    txtFromArea.Text = "Front Desk";
-                    txtToArea.Text = booking.ParkingSpace.LotIdentifier;
-                    break;
-
-                case "AwaitingPickUp":
-                    txtFromArea.Text = booking.ParkingSpace.LotIdentifier;
-                    txtToArea.Text = "Front Desk";
-                    break;
-            }
+            txtFromArea.Text = booking.ParkingSpace.LotIdentifier;
+            txtToArea.Text = "Front Desk";
+                
+            
 
         }
 
@@ -77,7 +67,7 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
         }
         private void TableElement_Clicked(object sender, EventArgs e)
         {
-            //bookingstable.DeselectAllElements();
+            Parent.DeselectAllElements();
             selected = !selected;
             SetColor(selected ? Color.FromArgb(70, 130, 180) : panelColor);
             //bookingstable.selectedElement(bookingdata);
@@ -94,7 +84,5 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
         {
             BackPanel.BackColor = color;
         }
-
-       
     }
 }

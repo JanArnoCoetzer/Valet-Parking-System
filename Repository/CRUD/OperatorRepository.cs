@@ -1,14 +1,15 @@
-﻿using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.DataAccessLayer;
 
 namespace Valet_Parking_System.Repository.CRUD
 {
-    internal class Customer_repository
+    internal class OperatorRepository
     {
-        internal static bool AddCustomer(Customer customer)
+        internal static bool SetStorageOperator(Booking bookingdata, Operator usingOperator)
         {
             try
             {
@@ -16,11 +17,10 @@ namespace Valet_Parking_System.Repository.CRUD
             }
             catch (Exception ex)
             {
-               return false;
+                return false;
             }
         }
-
-        internal static bool EditCustomer(Customer customer)
+        internal static bool SetHandingOffOperator(Booking bookingdata, Operator usingOperator)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Valet_Parking_System.Repository.CRUD
             }
         }
 
-        internal static bool RemoveCustomer(Customer customer)
+        internal static bool SetRetrievalOperator(Booking bookingdata, Operator usingOperator)
         {
             try
             {
@@ -42,7 +42,8 @@ namespace Valet_Parking_System.Repository.CRUD
             {
                 return false;
             }
-           
         }
+
+        
     }
 }

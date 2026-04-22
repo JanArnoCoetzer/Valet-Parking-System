@@ -297,7 +297,6 @@
             ContentPanel.Name = "ContentPanel";
             ContentPanel.Size = new Size(1560, 756);
             ContentPanel.TabIndex = 0;
-            ContentPanel.Paint += ContentPanel_Paint;
             // 
             // panel1
             // 

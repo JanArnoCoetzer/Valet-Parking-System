@@ -1,131 +1,162 @@
-﻿using System.Diagnostics;
-using System.Drawing.Text;
-using System.Globalization;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Valet_Parking_System
 {
     public partial class MainLanding : Form
     {
-        private System.Windows.Forms.Timer updateTimer;
-        private Operator UsingOperator;
-        //Subforms
-        Panel Content;
-        private LoginSubform LoginUC = new();
-        private DashBoardSubForm DashBoardUC = new();
-        private BookingSubForm BookingsUC = new();
-        private OperatorSubForm OperatorUC = new();
-        private AdminSubForm AdminUC = new();
-        
 
-        private List<UserControl> subViews = new List<UserControl>();
-        private Dictionary<System.Windows.Forms.Button, Panel> buttonPanels;
-        private Panel activePanel;
-        private string activeSubform = "null";
+        private System.Windows.Forms.Timer _updateTimer;
+        private Operator _usingOperator;
+        private Panel _content;
+        private Panel _activePanel;
 
+        private readonly LoginSubform _loginUC = new();
+        private readonly DashBoardSubForm _dashBoardUC = new();
+        private readonly BookingSubForm _bookingsUC = new();
+        private readonly OperatorSubForm _operatorUC = new();
+        private readonly AdminSubForm _adminUC = new();
 
-        //DB loading
-        public List<Booking> LoadedBookings;
-        public List<ParkingSpace> LoadedParkingSpaces;
-        public List<Operator> LoadedOperators;
-        public List<Customer> LoadedCustomers;
-        public List<Vehicle> LoadedVehicles;
+        private readonly List<UserControl> _subViews = new();
+        private Dictionary<Button, Panel> _buttonPanels;
 
-        //vars for testing
-        public TestFunctions test = new TestFunctions();
-        private int customeramount = 100;
-        private bool useLogin = false;
+        public List<Booking> LoadedBookings { get; private set; }
+        public List<ParkingSpace> LoadedParkingSpaces { get; private set; }
+        public List<Operator> LoadedOperators { get; private set; }
+        public List<Customer> LoadedCustomers { get; private set; }
+        public List<Vehicle> LoadedVehicles { get; private set; }
+
+        private const int CustomerAmount = 50;
+        private const int OperatorAmount = 16;
+        private const bool UseLogin = false;
+
+        //---------------------------------Constructor---------------------------------
+
         public MainLanding()
         {
             InitializeComponent();
-            LoginUC.setMainLanding(this);
-            BookingsUC.setMainLanding(this);
-            LoadedParkingSpaces = test.CreateTestParking();
-            LoadedCustomers = test.CreateTestCustomers(customeramount);
-            LoadedVehicles = test.CreateTestVehcles(customeramount);
-            LoadedOperators = test.CreateTestOperators(16);
+            SetMainLandingReferences();
+            InitializeGui();
+            LoadTables();
+            SetLoginState();
+            StartUpdateCycle(10);
+        }
 
-            LoginUC.LoadOperators(LoadedOperators);
+        //---------------------------------Setup---------------------------------
 
-            LoadedBookings = test.CreateTestBookings(
-                LoadedParkingSpaces ?? new List<ParkingSpace>(), 
-                LoadedCustomers ?? new List<Customer>(),
-                LoadedOperators ?? new List<Operator>(),
-                LoadedVehicles ?? new List<Vehicle>(),
-                customeramount);
-            
-            
+        private void InitializeGui()
+        {
+            _content = ContentPanel;
 
-            BookingsUC.LoadLists(LoadedBookings, LoadedParkingSpaces);
-            OperatorUC.LoadBookings(LoadedBookings);
-            AdminUC.LoadParkingSpaces(LoadedParkingSpaces, LoadedOperators);
-             
+            _subViews.Add(_dashBoardUC);
+            _subViews.Add(_bookingsUC);
+            _subViews.Add(_operatorUC);
+            _subViews.Add(_adminUC);
 
-            this.FormBorderStyle = FormBorderStyle.None;
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
-            Content = this.ContentPanel;
-
-            // Initialize subviews
-            subViews.Add(DashBoardUC);
-            subViews.Add(BookingsUC);
-            subViews.Add(OperatorUC);
-            subViews.Add(AdminUC);
-
-            foreach (var view in subViews)
+            foreach (var view in _subViews)
             {
                 view.Dock = DockStyle.Fill;
             }
 
+            _buttonPanels = new Dictionary<Button, Panel>
+        {
+            { DashBoardButton, DashHoverPanel },
+            { BookingsButton, BookingsHoverPanel },
+            { OperatorButton, OperatorHoverPanel },
+            { AdminButton, AdminHoverPanel }
+        };
 
-            // Initialize buttonPanels
-            buttonPanels = new Dictionary<System.Windows.Forms.Button, Panel>
+            FormBorderStyle = FormBorderStyle.None;
+            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+        }
+
+        private void SetMainLandingReferences()
+        {
+            _loginUC.setMainLanding(this);
+            _bookingsUC.setMainLanding(this);
+            _operatorUC.SetMainLanding(this);
+        }
+
+        private void SetContent(UserControl userControl)
+        {
+            foreach (var view in _subViews)
             {
-                { DashBoardButton, DashHoverPanel },
-                { BookingsButton, BookingsHoverPanel },
-                { OperatorButton,OperatorHoverPanel},
-                { AdminButton, AdminHoverPanel }
-            };
-            
-           
-
-            
-
-            if (useLogin)
-            {
-                SetContent(LoginUC, Content);
+                view.Hide();
             }
-            else 
+
+            _content.Controls.Clear();
+            _content.Controls.Add(userControl);
+            userControl.Dock = DockStyle.Fill;
+            userControl.Show();
+        }
+
+        //---------------------------------Data Loading---------------------------------
+
+        public void LoadTables()
+        {
+            LoadedParkingSpaces = TestFunctions.CreateTestParking();
+            LoadedCustomers = TestFunctions.CreateTestCustomers(CustomerAmount);
+            LoadedVehicles = TestFunctions.CreateTestVehcles(CustomerAmount);
+            LoadedOperators = TestFunctions.CreateTestOperators(OperatorAmount);
+
+            LoadedBookings = TestFunctions.CreateTestBookings(
+                LoadedParkingSpaces ?? new List<ParkingSpace>(),
+                LoadedCustomers ?? new List<Customer>(),
+                LoadedOperators ?? new List<Operator>(),
+                LoadedVehicles ?? new List<Vehicle>(),
+                CustomerAmount);
+
+            UpdateSubformTables(LoadedBookings, LoadedOperators, LoadedParkingSpaces);
+        }
+
+        internal void UpdateSubformTables(
+            List<Booking> bookings,
+            List<Operator> operators,
+            List<ParkingSpace> spaces)
+        {
+            _dashBoardUC.UpdateData(bookings, spaces);
+            _bookingsUC.LoadLists(bookings, spaces);
+            _operatorUC.LoadBookings(bookings);
+            _adminUC.LoadParkingSpaces(spaces, operators);
+        }
+
+        //---------------------------------Login / Permissions---------------------------------
+
+        private void SetLoginState()
+        {
+            if (UseLogin)
             {
-                SetContent(DashBoardUC, Content);
+                _loginUC.LoadOperators(LoadedOperators);
+                SetContent(_loginUC);
+            }
+            else
+            {
+                SetContent(_dashBoardUC);
                 UserNameLabel.Visible = true;
                 SetPermissions("A");
             }
-
-            DashBoardUC.Updatenearistbookings(LoadedBookings);
-            UpdateHotbar();
-            UpdateCycle(1);
         }
 
-
-        public void LoginAsOperator(Operator usingOperator) 
+        public void LoginAsOperator(Operator usingOperator)
         {
-            UsingOperator = usingOperator;
+            _usingOperator = usingOperator;
+
             UserNameLabel.Text = usingOperator.fullName;
             UserNameLabel.Visible = true;
+
             SetPermissions(usingOperator.Permissions);
-            SetContent(DashBoardUC, Content);
+            SetContent(_dashBoardUC);
+
+            _dashBoardUC.UsingOperator = usingOperator;
+            _bookingsUC.UsingOperator = usingOperator;
+            _operatorUC.UsingOperator = usingOperator;
+            _adminUC.UsingOperator = usingOperator;
         }
 
-        public void SetPermissions(string permissions) 
+        public void SetPermissions(string permissions)
         {
-            switch (permissions) 
+            switch (permissions)
             {
                 case "A":
                     DashBoardButton.Enabled = true;
@@ -133,6 +164,7 @@ namespace Valet_Parking_System
                     OperatorButton.Enabled = true;
                     AdminButton.Enabled = true;
                     break;
+
                 case "O":
                     DashBoardButton.Enabled = true;
                     BookingsButton.Enabled = true;
@@ -142,114 +174,88 @@ namespace Valet_Parking_System
             }
         }
 
-        private void UpdateCycle(int secondsPerUpdate)
+        //---------------------------------Timer---------------------------------
+
+        private void StartUpdateCycle(int secondsPerUpdate)
         {
-            if (updateTimer == null)
+            if (_updateTimer == null)
             {
-                updateTimer = new System.Windows.Forms.Timer();
-                updateTimer.Tick += UpdateTimer_Tick;
+                _updateTimer = new System.Windows.Forms.Timer();
+                _updateTimer.Tick += UpdateTimer_Tick;
             }
 
-            updateTimer.Interval = secondsPerUpdate * 1000;
-            updateTimer.Start();
+            _updateTimer.Interval = secondsPerUpdate * 1000;
+            _updateTimer.Start();
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
-            //Prevents updating while Dashboard is not in view
-            if (activeSubform != "DashBoardSubForm")
-                return;
-
-            UpdateHotbar();
+            LoadTables();
         }
 
-        private void UpdateHotbar() 
-        {
-            DashBoardUC.UpdatestatusHotbarWidget(LoadedBookings,LoadedParkingSpaces);
-        }  
-
-        
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
-
-        private void SetContent(UserControl uc, Panel ContentPnl)
-        {
-            foreach (var view in subViews)
-                view.Hide();
-
-            ContentPnl.Controls.Clear();
-            ContentPnl.Controls.Add(uc);
-            uc.Dock = DockStyle.Fill;
-            uc.Show();
-            activeSubform = uc.Name;
-        }
-
+        //---------------------------------Navigation Events---------------------------------
 
         private void NavigationButton_Click(object sender, EventArgs e)
         {
-            if (sender is System.Windows.Forms.Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
+            if (sender is not Button button || !_buttonPanels.TryGetValue(button, out Panel panel))
             {
+                return;
+            }
 
-                foreach (var p in buttonPanels.Values)
-                    p.BackColor = Color.FromArgb(254, 254, 254);
+            foreach (var hoverPanel in _buttonPanels.Values)
+            {
+                hoverPanel.BackColor = Color.FromArgb(254, 254, 254);
+            }
 
-                panel.BackColor = Color.FromArgb(8, 108, 236);
-                activePanel = panel;
+            panel.BackColor = Color.FromArgb(8, 108, 236);
+            _activePanel = panel;
 
-
-                switch (btn.Name)
-                {
-                    case "DashBoardButton":
-                        SetContent(DashBoardUC, Content);
-                        break;
-                    case "BookingsButton":
-                        SetContent(BookingsUC, Content);
-                        break;
-                    case "AdminButton":
-                        SetContent(AdminUC, Content);
-                        break;
-                    case "OperatorButton":
-                        SetContent(OperatorUC, Content);
-                        break;
-                }
+            switch (button.Name)
+            {
+                case "DashBoardButton":
+                    SetContent(_dashBoardUC);
+                    break;
+                case "BookingsButton":
+                    SetContent(_bookingsUC);
+                    break;
+                case "OperatorButton":
+                    SetContent(_operatorUC);
+                    break;
+                case "AdminButton":
+                    SetContent(_adminUC);
+                    break;
             }
         }
 
-
         private void NavigationButton_MouseEnter(object sender, EventArgs e)
         {
-            if (sender is System.Windows.Forms.Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
+            if (sender is Button button &&
+                _buttonPanels.TryGetValue(button, out Panel panel) &&
+                panel != _activePanel)
             {
-                if (panel != activePanel)
-                {
-                    panel.BackColor = Color.FromArgb(8, 108, 236);
-                }
+                panel.BackColor = Color.FromArgb(8, 108, 236);
             }
         }
 
         private void NavigationButton_MouseLeave(object sender, EventArgs e)
         {
-            if (sender is System.Windows.Forms.Button btn && buttonPanels.TryGetValue(btn, out Panel panel))
+            if (sender is Button button &&
+                _buttonPanels.TryGetValue(button, out Panel panel) &&
+                panel != _activePanel)
             {
-                if (panel != activePanel)
-                {
-                    panel.BackColor = Color.FromArgb(254, 254, 254);
-                }
+                panel.BackColor = Color.FromArgb(254, 254, 254);
             }
         }
 
-        private void ContentPanel_Paint(object sender, PaintEventArgs e)
-        {
+        //---------------------------------Interop---------------------------------
 
-        }
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse);
     }
 }

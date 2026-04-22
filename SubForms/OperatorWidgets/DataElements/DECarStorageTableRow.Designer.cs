@@ -1,6 +1,6 @@
 ﻿namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 {
-    partial class DEoperatorSubWidgetRow
+    partial class DECarStorageTableRow
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,35 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tableLayoutPanel1 = new TableLayoutPanel();
             BackPanel = new TableLayoutPanel();
             txtCarRegistration = new Label();
             label1 = new Label();
             txtToArea = new Label();
             txtFromArea = new Label();
             txtCarDiscription = new Label();
-            pictureBox1 = new PictureBox();
-            tableLayoutPanel1.SuspendLayout();
             BackPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.BackColor = Color.Transparent;
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(BackPanel, 1, 0);
-            tableLayoutPanel1.Controls.Add(pictureBox1, 0, 1);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Margin = new Padding(0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 1F));
-            tableLayoutPanel1.Size = new Size(420, 60);
-            tableLayoutPanel1.TabIndex = 2;
             // 
             // BackPanel
             // 
@@ -84,7 +63,7 @@
             BackPanel.RowStyles.Add(new RowStyle());
             BackPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             BackPanel.Size = new Size(420, 59);
-            BackPanel.TabIndex = 3;
+            BackPanel.TabIndex = 4;
             BackPanel.Click += TableElement_Clicked;
             BackPanel.MouseEnter += TableElement_MouseHover;
             BackPanel.MouseLeave += TableElement_MouseLeave;
@@ -179,42 +158,27 @@
             txtCarDiscription.MouseEnter += TableElement_MouseHover;
             txtCarDiscription.MouseLeave += TableElement_MouseLeave;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = Color.FromArgb(37, 42, 53);
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Location = new Point(0, 59);
-            pictureBox1.Margin = new Padding(0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(420, 1);
-            pictureBox1.TabIndex = 4;
-            pictureBox1.TabStop = false;
-            // 
-            // DEoperatorSubWidgetRow
+            // DECarStorageTableRow
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(tableLayoutPanel1);
+            Controls.Add(BackPanel);
             Margin = new Padding(0);
-            Name = "DEoperatorSubWidgetRow";
-            Size = new Size(420, 60);
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
+            Name = "DECarStorageTableRow";
+            Size = new Size(420, 59);
             BackPanel.ResumeLayout(false);
             BackPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
-        private PictureBox pictureBox1;
         private TableLayoutPanel BackPanel;
+        private Label txtCarRegistration;
         private Label label1;
         private Label txtToArea;
         private Label txtFromArea;
         private Label txtCarDiscription;
-        private Label txtCarRegistration;
     }
 }

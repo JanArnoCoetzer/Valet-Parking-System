@@ -32,6 +32,7 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             carStorageWidget = new Valet_Parking_System.SubForms.OperatorWidgets.CarStorageWidget();
             carRetrievalWidget = new Valet_Parking_System.SubForms.OperatorWidgets.CarRetrievalWidget();
+            AwaitingOwnerWidget = new Valet_Parking_System.SubForms.OperatorWidgets.DataElements.CarSelection_Widget();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
@@ -56,12 +57,13 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnCount = 5;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel2.Controls.Add(AwaitingOwnerWidget, 4, 0);
             tableLayoutPanel2.Controls.Add(carStorageWidget, 0, 0);
             tableLayoutPanel2.Controls.Add(carRetrievalWidget, 2, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
@@ -75,21 +77,31 @@
             // 
             // carStorageWidget
             // 
+            carStorageWidget.BackColor = Color.FromArgb(254, 254, 254);
             carStorageWidget.Dock = DockStyle.Fill;
             carStorageWidget.Location = new Point(0, 0);
             carStorageWidget.Margin = new Padding(0);
             carStorageWidget.Name = "carStorageWidget";
-            carStorageWidget.Size = new Size(740, 717);
+            carStorageWidget.Size = new Size(493, 717);
             carStorageWidget.TabIndex = 0;
             // 
             // carRetrievalWidget
             // 
+            carRetrievalWidget.BackColor = Color.FromArgb(254, 254, 254);
             carRetrievalWidget.Dock = DockStyle.Fill;
-            carRetrievalWidget.Location = new Point(780, 0);
+            carRetrievalWidget.Location = new Point(513, 0);
             carRetrievalWidget.Margin = new Padding(0);
             carRetrievalWidget.Name = "carRetrievalWidget";
-            carRetrievalWidget.Size = new Size(740, 717);
+            carRetrievalWidget.Size = new Size(493, 717);
             carRetrievalWidget.TabIndex = 1;
+            // 
+            // AwaitingOwnerWidget
+            // 
+            AwaitingOwnerWidget.Location = new Point(1026, 0);
+            AwaitingOwnerWidget.Margin = new Padding(0);
+            AwaitingOwnerWidget.Name = "AwaitingOwnerWidget";
+            AwaitingOwnerWidget.Size = new Size(493, 717);
+            AwaitingOwnerWidget.TabIndex = 3;
             // 
             // OperatorSubForm
             // 
@@ -110,5 +122,6 @@
         private TableLayoutPanel tableLayoutPanel2;
         private OperatorWidgets.CarStorageWidget carStorageWidget;
         private OperatorWidgets.CarRetrievalWidget carRetrievalWidget;
+        private OperatorWidgets.DataElements.CarSelection_Widget AwaitingOwnerWidget;
     }
 }

@@ -1,68 +1,80 @@
 ﻿using System.Diagnostics;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.Repository.CRUD;
 using Valet_Parking_System.Services;
 using Valet_Parking_System.SubForms.BookingWidgets;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.SubForms
 {
     public partial class BookingSubForm : UserControl
     {
-        private static readonly Random rand = new Random();    
-        private BookingsTable BookingsTable;
-        private List<Booking> LoadedBookings;
-        private List<ParkingSpace> LoadedParking;
-        private BookingSearchBar BookingSearch;
+
+        private static readonly Random rand = new Random();
+
+        private BookingsTable _bookingsTable;
+        private BookingSearchBar _bookingSearch;
+
+        private List<Booking> _loadedBookings;
+        private List<ParkingSpace> _loadedParking;
+
         public MainLanding MainLanding;
+        public Operator UsingOperator;
+
+        //-----------------------------Constructor-----------------------------
+
         public BookingSubForm()
         {
             InitializeComponent();
-            BookingsTable = this.BookingTableWidget;
-            BookingSearch = this.SearchBookingsWidget;
 
-            BookingSearch.setParentForm(this);
-            BookingsTable.setparentform(this);
+            _bookingsTable = BookingTableWidget;
+            _bookingSearch = SearchBookingsWidget;
+
+            _bookingSearch.setParentForm(this);
+            _bookingsTable.setparentform(this);
         }
 
-        public void LoadLists(List<Booking> bookings, List<ParkingSpace> parking) 
+        //-----------------------------Setup / Loading-----------------------------
+
+        public void LoadLists(List<Booking> bookings, List<ParkingSpace> parking)
         {
-            LoadedBookings = bookings;
-            LoadedParking = parking;
-            BookingsTable.DisplayBookings(LoadedBookings);
+            _loadedBookings = bookings;
+            _loadedParking = parking;
+
+            _bookingsTable.DisplayBookings(_loadedBookings);
         }
-        public void setMainLanding(MainLanding mainLanding) 
+
+        public void setMainLanding(MainLanding mainLanding)
         {
             MainLanding = mainLanding;
         }
 
-
-
         //-----------------------------Events-----------------------------
+
         private void BookingSubForm_Load(object sender, EventArgs e)
         {
             NewBookingWidget.BookingCreateRequest += OnBookingCreated;
         }
 
+        //-----------------------------Filtering-----------------------------
 
-
-        //-----------------------------External Calls-----------------------------     
-
-        public void FilterBookings(string bookingIdText = "", string customerNameText = "", string carRegText = "")
+        public void FilterBookings(
+            string bookingIdText = "",
+            string customerNameText = "",
+            string carRegText = "")
         {
-            if (LoadedBookings == null) return;
+            if (_loadedBookings == null)
+            {
+                return;
+            }
 
-            IEnumerable<Booking> query = LoadedBookings;
+            IEnumerable<Booking> query = _loadedBookings;
 
-            // Booking ID filter
-            if (!string.IsNullOrEmpty(bookingIdText) && int.TryParse(bookingIdText, out int id))
+            if (!string.IsNullOrEmpty(bookingIdText) &&
+                int.TryParse(bookingIdText, out int id))
             {
                 query = query.Where(b => b.BookingId == id);
             }
 
-            // Customer Name filter
             if (!string.IsNullOrEmpty(customerNameText))
             {
                 query = query.Where(b =>
@@ -70,7 +82,6 @@ namespace Valet_Parking_System.SubForms
                     b.Customer.FullName.IndexOf(customerNameText, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
-            // Car Registration filter 
             if (!string.IsNullOrEmpty(carRegText))
             {
                 query = query.Where(b =>
@@ -78,47 +89,40 @@ namespace Valet_Parking_System.SubForms
                     b.Vehicle.Registation.IndexOf(carRegText, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
-            var filtered = query.ToList();
-
-            BookingsTable.DisplayBookings(filtered);   
+            var filteredBookings = query.ToList();
+            _bookingsTable.DisplayBookings(filteredBookings);
         }
 
-
-
-
-
-
-
-
-
-        //-----------------------------Database Calls-----------------------------  
-
-        //implament database functionality
-
+        //-----------------------------Database Actions-----------------------------
 
         private void OnBookingCreated(object sender, Booking booking)
         {
-            //Calls to add booking then returns true/false for conformation on succesfully saved to db
-            booking.ParkingSpace = ParkingServices.GetNextAvailableSpace(LoadedParking);
+            booking.ParkingSpace = ParkingServices.GetNextAvailableSpace(_loadedParking);
 
-            bool addedtoDB =  BookingRepository.AddBooking(booking);
-         
+            bool addedToDb = BookingsService.AddBooking(booking, UsingOperator);
 
-            if (addedtoDB)
-                MessageBox.Show("Booking created successfully!", "Success");
+            if (addedToDb)
+            {
+                // Optional: MainLanding.LoadTables();
+            }
             else
-                MessageBox.Show("Failed to create booking.", "Error");
+            {
+                MessageBox.Show("Booking could not be added.");
+            }
         }
 
-        public void EditBooking(Booking booking) 
+        public void EditBooking(Booking booking)
         {
-            bool EditedInDb = BookingRepository.EditBooking(booking);
+            bool editedInDb = BookingsService.EditBooking(booking, UsingOperator);
 
-            //Calls to edit booking then returns true/false for conformation on succesfully updated in db
-            if (EditedInDb)
-                MessageBox.Show("Booking updated successfully!", "Success");
+            if (editedInDb)
+            {
+                // Optional: MainLanding.LoadTables();
+            }
             else
-                MessageBox.Show("Failed to update booking.", "Error");
+            {
+                MessageBox.Show("Booking could not be updated.");
+            }
         }
     }
 }

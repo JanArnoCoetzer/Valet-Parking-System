@@ -9,52 +9,29 @@ namespace Valet_Parking_System.Repository.Queries
 {
     internal class DataQueryRepository
     {
-        public static bool LoadBookings(List<Booking> bookings)
+        public static List<Booking> LoadBookings()
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            List<Booking> fetchedBookings = new List<Booking>();
+            return fetchedBookings;
         }
 
-        public static bool LoadOperators(List<Operator> operators)
+        public static List<Operator> LoadOperators()
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            List<Operator> fetchedOperators = new List<Operator>();
+            return fetchedOperators;
         }
 
-        public static bool LoadParkingSpaces(List<ParkingSpace> spaces)
+        public static List<ParkingSpace> LoadParkingSpaces()
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            List<ParkingSpace> fetchedParkingSpaces = new List<ParkingSpace>();
+            return fetchedParkingSpaces;
         }
 
-        public static bool LoadCustomers(List<Customer> customers)
+        public static List<Customer> LoadCustomers()
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            List<Customer> fetchedCustomers = new List<Customer>();
+
+            return fetchedCustomers;
         }
 
     }
