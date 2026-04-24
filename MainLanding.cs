@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.Operator;
 using Valet_Parking_System.Helpers;
 using Valet_Parking_System.SubForms;
 
@@ -30,7 +31,7 @@ namespace Valet_Parking_System
 
         private const int CustomerAmount = 50;
         private const int OperatorAmount = 16;
-        private const bool UseLogin = false;
+        private const bool UseLogin = true;
 
         //---------------------------------Constructor---------------------------------
 
@@ -135,7 +136,7 @@ namespace Valet_Parking_System
             {
                 SetContent(_dashBoardUC);
                 UserNameLabel.Visible = true;
-                SetPermissions("A");
+                SetPermissions(OperatorPermissions.Admin);
             }
         }
 
@@ -159,14 +160,14 @@ namespace Valet_Parking_System
         {
             switch (permissions)
             {
-                case "A":
+                case OperatorPermissions.Admin:
                     DashBoardButton.Enabled = true;
                     BookingsButton.Enabled = true;
                     OperatorButton.Enabled = true;
                     AdminButton.Enabled = true;
                     break;
 
-                case "O":
+                case OperatorPermissions.Operator:
                     DashBoardButton.Enabled = true;
                     BookingsButton.Enabled = true;
                     OperatorButton.Enabled = true;

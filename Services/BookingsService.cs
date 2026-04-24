@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.Repository.CRUD;
 
 namespace Valet_Parking_System.Services
 {
-    internal class BookingsService
+    internal static class BookingsService
     {
         internal static bool AddBooking(Booking booking, Operator usingOperator)
         {
             booking.BookingOperator = usingOperator;
-            var result = BookingRepository.AddBooking(booking);
-            return result;
+            return BookingRepository.AddBooking(booking);
         }
 
         internal static bool EditBooking(Booking booking, Operator usingOperator)
         {
             booking.EditedOperatorsIds.Add(usingOperator.OperatorID);
-            var result = BookingRepository.EditBooking(booking);
-            return result;
+            return BookingRepository.EditBooking(booking);
         }
 
         internal static bool DeleteBooking(Booking booking, Operator usingOperator)
         {
-            var result = BookingRepository.DeleteBooking(booking);
-            return result;
+            return BookingRepository.DeleteBooking(booking);
         }
 
         public static List<Booking> FilterNearest(List<Booking> bookings)
@@ -44,7 +36,7 @@ namespace Valet_Parking_System.Services
                 DateTime now = DateTime.Now;
 
                 return bookings
-                    .Where(b => b.Status == "Stored")
+                    .Where(b => b.Status == BookingStatuses.Stored)
                     .Select(b =>
                     {
                         bool isValidDateTime = DateTime.TryParseExact(
@@ -72,13 +64,6 @@ namespace Valet_Parking_System.Services
             catch (Exception ex)
             {
                 Debug.WriteLine($"FilterNearest failed: {ex.Message}");
-                MessageBox.Show(
-                    $"Error loading bookings: {ex.Message}",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-
                 return new List<Booking>();
             }
         }

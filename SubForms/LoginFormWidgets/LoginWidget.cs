@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Valet_Parking_System.Classes.Constants.Login;
 using Valet_Parking_System.Helpers;
 
 namespace Valet_Parking_System.SubForms.LoginFormWidgets
@@ -33,7 +34,7 @@ namespace Valet_Parking_System.SubForms.LoginFormWidgets
                 return;
             }
 
-            int result = _parentForm.CheckOperatorForLogin(txtName.Text, txtpassword.Text);
+            var result = _parentForm.CheckOperatorForLogin(txtName.Text, txtpassword.Text);
 
             if (result == 0)
             {
@@ -47,13 +48,13 @@ namespace Valet_Parking_System.SubForms.LoginFormWidgets
             }
         }
 
-        private string GetLoginErrorMessage(int result)
+        private string GetLoginErrorMessage(LoginResult result)
         {
             return result switch
             {
-                1 => "Please enter name and password.",
-                2 => "Database error.",
-                3 => "Invalid login details.",
+                LoginResult.MissingInput => "Please enter name and password.",
+                LoginResult.DatabaseUnavailable => "Database error.",
+                LoginResult.InvalidCredentials => "Invalid login details.",
                 _ => "Unknown error."
             };
         }

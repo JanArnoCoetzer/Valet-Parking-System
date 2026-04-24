@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
 
-namespace Valet_Parking_System.Classes.dblogins
+namespace Valet_Parking_System.Classes.Constants.StaticDatabase
 {
     public static class Logins_db
     {

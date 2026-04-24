@@ -6,33 +6,40 @@ namespace Valet_Parking_System.Services
 {
     public static class OperatorServices
     {
-        public static bool SetStatusStored(Booking bookingdata, Operator usingOperator)
+        public static bool SetStatusStored(Booking bookingData, Operator usingOperator)
         {
-            BookingRepository.UpdateBookingStatus(bookingdata, "Stored");
-            OperatorRepository.SetStorageOperator(bookingdata, usingOperator);
-            return true;
+            bool statusUpdated = BookingRepository.UpdateBookingStatus(bookingData, BookingStatuses.Stored);
+            bool storageOperatorSet = OperatorRepository.SetStorageOperator(bookingData, usingOperator);
+
+            return statusUpdated && storageOperatorSet;
         }
 
-        public static bool SetStatusAwaitingOwner(Booking bookingdata, Operator usingOperator)
+        public static bool SetStatusAwaitingOwner(Booking bookingData, Operator usingOperator)
         {
-            BookingRepository.UpdateBookingStatus(bookingdata, "AwaitingOwner");
-            OperatorRepository.SetRetrievalOperator(bookingdata, usingOperator);
-            return true;
+            bool statusUpdated = BookingRepository.UpdateBookingStatus(bookingData, BookingStatuses.AwaitingOwner);
+            bool retrievalOperatorSet = OperatorRepository.SetRetrievalOperator(bookingData, usingOperator);
+
+            return statusUpdated && retrievalOperatorSet;
         }
 
-        public static bool SetStatusHandedToOwner(Booking bookingdata, Operator usingOperator)
+        public static bool SetStatusHandedToOwner(Booking bookingData, Operator usingOperator)
         {
-            BookingRepository.UpdateBookingStatus(bookingdata, "HandedOff");
-            OperatorRepository.SetHandingOffOperator(bookingdata, usingOperator);
+            bool statusUpdated = BookingRepository.UpdateBookingStatus(bookingData, BookingStatuses.HandedOff);
+            bool handingOffOperatorSet = OperatorRepository.SetHandingOffOperator(bookingData, usingOperator);
 
-            var result = DataArchiveRepository.ArchiveBooking(bookingdata, "Car Handed Over To Customer");
-
-            if (result)
+            if (!statusUpdated || !handingOffOperatorSet)
             {
-                return BookingsService.DeleteBooking(bookingdata, usingOperator);
+                return false;
             }
 
-            return false;
+            bool archiveCreated = DataArchiveRepository.ArchiveBooking(bookingData, "Car Handed Over To Customer");
+
+            if (!archiveCreated)
+            {
+                return false;
+            }
+
+            return BookingsService.DeleteBooking(bookingData, usingOperator);
         }
     }
 }

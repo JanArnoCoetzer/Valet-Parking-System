@@ -1,6 +1,6 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System.Diagnostics;
-using Valet_Parking_System.Classes.dblogins;
+using Valet_Parking_System.Classes.Constants.StaticDatabase;
 
 namespace Valet_Parking_System.DataAccessLayer
 {
