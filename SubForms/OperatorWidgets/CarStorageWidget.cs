@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.AdminWidgets.DataElements;
-using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms.OperatorWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets
 {
     public partial class CarStorageWidget : UserControl
     {
-        OperatorSubForm Parent;
-        List<Booking> Bookings;
+        private OperatorSubForm Parent;
+        private List<Booking> Bookings;
+        private Booking SelectedBooking;
+
+        //-----------------------------Constructor-----------------------------
+
         public CarStorageWidget()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
+
+        //-----------------------------Parent Setup-----------------------------
+
         public void SetParent(OperatorSubForm parent)
         {
             Parent = parent;
         }
+
+        //-----------------------------Data Loading-----------------------------
 
         public void LoadBookings(List<Booking> bookings)
         {
@@ -36,33 +34,10 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
             LoadCarsToStoreAsync(bookings);
         }
 
-        Booking SelectedBooking;
-        public void SelectBooking(Booking selectedBookin)
-        {
-            SelectedBooking = selectedBookin;
-        }
-
-      
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-       (
-           int nLeftRect, int nTopRect,
-           int nRightRect, int nBottomRect,
-           int nWidthEllipse, int nHeightEllipse
-       );
-
-        public void DeselectAllElements()
-        {
-            foreach (Control c in CarStorageTableContentPanel.Controls)
-            {
-                if (c is DECarStorageTableRow row)
-                    row.Deselect();
-            }
-        }
-
         internal async Task LoadCarsToStoreAsync(List<Booking> bookings)
         {
+            DisableButton();
+
             try
             {
                 CarStorageTableContentPanel.Controls.Clear();
@@ -82,6 +57,7 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
                     {
                         var booking = bookings[i];
                         bool isDarkRow = i % 2 == 0;
+
                         var row = new DECarStorageTableRow(booking, this, isDarkRow);
                         CarStorageTableContentPanel.Controls.Add(row);
                     }
@@ -92,20 +68,58 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"DisplayOperators failed: {ex.Message}");
-                MessageBox.Show($"Error loading Operators: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Debug.WriteLine($"LoadCarsToStoreAsync failed: {ex.Message}");
+                MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        //-----------------------------Selection-----------------------------
+
+        public void SelectedElement(Booking selectedBooking)
+        {
+            SelectedBooking = selectedBooking;
+
+            if (SelectedBooking != null)
+            {
+                BtnCarStored.Enabled = true;
+            }
+        }
+
+        public void DeselectAllElements()
+        {
+            DisableButton();
+
+            foreach (Control c in CarStorageTableContentPanel.Controls)
+            {
+                if (c is DECarStorageTableRow row)
+                    row.Deselect();
+            }
+        }
+
+        //-----------------------------Actions-----------------------------
+
+        private void DisableButton()
+        {
+            BtnCarStored.Enabled = false;
         }
 
         private void BtnCarStored_Click(object sender, EventArgs e)
         {
-            if (SelectedBooking != null) 
-            { 
+            if (SelectedBooking != null)
+            {
                 Parent.SetStatusStored(SelectedBooking);
             }
-            
         }
-    }
 
+        //-----------------------------Rendering-----------------------------
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect, int nTopRect,
+            int nRightRect, int nBottomRect,
+            int nWidthEllipse, int nHeightEllipse
+        );
+    }
 }

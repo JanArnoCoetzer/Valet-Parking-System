@@ -29,8 +29,8 @@ namespace Valet_Parking_System.SubForms
             _bookingsTable = BookingTableWidget;
             _bookingSearch = SearchBookingsWidget;
 
-            _bookingSearch.setParentForm(this);
-            _bookingsTable.setparentform(this);
+            _bookingSearch.SetParentForm(this);
+            _bookingsTable.SetParentForm(this);
         }
 
         //-----------------------------Setup / Loading-----------------------------
@@ -40,7 +40,7 @@ namespace Valet_Parking_System.SubForms
             _loadedBookings = bookings;
             _loadedParking = parking;
 
-            _bookingsTable.DisplayBookings(_loadedBookings);
+            _bookingsTable.DisplayBookingsAsync(_loadedBookings);
         }
 
         public void setMainLanding(MainLanding mainLanding)
@@ -90,7 +90,7 @@ namespace Valet_Parking_System.SubForms
             }
 
             var filteredBookings = query.ToList();
-            _bookingsTable.DisplayBookings(filteredBookings);
+            _bookingsTable.DisplayBookingsAsync(filteredBookings);
         }
 
         //-----------------------------Database Actions-----------------------------

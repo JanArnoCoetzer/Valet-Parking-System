@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 {
     public partial class CarSelection_Widget : UserControl
     {
-        OperatorSubForm Parent;
-        List<Booking> Bookings;
+        private OperatorSubForm Parent;
+        private List<Booking> Bookings;
+        private Booking SelectedBooking;
+
+        //-----------------------------Constructor-----------------------------
+
         public CarSelection_Widget()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
+
+        //-----------------------------Parent Setup-----------------------------
+
         public void SetParent(OperatorSubForm parent)
         {
             Parent = parent;
         }
+
+        //-----------------------------Data Loading-----------------------------
 
         public void LoadBookings(List<Booking> bookings)
         {
@@ -34,33 +33,10 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
             LoadCarsToStoreAsync(bookings);
         }
 
-        Booking SelectedBooking;
-        public void SelectBooking(Booking selectedBookin)
-        {
-            SelectedBooking = selectedBookin;
-        }
-
-
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-       (
-           int nLeftRect, int nTopRect,
-           int nRightRect, int nBottomRect,
-           int nWidthEllipse, int nHeightEllipse
-       );
-
-        public void DeselectAllElements()
-        {
-            foreach (Control c in CarAwaitingOwnerTableContentPanel.Controls)
-            {
-                if (c is DEAwaitingOwnerTableRow row)
-                    row.Deselect();
-            }
-        }
-
         internal async Task LoadCarsToStoreAsync(List<Booking> bookings)
         {
+            DisableButton();
+
             try
             {
                 CarAwaitingOwnerTableContentPanel.Controls.Clear();
@@ -80,6 +56,7 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
                     {
                         var booking = bookings[i];
                         bool isDarkRow = i % 2 == 0;
+
                         var row = new DEAwaitingOwnerTableRow(booking, this, isDarkRow);
                         CarAwaitingOwnerTableContentPanel.Controls.Add(row);
                     }
@@ -90,18 +67,66 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"DisplayOperators failed: {ex.Message}");
-                MessageBox.Show($"Error loading Operators: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Debug.WriteLine($"LoadCarsToStoreAsync failed: {ex.Message}");
+                MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        //-----------------------------Selection-----------------------------
+
+        public void SelectBooking(Booking selectedBooking)
+        {
+            SelectedBooking = selectedBooking;
+
+            if (SelectedBooking != null)
+            {
+                BtnHandOver.Enabled = true;
+            }
+        }
+
+        public void DeselectBooking()
+        {
+            SelectedBooking = null;
+            BtnHandOver.Enabled = false;
+        }
+
+        public void DeselectAllElements()
+        {
+            DeselectBooking();
+
+            foreach (Control c in CarAwaitingOwnerTableContentPanel.Controls)
+            {
+                if (c is DEAwaitingOwnerTableRow row)
+                {
+                    row.Deselect();
+                }
+            }
+        }
+
+        //-----------------------------Actions-----------------------------
+
+        private void DisableButton()
+        {
+            BtnHandOver.Enabled = false;
         }
 
         private void BtnHandOver_Click(object sender, EventArgs e)
         {
-            if (SelectBooking != null)
+            if (SelectedBooking != null)
             {
                 Parent.SetStatusHandedToOwner(SelectedBooking);
             }
         }
+
+        //-----------------------------Rendering-----------------------------
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect, int nTopRect,
+            int nRightRect, int nBottomRect,
+            int nWidthEllipse, int nHeightEllipse
+        );
     }
 }

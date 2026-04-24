@@ -1,120 +1,80 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
 {
     public partial class EditOperatorWidget : UserControl
     {
-        OperatorsTable ot;
-        Operator OperatorDataData;
-      
-        EditOperatorWindow parentform;
+        private OperatorsTable parentTable;
+        private Operator operatorData;
+        private EditOperatorWindow parentForm;
+
         private bool removeOperatorChecked = false;
+
+        //-----------------------------Constructor-----------------------------
+
         public EditOperatorWidget()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
 
-       
+        //-----------------------------Parent Setup-----------------------------
 
-
-        internal void setOperatorData(Operator operatorData)
+        internal void SetParentForm(EditOperatorWindow editOperatorWindow)
         {
-            OperatorDataData = operatorData;
-            txtOperatorId.Text = operatorData.OperatorID.ToString();
-            txtFullName.Text = operatorData.fullName.ToString();
-            txtTelephone.Text = operatorData.telephone.ToString();
-            txtAddress.Text = operatorData.fulladdress.ToString();
-            txtEmail.Text = operatorData.email.ToString();
-            txtdatefrom.Text = operatorData.datejoined.ToString();
+            parentForm = editOperatorWindow;
         }
 
-
-        internal void setParentForm(EditOperatorWindow editOperatorWindow)
+        internal void SetParentTable(OperatorsTable operatorsTable)
         {
-            parentform = editOperatorWindow;
+            parentTable = operatorsTable;
         }
 
-        internal void setParentTable(OperatorsTable ot)
+        internal void SetOperatorData(Operator selectedOperator)
         {
-            this.ot = ot;
+            operatorData = selectedOperator;
+
+            txtOperatorId.Text = selectedOperator.OperatorID.ToString();
+            txtFullName.Text = selectedOperator.fullName;
+            txtTelephone.Text = selectedOperator.telephone;
+            txtAddress.Text = selectedOperator.fulladdress;
+            txtEmail.Text = selectedOperator.email;
+            txtdatefrom.Text = selectedOperator.datejoined;
         }
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-      (
-          int nLeftRect,
-          int nTopRect,
-          int nRightRect,
-          int nBottomRect,
-          int nWidthEllipse,
-          int nHeightEllipse
-      );
-
-
-
-        private void RemoveCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            removeOperatorChecked = RemoveCheck.Checked;
-
-            if (removeOperatorChecked)
-            {
-                BtnUpdateOperator.Text = "Remove Operator";
-                ValidationErrorLabel.Text = "You will Remove an Operator";
-                ValidationErrorLabel.Visible = true;
-            }
-            else
-            {
-                BtnUpdateOperator.Text = "Update Operator";
-            }
-        }
+        //-----------------------------Actions-----------------------------
 
         private void btnCancelEditBooking_Click(object sender, EventArgs e)
         {
-            ot.CancelEditOperator();
+            parentTable.CancelEditOperator();
         }
 
         private void BtnUpdateorRemoveOperator_Click(object sender, EventArgs e)
         {
-
             if (!removeOperatorChecked)
             {
-                if (ValidateIDtxtBox()==0)
+                if (ValidateIdTextBox() == 0)
                 {
-                    Operator EditedOperatorDataData = GetEditedData();
+                    Operator editedOperatorData = GetEditedData();
 
-                    if (EditedOperatorDataData.ValidateOperator() == 0)
+                    if (editedOperatorData.ValidateOperator() == 0)
                     {
-                        ot.EditOperator(EditedOperatorDataData);
+                        parentTable.EditOperator(editedOperatorData);
                     }
-
                     else
                     {
-                        ValidationErrorLabel.Text = EditedOperatorDataData.GetValidationErrorMsg();
+                        ValidationErrorLabel.Text = editedOperatorData.GetValidationErrorMsg();
                         ValidationErrorLabel.Visible = true;
                     }
                 }
             }
-
-            else if (removeOperatorChecked) 
+            else
             {
-                switch (removeOperatorValidation())
+                switch (RemoveOperatorValidation())
                 {
                     case 0:
-                        ot.RemoveOperator(OperatorDataData);
+                        parentTable.RemoveOperator(operatorData);
                         break;
 
                     case 1:
@@ -127,14 +87,61 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
                         ValidationErrorLabel.Visible = true;
                         break;
                 }
-
             }
         }
 
-        private Operator GetEditedData() 
+        //-----------------------------Validation-----------------------------
+
+        private void RemoveCheck_CheckedChanged(object sender, EventArgs e)
         {
-            Operator EditedOperatorDataData = new Operator(
-            int.Parse(txtOperatorId.Text),
+            removeOperatorChecked = RemoveCheck.Checked;
+
+            if (removeOperatorChecked)
+            {
+                BtnUpdateOperator.Text = "Remove Operator";
+                ValidationErrorLabel.Text = "You will remove an operator";
+                ValidationErrorLabel.Visible = true;
+            }
+            else
+            {
+                BtnUpdateOperator.Text = "Update Operator";
+                ValidationErrorLabel.Text = "";
+                ValidationErrorLabel.Visible = false;
+            }
+        }
+
+        private int ValidateIdTextBox()
+        {
+            ValidationErrorLabel.Text = "";
+            ValidationErrorLabel.Visible = false;
+
+            if (string.IsNullOrWhiteSpace(txtOperatorId.Text))
+            {
+                ValidationErrorLabel.Text = "Operator requires an ID";
+                ValidationErrorLabel.Visible = true;
+                return 1;
+            }
+
+            return 0;
+        }
+
+        private int RemoveOperatorValidation()
+        {
+            if (string.IsNullOrWhiteSpace(RemovingOperatorID.Text))
+                return 1;
+
+            if (!Confirmationcheck.Checked)
+                return 2;
+
+            return 0;
+        }
+
+        //-----------------------------Helpers-----------------------------
+
+        private Operator GetEditedData()
+        {
+            Operator editedOperatorData = new Operator(
+                int.Parse(txtOperatorId.Text),
                 "O",
                 txtFullName.Text,
                 txtdatefrom.Text,
@@ -143,52 +150,20 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
                 txtEmail.Text
             );
 
-            return EditedOperatorDataData;
-
+            return editedOperatorData;
         }
 
-        private int ValidateIDtxtBox()
-        {
-            int returncode = -1;
+        //-----------------------------Rendering-----------------------------
 
-            ValidationErrorLabel.Text = "";
-            ValidationErrorLabel.Visible = false;
-
-            if (string.IsNullOrWhiteSpace(txtOperatorId.Text))
-            {
-                returncode = 1;
-                ValidationErrorLabel.Text = "Operator requires an ID";
-                ValidationErrorLabel.Visible = true;
-            }
-            else
-            {
-                returncode = 0;
-            }
-
-            return returncode;
-        }
-
-        private int removeOperatorValidation() 
-        {
-            int validationresault = -1;
-
-            if (RemovingOperatorID.Text == "")
-            {
-                validationresault = 1;
-            }
-
-            else if (!Confirmationcheck.Checked)
-            {
-                validationresault = 2;
-            }
-
-            else 
-            {
-                validationresault = 0;
-            }
-
-            return validationresault;
-        }
-
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
     }
 }

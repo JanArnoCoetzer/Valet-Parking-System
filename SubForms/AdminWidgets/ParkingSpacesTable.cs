@@ -2,39 +2,33 @@
 using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms.AdminWidgets.DataElements;
-using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
-using Valet_Parking_System.SubForms.DashWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets
 {
     public partial class ParkingSpacesTable : UserControl
     {
-        AdminSubForm parent;
+        private AdminSubForm parent;
         public ParkingSpace selectedSpace;
+
+        //-----------------------------Constructor-----------------------------
+
         public ParkingSpacesTable()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
+        //-----------------------------Parent Setup-----------------------------
+
         internal void SetParent(AdminSubForm adminSubForm)
         {
             parent = adminSubForm;
         }
 
+        //-----------------------------Data Loading-----------------------------
+
         public async Task LoadParkingSpacesAsync(List<ParkingSpace> parkingSpaces)
         {
-            //chunk based table population to avoid creating error handle overflow spaces>100
             try
             {
                 ParkingSpacesTableContentPanel.Controls.Clear();
@@ -54,8 +48,9 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
                     {
                         var parkingSpace = parkingSpaces[i];
                         bool isDarkRow = i % 2 == 0;
+
                         var row = new DeParkingSpacesRow(parkingSpace, this, isDarkRow);
-                        ParkingSpacesTableContentPanel.Controls.Add(row);   
+                        ParkingSpacesTableContentPanel.Controls.Add(row);
                     }
 
                     if (chunk < totalChunks - 1)
@@ -64,12 +59,13 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"DisplayParkingSpaces failed: {ex.Message}");
-                MessageBox.Show($"Error loading ParkingSpaces: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Debug.WriteLine($"LoadParkingSpacesAsync failed: {ex.Message}");
+                MessageBox.Show($"Error loading parking spaces: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
         }
+
+        //-----------------------------Selection-----------------------------
 
         public void DeselectAllElements()
         {
@@ -80,31 +76,53 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             }
         }
 
-        private void BtnAddSpace_Click(object sender, EventArgs e)
-        {
-            parent.OnSpaceAdd(selectedSpace);
-        }
-
-        private void BtnEditSpace_Click(object sender, EventArgs e)
-        {
-            if (selectedSpace != null) 
-            {
-                ParkingSpace EditedSpace = new ParkingSpace(int.Parse(txtBoxSpaceID.Text), txtboxLotIdentifier.Text, StatusBox.Text);
-                parent.EditSpace(EditedSpace);
-            }      
-        }
-
-        public void SelectedSpaceUpdate(ParkingSpace parking) 
+        public void SelectedSpaceUpdate(ParkingSpace parking)
         {
             selectedSpace = parking;
-            if (selectedSpace != null) 
-            {    
+
+            if (selectedSpace != null)
+            {
                 txtBoxSpaceID.Text = selectedSpace.SpaceID.ToString();
                 txtboxLotIdentifier.Text = selectedSpace.LotIdentifier;
                 StatusBox.Text = selectedSpace.Status;
             }
-            
         }
+
+        //-----------------------------Actions-----------------------------
+
+        private void BtnAddSpace_Click(object sender, EventArgs e)
+        {
+            if (selectedSpace != null)
+            {
+                parent.OnSpaceAdd(selectedSpace);
+            }
+        }
+
+        private void BtnEditSpace_Click(object sender, EventArgs e)
+        {
+            if (selectedSpace != null)
+            {
+                ParkingSpace editedSpace = new ParkingSpace(
+                    int.Parse(txtBoxSpaceID.Text),
+                    txtboxLotIdentifier.Text,
+                    StatusBox.Text
+                );
+
+                parent.EditSpace(editedSpace);
+            }
+        }
+
+        //-----------------------------Rendering-----------------------------
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
     }
 }
-

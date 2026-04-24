@@ -3,39 +3,33 @@ using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.SubForms.AdminWidgets.DataElements;
 using Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets;
-using Valet_Parking_System.SubForms.BookingWidgets;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets
 {
     public partial class OperatorsTable : UserControl
     {
-        EditOperatorWindow editOperatorWindow;
-        AddOperatorWindow addOperatorWindow;
-        AdminSubForm parent;
-        Operator Selectedoperator;
-        
+        private EditOperatorWindow editOperatorWindow;
+        private AddOperatorWindow addOperatorWindow;
+        private AdminSubForm parent;
+        private Operator selectedOperator;
+
+        //-----------------------------Constructor-----------------------------
+
         public OperatorsTable()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
-        
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
+        //-----------------------------Parent Setup-----------------------------
+
         internal void SetParent(AdminSubForm adminSubForm)
         {
             parent = adminSubForm;
         }
+
+        //-----------------------------Selection-----------------------------
+
         internal void DeselectAllElements()
         {
             foreach (Control c in OperatorsTableContentPanel.Controls)
@@ -44,11 +38,13 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
                     row.Deselect();
             }
         }
+
         internal void SelectedOperatorUpdate(Operator operatorData)
         {
-            Selectedoperator = operatorData;
+            selectedOperator = operatorData;
         }
 
+        //-----------------------------Data Loading-----------------------------
 
         internal async Task LoadOperatorsAsync(List<Operator> loadedOperators)
         {
@@ -69,9 +65,10 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
 
                     for (int i = start; i < end; i++)
                     {
-                        var parkingSpace = loadedOperators[i];
+                        var operatorData = loadedOperators[i];
                         bool isDarkRow = i % 2 == 0;
-                        var row = new DeOperatorsRow(parkingSpace, this, isDarkRow);
+
+                        var row = new DeOperatorsRow(operatorData, this, isDarkRow);
                         OperatorsTableContentPanel.Controls.Add(row);
                     }
 
@@ -81,22 +78,35 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"DisplayOperators failed: {ex.Message}");
-                MessageBox.Show($"Error loading Operators: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Debug.WriteLine($"LoadOperatorsAsync failed: {ex.Message}");
+                MessageBox.Show($"Error loading operators: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
+        //-----------------------------Window Actions-----------------------------
+
         private void BtnEditOperator_Click(object sender, EventArgs e)
         {
-            if (Selectedoperator != null)
+            if (selectedOperator != null)
             {
                 editOperatorWindow?.Close();
                 editOperatorWindow?.Dispose();
-                editOperatorWindow = new EditOperatorWindow(this, Selectedoperator);
+
+                editOperatorWindow = new EditOperatorWindow(this, selectedOperator);
                 editOperatorWindow.StartPosition = FormStartPosition.CenterScreen;
                 editOperatorWindow.ShowDialog();
             }
+        }
+
+        private void BtnAddOperator_Click(object sender, EventArgs e)
+        {
+            addOperatorWindow?.Close();
+            addOperatorWindow?.Dispose();
+
+            addOperatorWindow = new AddOperatorWindow(this);
+            addOperatorWindow.StartPosition = FormStartPosition.CenterScreen;
+            addOperatorWindow.ShowDialog();
         }
 
         public void CancelEditOperator()
@@ -106,15 +116,6 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             editOperatorWindow = null;
         }
 
-        private void BtnAddOperator_Click(object sender, EventArgs e)
-        {
-            addOperatorWindow?.Close();
-            addOperatorWindow?.Dispose();
-            addOperatorWindow = new AddOperatorWindow(this);
-            addOperatorWindow.StartPosition = FormStartPosition.CenterScreen;
-            addOperatorWindow.ShowDialog();
-        }
-
         public void CancelAddOperator()
         {
             addOperatorWindow?.Close();
@@ -122,25 +123,37 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
             addOperatorWindow = null;
         }
 
-        internal void AddOperator(Operator operatordata)
+        //-----------------------------CRUD Actions-----------------------------
+
+        internal void AddOperator(Operator operatorData)
         {
             CancelAddOperator();
-            parent.OnOperatorAdd(operatordata);
+            parent.OnOperatorAdd(operatorData);
         }
 
-        internal void EditOperator(Operator operatordata)
+        internal void EditOperator(Operator operatorData)
         {
             CancelEditOperator();
-            parent.EditOperator(operatordata);
+            parent.EditOperator(operatorData);
         }
 
-        internal void RemoveOperator(Operator operatordata)
+        internal void RemoveOperator(Operator operatorData)
         {
             CancelEditOperator();
-            parent.RemoveOperator(operatordata);
+            parent.RemoveOperator(operatorData);
         }
 
-        
+        //-----------------------------Rendering-----------------------------
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
     }
 }
-

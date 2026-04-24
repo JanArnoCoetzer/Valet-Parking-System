@@ -6,7 +6,7 @@ namespace Valet_Parking_System.SubForms
     public partial class DashBoardSubForm : UserControl
     {
         public Operator UsingOperator;
-        UpcommingbookingsWidget? upcommingWidget = null;
+        UpcomingbookingsWidget? upcommingWidget = null;
         public DashBoardSubForm()
         {
             InitializeComponent();
@@ -15,7 +15,7 @@ namespace Valet_Parking_System.SubForms
         public void UpdateData(List<Booking> bookings, List<ParkingSpace> spaces) 
         {
             upcommingbookingsWidget.DisplayBookings(bookings);
-            statusHotbarWidget.setValues(bookings, spaces);
+            statusHotbarWidget.SetValues(bookings, spaces);
         }
 
 

@@ -79,6 +79,7 @@
             // 
             BtnCarStored.BackColor = Color.FromArgb(8, 108, 236);
             BtnCarStored.Dock = DockStyle.Fill;
+            BtnCarStored.Enabled = false;
             BtnCarStored.FlatStyle = FlatStyle.Flat;
             BtnCarStored.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BtnCarStored.ForeColor = Color.FromArgb(254, 254, 254);

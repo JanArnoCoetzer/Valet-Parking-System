@@ -1,43 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
 {
     public partial class EditOperatorWindow : Form
     {
-        EditOperatorWidget Widget;
-        public EditOperatorWindow(OperatorsTable ot, Operator operatorData)
+        private EditOperatorWidget widget;
+
+        //-----------------------------Constructor-----------------------------
+
+        public EditOperatorWindow(OperatorsTable operatorsTable, Operator operatorData)
         {
             InitializeComponent();
 
-            Widget = this.editOperatorWidget;
-            Widget.setParentTable(ot);
-            Widget.setOperatorData(operatorData);
-            
-            this.editOperatorWidget.setParentForm(this);
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30
-                ));
+            widget = editOperatorWidget;
+            widget.SetParentTable(operatorsTable);
+            widget.SetOperatorData(operatorData);
+            widget.SetParentForm(this);
+
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30));
         }
+
+        //-----------------------------Actions-----------------------------
+
         public void CloseAndDispose()
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
 
-
-        public BookingsTable BookingsTable { get; }
-        public Booking SelectedBooking { get; }
+        //-----------------------------Rendering-----------------------------
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn

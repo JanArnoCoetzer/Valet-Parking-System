@@ -30,7 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            upcommingbookingsWidget = new Valet_Parking_System.SubForms.Widgets.UpcommingbookingsWidget();
+            upcommingbookingsWidget = new Valet_Parking_System.SubForms.Widgets.UpcomingbookingsWidget();
             tableLayoutPanel3 = new TableLayoutPanel();
             statusHotbarWidget = new Valet_Parking_System.SubForms.DashWidgets.DataElements.StatusHotbarWidget();
             tableLayoutPanel1.SuspendLayout();
@@ -132,7 +132,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
-        private Widgets.UpcommingbookingsWidget upcommingbookingsWidget;
+        private Widgets.UpcomingbookingsWidget upcommingbookingsWidget;
         private DashWidgets.DataElements.StatusHotbarWidget statusHotbarWidget;
     }
 }

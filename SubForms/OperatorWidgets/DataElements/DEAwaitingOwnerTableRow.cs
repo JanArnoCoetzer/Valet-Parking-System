@@ -1,37 +1,39 @@
-﻿
-using Valet_Parking_System.Classes;
+﻿using Valet_Parking_System.Classes;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 {
     public partial class DEAwaitingOwnerTableRow : UserControl
     {
-        public bool selected = false;
-        Booking Booking;
-        CarSelection_Widget Parent;
-        private readonly bool backPaneldark;
+        private Booking bookingData;
+        private CarSelection_Widget Parent;
 
-        public DEAwaitingOwnerTableRow(Booking booking,CarSelection_Widget parent  , bool BackPaneldark = false)
+        private bool selected = false;
+        private bool backPanelDark = false;
+
+        private Color panelColor;
+        private Color panelLight = Color.FromArgb(245, 245, 245);
+        private Color panelDark = Color.FromArgb(235, 235, 235);
+
+        //-----------------------------Constructor-----------------------------
+
+        public DEAwaitingOwnerTableRow(Booking booking, CarSelection_Widget parent, bool backPanelDarkRow = false)
         {
             InitializeComponent();
-            Booking = booking;
+
+            bookingData = booking;
             Parent = parent;
-            backPaneldark = BackPaneldark;
-            if (BackPaneldark)
-            {
-                panelColor = panelDark;
-            }
-            else
-            {
-                panelColor = panelLight;
-            }
+            backPanelDark = backPanelDarkRow;
+
+            panelColor = backPanelDark ? panelDark : panelLight;
             SetColor(panelColor);
 
             txtCarRegistration.Text = booking.Vehicle.Registation;
             txtCarDiscription.Text = MakeCarDescription(booking.Vehicle);
             txtOwnerFullname.Text = booking.Customer.FullName;
             txtNumber.Text = booking.Customer.Telephone;
-
         }
+
+        //-----------------------------Helpers-----------------------------
 
         private string MakeCarDescription(Vehicle vehicle)
         {
@@ -40,6 +42,13 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 
             return $"{vehicle.Color} {vehicle.Model}";
         }
+
+        private void SetColor(Color color)
+        {
+            BackPanel.BackColor = color;
+        }
+
+        //-----------------------------Selection-----------------------------
 
         public void Deselect()
         {
@@ -51,32 +60,24 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets.DataElements
 
         private void TableElement_MouseHover(object sender, EventArgs e)
         {
-            if (!selected) SetColor(Color.FromArgb(135, 206, 235));
+            if (!selected)
+                SetColor(Color.FromArgb(135, 206, 235));
         }
 
         private void TableElement_MouseLeave(object sender, EventArgs e)
         {
-            if (!selected) SetColor(panelColor);
+            if (!selected)
+                SetColor(panelColor);
         }
+
         private void TableElement_Clicked(object sender, EventArgs e)
         {
             Parent.DeselectAllElements();
-            selected = !selected;
-            SetColor(selected ? Color.FromArgb(70, 130, 180) : panelColor);
-            //bookingstable.selectedElement(bookingdata);
+
+            selected = true;
+            SetColor(Color.FromArgb(70, 130, 180));
+
+            Parent.SelectBooking(bookingData);
         }
-
-        ///-----------------------------Rendering-----------------------------
-        bool BackPaneldark = false;
-        Color panelColor;
-        Color panelLight = Color.FromArgb(245, 245, 245);
-        Color panelDark = Color.FromArgb(235, 235, 235);
-
-
-        private void SetColor(Color color)
-        {
-            BackPanel.BackColor = color;
-        }
-
     }
 }

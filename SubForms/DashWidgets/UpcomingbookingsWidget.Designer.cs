@@ -1,6 +1,6 @@
 ﻿namespace Valet_Parking_System.SubForms.Widgets
 {
-    partial class UpcommingbookingsWidget
+    partial class UpcomingbookingsWidget
     {
         /// <summary> 
         /// Required designer variable.

@@ -1,43 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets
 {
     public partial class EditBookingWindow1 : Form
-    {       
-        EditBookingWidget Widget;
+    {
+        private EditBookingWidget editBookingWidget;
 
-        public EditBookingWindow1(BookingsTable bt,Booking bookingdata)
+        //-----------------------------Constructor-----------------------------
+
+        public EditBookingWindow1(BookingsTable bookingsTable, Booking bookingData)
         {
             InitializeComponent();
 
-            Widget = this.EditBookingWidget;
-            Widget.setParentTable(bt);
-            Widget.setBookingData(bookingdata);
-            this.EditBookingWidget.setParentForm(this);
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30
-                ));
+            editBookingWidget = EditBookingWidget;
+            editBookingWidget.SetParentTable(bookingsTable);
+            editBookingWidget.SetBookingData(bookingData);
+            editBookingWidget.SetParentForm(this);
+
+            Region = System.Drawing.Region.FromHrgn(
+                CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30)
+            );
         }
 
-        public void CloseAndDispose() 
+        //-----------------------------Actions-----------------------------
+
+        public void CloseAndDispose()
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
-        
 
-        public BookingsTable BookingsTable { get; }
-        public Booking SelectedBooking { get; }
+        //-----------------------------Rendering-----------------------------
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
@@ -49,6 +43,5 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             int nWidthEllipse,
             int nHeightEllipse
         );
-
     }
 }

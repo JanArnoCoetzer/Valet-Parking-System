@@ -57,7 +57,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.DataElements
             bookingstable.DeselectAllElements();
             selected = !selected;
             SetColor(selected ? Color.FromArgb(70, 130, 180) : panelColor);
-            bookingstable.selectedElement(bookingdata);
+            bookingstable.SelectElement(bookingdata);
 
         }
 

@@ -1,47 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Runtime.InteropServices;
 
 namespace Valet_Parking_System.SubForms.LoginFormWidgets
 {
     public partial class LoginWidget : UserControl
     {
-        LoginSubform ParentForm;
+        private LoginSubform _parentForm;
+
+        //-----------------------------Constructor-----------------------------
+
         public LoginWidget()
         {
             InitializeComponent();
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
         }
-        public void SetParent(LoginSubform parentForm) 
+
+        //-----------------------------Setup-----------------------------
+
+        public void SetParent(LoginSubform parentForm)
         {
-            ParentForm = parentForm;
+            _parentForm = parentForm;
         }
-        
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
+
+        //-----------------------------Actions-----------------------------
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            int result = ParentForm.CheckOperatorForLogin(txtName.Text, txtpassword.Text);
+            if (_parentForm == null)
+            {
+                ValidationErrorLabel.Text = "Login form is not available.";
+                ValidationErrorLabel.Visible = true;
+                return;
+            }
+
+            int result = _parentForm.CheckOperatorForLogin(txtName.Text, txtpassword.Text);
 
             if (result == 0)
             {
-                ParentForm.LogInAsOperator(txtName.Text, txtpassword.Text);
+                ValidationErrorLabel.Visible = false;
+                _parentForm.LogInAsOperator(txtName.Text, txtpassword.Text);
             }
             else
             {
@@ -49,6 +45,7 @@ namespace Valet_Parking_System.SubForms.LoginFormWidgets
                 ValidationErrorLabel.Visible = true;
             }
         }
+
         private string GetLoginErrorMessage(int result)
         {
             return result switch
@@ -60,5 +57,17 @@ namespace Valet_Parking_System.SubForms.LoginFormWidgets
             };
         }
 
+        //-----------------------------Rendering-----------------------------
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse
+        );
     }
 }

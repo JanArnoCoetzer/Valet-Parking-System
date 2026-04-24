@@ -106,6 +106,7 @@
             // 
             BtnHandOver.BackColor = Color.FromArgb(8, 108, 236);
             BtnHandOver.Dock = DockStyle.Fill;
+            BtnHandOver.Enabled = false;
             BtnHandOver.FlatStyle = FlatStyle.Flat;
             BtnHandOver.Font = new Font("Dubai", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BtnHandOver.ForeColor = Color.FromArgb(254, 254, 254);

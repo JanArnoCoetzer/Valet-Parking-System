@@ -1,50 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Valet_Parking_System.Classes;
+﻿using Valet_Parking_System.Classes;
 
 namespace Valet_Parking_System.SubForms
 {
     public partial class LoginSubform : UserControl
     {
-        MainLanding ParentForm;
-        List<Operator> LoadedOperators;
+        private MainLanding _parentForm;
+        private List<Operator> _loadedOperators;
+
+        //-----------------------------Constructor-----------------------------
 
         public LoginSubform()
         {
             InitializeComponent();
             loginWidget.SetParent(this);
         }
-        public void setMainLanding(MainLanding parentForm) 
+
+        //-----------------------------Setup-----------------------------
+
+        public void SetMainLanding(MainLanding parentForm)
         {
-            ParentForm = parentForm;
+            _parentForm = parentForm;
         }
+
         internal void LoadOperators(List<Operator> loadedOperators)
         {
-            LoadedOperators = loadedOperators;
+            _loadedOperators = loadedOperators ?? new List<Operator>();
         }
+
+        //-----------------------------Authentication-----------------------------
+
         public int CheckOperatorForLogin(string name, string password)
         {
-            if (string.IsNullOrWhiteSpace(name) ||
-                string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(password))
             {
                 return 1;
             }
 
-            if (LoadedOperators == null || LoadedOperators.Count == 0)
+            if (_loadedOperators == null || _loadedOperators.Count == 0)
             {
                 return 2;
             }
 
-            Operator foundOperator = LoadedOperators.Find(op =>
-                op.fullName.Equals(name, StringComparison.OrdinalIgnoreCase) &&
-                op.Password == password);
+            Operator foundOperator = FindOperator(name, password);
 
             if (foundOperator == null)
             {
@@ -56,9 +53,7 @@ namespace Valet_Parking_System.SubForms
 
         public void LogInAsOperator(string name, string password)
         {
-            Operator foundOperator = LoadedOperators.Find(op =>
-                op.fullName.Equals(name, StringComparison.OrdinalIgnoreCase) &&
-                op.Password == password);
+            Operator foundOperator = FindOperator(name, password);
 
             if (foundOperator == null)
             {
@@ -66,7 +61,25 @@ namespace Valet_Parking_System.SubForms
                 return;
             }
 
-            ParentForm.LoginAsOperator(foundOperator);
+            if (_parentForm == null)
+            {
+                MessageBox.Show("Main landing form is not available.");
+                return;
+            }
+
+            _parentForm.LoginAsOperator(foundOperator);
+        }
+
+        private Operator FindOperator(string name, string password)
+        {
+            if (_loadedOperators == null || _loadedOperators.Count == 0)
+            {
+                return null;
+            }
+
+            return _loadedOperators.Find(op =>
+                op.fullName.Equals(name, StringComparison.OrdinalIgnoreCase) &&
+                op.Password == password);
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets;
 
@@ -11,15 +8,14 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
 {
     public partial class BookingsTable : UserControl
     {
-        EditBookingWindow1 EditBookingWindow;
-        InformationPanelWindow InformationPanelWindow;
-        Booking SelectedBooking;
-        BookingSubForm ParentForm;
+        private EditBookingWindow1 editBookingWindow;
+        private InformationPanelWindow informationPanelWindow;
+        private Booking selectedBooking;
+        private BookingSubForm parentForm;
 
-        bool BookingSelected = false;
-        
+        private FlowLayoutPanel TableContentPanel => BookingsTableContentPanel;
 
-        private FlowLayoutPanel TableContentPanel => this.BookingsTableContentPanel;
+        //-----------------------------Constructor-----------------------------
 
         public BookingsTable(List<Booking> bookings)
         {
@@ -27,33 +23,37 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             InitialiseRoundedBorders();
         }
 
-        //public parameterless constructor 
         public BookingsTable() : this(null)
         {
         }
 
-        public void setparentform(BookingSubForm parent)
+        //-----------------------------Parent Setup-----------------------------
+
+        public void SetParentForm(BookingSubForm parent)
         {
-            this.ParentForm = parent;
+            parentForm = parent;
         }
+
+        //-----------------------------External Calls-----------------------------
 
         public void EditBooking(Booking booking)
         {
-            ParentForm.EditBooking(booking);
+            parentForm.EditBooking(booking);
         }
-        public async void DisplayBookings(List<Booking> bookings)
+
+        public async Task DisplayBookingsAsync(List<Booking> bookings)
         {
-            //chunk based table population to avoid creating error handle overflow
             try
             {
                 TableContentPanel.Controls.Clear();
-                
+                DisableButtons();
+
                 if (bookings == null || bookings.Count == 0)
                     return;
 
                 const int chunkSize = 20;
                 int totalChunks = (bookings.Count + chunkSize - 1) / chunkSize;
-                disablebuttons();
+
                 for (int chunk = 0; chunk < totalChunks; chunk++)
                 {
                     int start = chunk * chunkSize;
@@ -63,6 +63,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                     {
                         var booking = bookings[i];
                         bool isDarkRow = i % 2 == 0;
+
                         var row = new DeBookingTableRow(booking, this, isDarkRow);
                         TableContentPanel.Controls.Add(row);
                     }
@@ -73,13 +74,12 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"DisplayBookings failed: {ex.Message}");
+                Debug.WriteLine($"DisplayBookingsAsync failed: {ex.Message}");
                 MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        //-----------------------------ExternalCalls-----------------------------
         public void DeselectAllElements()
         {
             foreach (Control c in TableContentPanel.Controls)
@@ -88,97 +88,74 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                     row.Deselect();
             }
         }
-        public void selectedElement(Booking booking)
+
+        public void SelectElement(Booking booking)
         {
-            SelectedBooking = booking;
-            BookingSelected = true;
-            enablebuttons();
+            selectedBooking = booking;
+            EnableButtons();
         }
-        private void enablebuttons() 
+
+        //-----------------------------Buttons-----------------------------
+
+        private void EnableButtons()
         {
-            btnEditBooking.Enabled = true;  
+            btnEditBooking.Enabled = true;
             BtnMarkForRetrieval.Enabled = true;
             BtnInformation.Enabled = true;
             BtnPrint.Enabled = true;
         }
 
-        private void disablebuttons()
+        private void DisableButtons()
         {
             btnEditBooking.Enabled = false;
             BtnMarkForRetrieval.Enabled = false;
             BtnInformation.Enabled = false;
             BtnPrint.Enabled = false;
-            SelectedBooking = null;
+            selectedBooking = null;
         }
+
         //-----------------------------Events-----------------------------
+
         private void btnEditBooking_Click(object sender, EventArgs e)
         {
-            if (SelectedBooking != null)
+            if (selectedBooking != null)
             {
-                EditBookingWindow?.Close();
-                EditBookingWindow?.Dispose();
-                EditBookingWindow = new EditBookingWindow1(this, SelectedBooking);
-                EditBookingWindow.StartPosition = FormStartPosition.CenterScreen;
-                EditBookingWindow.ShowDialog();
-                EditBookingWindow = null;
+                editBookingWindow?.Close();
+                editBookingWindow?.Dispose();
+
+                editBookingWindow = new EditBookingWindow1(this, selectedBooking);
+                editBookingWindow.StartPosition = FormStartPosition.CenterScreen;
+                editBookingWindow.ShowDialog();
+                editBookingWindow = null;
             }
         }
 
         public void CancelEditBooking()
         {
-            EditBookingWindow?.Close();
-            EditBookingWindow?.Dispose();
-            EditBookingWindow = null;
+            editBookingWindow?.Close();
+            editBookingWindow?.Dispose();
+            editBookingWindow = null;
         }
 
         private void BtnMarkForRetrieval_Click(object sender, EventArgs e)
         {
-
         }
+
         private void BtnInformation_Click(object sender, EventArgs e)
         {
-            if (SelectedBooking != null)
+            if (selectedBooking != null)
             {
-                InformationPanelWindow = new InformationPanelWindow(this, SelectedBooking);
-
-                InformationPanelWindow.FormBorderStyle = FormBorderStyle.None;
-                InformationPanelWindow.StartPosition = FormStartPosition.Manual;
-                InformationPanelWindow.StartPosition = FormStartPosition.CenterScreen;
-                InformationPanelWindow.ShowInTaskbar = false;
-                InformationPanelWindow.Size = new Size(1600, 900);
-                InformationPanelWindow.Show(this);
+                informationPanelWindow = new InformationPanelWindow(this, selectedBooking);
+                informationPanelWindow.FormBorderStyle = FormBorderStyle.None;
+                informationPanelWindow.StartPosition = FormStartPosition.CenterScreen;
+                informationPanelWindow.ShowInTaskbar = false;
+                informationPanelWindow.Size = new Size(1600, 900);
+                informationPanelWindow.Show(this);
             }
         }
 
-        
+        //-----------------------------Rendering-----------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ///-----------------------------Rendering-----------------------------
         private void InitialiseRoundedBorders()
         {
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
@@ -191,7 +168,5 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             int nRightRect, int nBottomRect,
             int nWidthEllipse, int nHeightEllipse
         );
-
-        
     }
 }

@@ -1,42 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets;
+﻿using System.Runtime.InteropServices;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
 {
     public partial class AddOperatorWindow : Form
     {
-        AddOperatorWidget Widget;
+        private AddOperatorWidget widget;
+
+        //-----------------------------Constructor-----------------------------
 
         public AddOperatorWindow()
         {
-            
         }
 
-        public AddOperatorWindow(OperatorsTable ot)
+        public AddOperatorWindow(OperatorsTable operatorsTable)
         {
             InitializeComponent();
 
-            Widget = this.addOperatorWidget;
-            Widget.setParentTable(ot);
-            Widget.setParentForm(this);
+            widget = addOperatorWidget;
+            widget.SetParentTable(operatorsTable);
+            widget.SetParentForm(this);
 
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30 ));
+            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30));
         }
+
+        //-----------------------------Actions-----------------------------
+
         public void CloseAndDispose()
         {
-            this.Close();
-            this.Dispose();
+            Close();
+            Dispose();
         }
+
+        //-----------------------------Rendering-----------------------------
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
@@ -49,5 +44,4 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
             int nHeightEllipse
         );
     }
-    
 }

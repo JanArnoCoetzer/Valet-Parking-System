@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Valet_Parking_System.Classes;
-using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms.OperatorWidgets.DataElements;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets
 {
     public partial class CarRetrievalWidget : UserControl
     {
+        private OperatorSubForm Parent;
+        private List<Booking> Bookings;
+        private Booking SelectedBooking;
 
-
+        //-----------------------------Constructor-----------------------------
 
         public CarRetrievalWidget()
         {
@@ -27,46 +19,25 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
             Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
         }
 
-        OperatorSubForm Parent;
+        //-----------------------------Parent Setup-----------------------------
+
         public void SetParent(OperatorSubForm parent)
         {
             Parent = parent;
         }
 
-        List<Booking> Bookings;
+        //-----------------------------Data Loading-----------------------------
+
         public void LoadBookings(List<Booking> bookings)
         {
             Bookings = bookings;
             LoadCarsToStoreAsync(bookings);
         }
 
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-       (
-           int nLeftRect, int nTopRect,
-           int nRightRect, int nBottomRect,
-           int nWidthEllipse, int nHeightEllipse
-       );
-
-        public void DeselectAllElements()
-        {
-            foreach (Control c in CarRetrievalTableContentPanel.Controls)
-            {
-                if (c is DeCarRetrievalTableRow row)
-                    row.Deselect();
-            }
-        }
-
-
-
-        Booking SelectedBooking;
-        public void SelectBooking(Booking selectedBookin)
-        {
-            SelectedBooking = selectedBookin;
-        }
-
         internal async Task LoadCarsToStoreAsync(List<Booking> bookings)
         {
+            DisableButton();
+
             try
             {
                 CarRetrievalTableContentPanel.Controls.Clear();
@@ -86,6 +57,7 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
                     {
                         var booking = bookings[i];
                         bool isDarkRow = i % 2 == 0;
+
                         var row = new DeCarRetrievalTableRow(booking, this, isDarkRow);
                         CarRetrievalTableContentPanel.Controls.Add(row);
                     }
@@ -96,10 +68,40 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"DisplayOperators failed: {ex.Message}");
-                MessageBox.Show($"Error loading Operators: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Debug.WriteLine($"LoadCarsToStoreAsync failed: {ex.Message}");
+                MessageBox.Show($"Error loading bookings: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        //-----------------------------Selection-----------------------------
+
+        public void SelectedElement(Booking selectedBooking)
+        {
+            SelectedBooking = selectedBooking;
+
+            if (SelectedBooking != null)
+            {
+                BtnCarRetrieved.Enabled = true;
+            }
+        }
+
+        public void DeselectAllElements()
+        {
+            DisableButton();
+
+            foreach (Control c in CarRetrievalTableContentPanel.Controls)
+            {
+                if (c is DeCarRetrievalTableRow row)
+                    row.Deselect();
+            }
+        }
+
+        //-----------------------------Actions-----------------------------
+
+        private void DisableButton()
+        {
+            BtnCarRetrieved.Enabled = false;
         }
 
         private void BtnCarRetrieved_Click(object sender, EventArgs e)
@@ -109,5 +111,15 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
                 Parent.SetStatusAwaitingOwner(SelectedBooking);
             }
         }
+
+        //-----------------------------Rendering-----------------------------
+
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn
+        (
+            int nLeftRect, int nTopRect,
+            int nRightRect, int nBottomRect,
+            int nWidthEllipse, int nHeightEllipse
+        );
     }
 }
