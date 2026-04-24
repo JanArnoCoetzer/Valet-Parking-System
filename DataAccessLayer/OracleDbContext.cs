@@ -4,7 +4,7 @@ using Valet_Parking_System.Classes.Constants.StaticDatabase;
 
 namespace Valet_Parking_System.DataAccessLayer
 {
-    internal class OracleDbContext
+    internal static class OracleDbContext
     {
         private static string BuildConnectionString()
         {
@@ -14,12 +14,11 @@ namespace Valet_Parking_System.DataAccessLayer
             return $"Data Source=oracle/orcl;User Id={user};Password={pass};";
         }
 
-        public bool TestConnection()
+        public static bool TestConnection()
         {
             try
             {
-                using var conn = GetConnection();
-                conn.Open();
+                using OracleConnection conn = GetOpenConnection();
                 Debug.WriteLine("Login successful");
                 return true;
             }
@@ -34,6 +33,13 @@ namespace Valet_Parking_System.DataAccessLayer
         {
             string connectionString = BuildConnectionString();
             return new OracleConnection(connectionString);
+        }
+
+        public static OracleConnection GetOpenConnection()
+        {
+            OracleConnection connection = GetConnection();
+            connection.Open();
+            return connection;
         }
     }
 }

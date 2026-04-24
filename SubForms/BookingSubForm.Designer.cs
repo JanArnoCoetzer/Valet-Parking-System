@@ -141,7 +141,6 @@ namespace Valet_Parking_System.SubForms
             Margin = new Padding(0);
             Name = "BookingSubForm";
             Size = new Size(1560, 757);
-            Load += BookingSubForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);

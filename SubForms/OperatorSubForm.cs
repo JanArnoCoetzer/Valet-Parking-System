@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.Services;
 
@@ -6,7 +8,6 @@ namespace Valet_Parking_System.SubForms
 {
     public partial class OperatorSubForm : UserControl
     {
-
         private List<Booking> _bookings;
 
         public Operator UsingOperator;
@@ -37,15 +38,15 @@ namespace Valet_Parking_System.SubForms
             _bookings = bookings ?? new List<Booking>();
 
             var awaitingStorage = _bookings
-                .Where(b => b.Status == "AwaitingStorage")
+                .Where(b => b.Status == BookingStatuses.AwaitingStorage)
                 .ToList();
 
             var awaitingPickup = _bookings
-                .Where(b => b.Status == "AwaitingPickUp")
+                .Where(b => b.Status == BookingStatuses.AwaitingPickUp)
                 .ToList();
 
             var awaitingOwner = _bookings
-                .Where(b => b.Status == "AwaitingOwner")
+                .Where(b => b.Status == BookingStatuses.AwaitingOwner)
                 .ToList();
 
             carStorageWidget.LoadBookings(awaitingStorage);
@@ -59,8 +60,20 @@ namespace Valet_Parking_System.SubForms
         {
             if (bookingData != null && UsingOperator != null)
             {
-                OperatorServices.SetStatusStored(bookingData, UsingOperator);
-                ReloadBookings();
+                bool success = OperatorServices.SetStatusStored(bookingData, UsingOperator);
+
+                if (success)
+                {
+                    MainLanding.LoadTables();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Failed to update booking status to stored.",
+                        "Operation Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -68,8 +81,20 @@ namespace Valet_Parking_System.SubForms
         {
             if (bookingData != null && UsingOperator != null)
             {
-                OperatorServices.SetStatusAwaitingOwner(bookingData, UsingOperator);
-                ReloadBookings();
+                bool success = OperatorServices.SetStatusAwaitingOwner(bookingData, UsingOperator);
+
+                if (success)
+                {
+                    MainLanding.LoadTables();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Failed to update booking status to awaiting owner.",
+                        "Operation Failed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -81,7 +106,7 @@ namespace Valet_Parking_System.SubForms
 
                 if (success)
                 {
-                    ReloadBookings();
+                    MainLanding.LoadTables();
                 }
                 else
                 {
@@ -94,11 +119,5 @@ namespace Valet_Parking_System.SubForms
             }
         }
 
-        //-----------------------------Helpers-----------------------------
-
-        private void ReloadBookings()
-        {
-            MainLanding.LoadTables();
-        }
     }
 }

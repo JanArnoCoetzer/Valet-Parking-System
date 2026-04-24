@@ -67,5 +67,44 @@ namespace Valet_Parking_System.Services
                 return new List<Booking>();
             }
         }
+
+        public static List<Booking> FilterBookings(
+                                                    List<Booking> bookings,
+                                                    string bookingIdText = "",
+                                                    string customerNameText = "",
+                                                    string carRegText = ""
+                                                  )
+        {
+            if (bookings == null)
+            {
+                return new List<Booking>();
+            }
+
+            IEnumerable<Booking> query = bookings;
+
+            if (!string.IsNullOrWhiteSpace(bookingIdText) &&
+                int.TryParse(bookingIdText, out int id))
+            {
+                query = query.Where(b => b.BookingId == id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(customerNameText))
+            {
+                query = query.Where(b =>
+                    b.Customer != null &&
+                    !string.IsNullOrWhiteSpace(b.Customer.FullName) &&
+                    b.Customer.FullName.IndexOf(customerNameText, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+
+            if (!string.IsNullOrWhiteSpace(carRegText))
+            {
+                query = query.Where(b =>
+                    b.Vehicle != null &&
+                    !string.IsNullOrWhiteSpace(b.Vehicle.Registation) &&
+                    b.Vehicle.Registation.IndexOf(carRegText, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+
+            return query.ToList();
+        }
     }
 }

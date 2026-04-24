@@ -1,14 +1,14 @@
-﻿using System.Runtime.InteropServices;
-using Valet_Parking_System.Classes;
+﻿using Valet_Parking_System.Classes;
 using Valet_Parking_System.Classes.Constants.Operator;
 using Valet_Parking_System.Helpers;
+using Valet_Parking_System.Services;
 using Valet_Parking_System.SubForms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Valet_Parking_System
 {
     public partial class MainLanding : Form
     {
-
         private System.Windows.Forms.Timer _updateTimer;
         private Operator _usingOperator;
         private Panel _content;
@@ -23,6 +23,7 @@ namespace Valet_Parking_System
         private readonly List<UserControl> _subViews = new();
         private Dictionary<Button, Panel> _buttonPanels;
 
+
         public List<Booking> LoadedBookings { get; private set; }
         public List<ParkingSpace> LoadedParkingSpaces { get; private set; }
         public List<Operator> LoadedOperators { get; private set; }
@@ -32,6 +33,7 @@ namespace Valet_Parking_System
         private const int CustomerAmount = 50;
         private const int OperatorAmount = 16;
         private const bool UseLogin = true;
+        private const bool UseDataBase = false;
 
         //---------------------------------Constructor---------------------------------
 
@@ -56,18 +58,18 @@ namespace Valet_Parking_System
             _subViews.Add(_operatorUC);
             _subViews.Add(_adminUC);
 
-            foreach (var view in _subViews)
+            foreach (UserControl view in _subViews)
             {
                 view.Dock = DockStyle.Fill;
             }
 
             _buttonPanels = new Dictionary<Button, Panel>
-        {
-            { DashBoardButton, DashHoverPanel },
-            { BookingsButton, BookingsHoverPanel },
-            { OperatorButton, OperatorHoverPanel },
-            { AdminButton, AdminHoverPanel }
-        };
+            {
+                { DashBoardButton, DashHoverPanel },
+                { BookingsButton, BookingsHoverPanel },
+                { OperatorButton, OperatorHoverPanel },
+                { AdminButton, AdminHoverPanel }
+            };
 
             FormBorderStyle = FormBorderStyle.None;
             RegionHelper.ApplyRoundedRegion(this, 20);
@@ -78,11 +80,12 @@ namespace Valet_Parking_System
             _loginUC.SetMainLanding(this);
             _bookingsUC.SetMainLanding(this);
             _operatorUC.SetMainLanding(this);
+            _adminUC.SetMainLanding(this);
         }
 
         private void SetContent(UserControl userControl)
         {
-            foreach (var view in _subViews)
+            foreach (UserControl view in _subViews)
             {
                 view.Hide();
             }
@@ -97,18 +100,26 @@ namespace Valet_Parking_System
 
         public void LoadTables()
         {
-            LoadedParkingSpaces = TestFunctions.CreateTestParking();
-            LoadedCustomers = TestFunctions.CreateTestCustomers(CustomerAmount);
-            LoadedVehicles = TestFunctions.CreateTestVehcles(CustomerAmount);
-            LoadedOperators = TestFunctions.CreateTestOperators(OperatorAmount);
+            MainlandingData Data = new MainlandingData();
+            if (!UseDataBase)
+            {
+                 Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount);
+            }
+            else
+            {
+                 Data = MainLandingServices.LoadAllDataFromDb();
+            }
 
-            LoadedBookings = TestFunctions.CreateTestBookings(
-                LoadedParkingSpaces ?? new List<ParkingSpace>(),
-                LoadedCustomers ?? new List<Customer>(),
-                LoadedOperators ?? new List<Operator>(),
-                LoadedVehicles ?? new List<Vehicle>(),
-                CustomerAmount);
+            UpdateTables(Data);
+        }
 
+        public void UpdateTables(MainlandingData Data)
+        {
+            LoadedBookings = Data.Bookings;
+            LoadedParkingSpaces = Data.ParkingSpaces;
+            LoadedOperators = Data.Operators;
+            LoadedCustomers = Data.Customers;
+            LoadedVehicles = Data.Vehicles;
             UpdateSubformTables(LoadedBookings, LoadedOperators, LoadedParkingSpaces);
         }
 
@@ -158,22 +169,10 @@ namespace Valet_Parking_System
 
         public void SetPermissions(string permissions)
         {
-            switch (permissions)
-            {
-                case OperatorPermissions.Admin:
-                    DashBoardButton.Enabled = true;
-                    BookingsButton.Enabled = true;
-                    OperatorButton.Enabled = true;
-                    AdminButton.Enabled = true;
-                    break;
-
-                case OperatorPermissions.Operator:
-                    DashBoardButton.Enabled = true;
-                    BookingsButton.Enabled = true;
-                    OperatorButton.Enabled = true;
-                    AdminButton.Enabled = false;
-                    break;
-            }
+            DashBoardButton.Enabled = MainLandingServices.CanAccessDashboard(permissions);
+            BookingsButton.Enabled = MainLandingServices.CanAccessBookings(permissions);
+            OperatorButton.Enabled = MainLandingServices.CanAccessOperators(permissions);
+            AdminButton.Enabled = MainLandingServices.CanAccessAdmin(permissions);
         }
 
         //---------------------------------Timer---------------------------------
@@ -192,7 +191,11 @@ namespace Valet_Parking_System
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
-            LoadTables();
+            if (UseDataBase) 
+            {
+                UpdateTables(MainLandingServices.LoadAllDataFromDb());
+            }
+            
         }
 
         //---------------------------------Navigation Events---------------------------------
@@ -204,7 +207,7 @@ namespace Valet_Parking_System
                 return;
             }
 
-            foreach (var hoverPanel in _buttonPanels.Values)
+            foreach (Panel hoverPanel in _buttonPanels.Values)
             {
                 hoverPanel.BackColor = Color.FromArgb(254, 254, 254);
             }
@@ -248,7 +251,5 @@ namespace Valet_Parking_System
                 panel.BackColor = Color.FromArgb(254, 254, 254);
             }
         }
-
-     
     }
 }

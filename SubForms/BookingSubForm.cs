@@ -8,7 +8,6 @@ namespace Valet_Parking_System.SubForms
 {
     public partial class BookingSubForm : UserControl
     {
-
         private static readonly Random rand = new Random();
 
         private BookingsTable _bookingsTable;
@@ -31,6 +30,8 @@ namespace Valet_Parking_System.SubForms
 
             _bookingSearch.SetParentForm(this);
             _bookingsTable.SetParentForm(this);
+
+            NewBookingWidget.BookingCreateRequest += OnBookingCreated;
         }
 
         //-----------------------------Setup / Loading-----------------------------
@@ -48,48 +49,16 @@ namespace Valet_Parking_System.SubForms
             MainLanding = mainLanding;
         }
 
-        //-----------------------------Events-----------------------------
-
-        private void BookingSubForm_Load(object sender, EventArgs e)
-        {
-            NewBookingWidget.BookingCreateRequest += OnBookingCreated;
-        }
-
         //-----------------------------Filtering-----------------------------
 
-        public void FilterBookings(
-            string bookingIdText = "",
-            string customerNameText = "",
-            string carRegText = "")
+        public void FilterBookings(string bookingIdText = "", string customerNameText = "", string carRegText = "")
         {
-            if (_loadedBookings == null)
-            {
-                return;
-            }
+            List<Booking> filteredBookings = BookingsService.FilterBookings(
+                _loadedBookings,
+                bookingIdText,
+                customerNameText,
+                carRegText);
 
-            IEnumerable<Booking> query = _loadedBookings;
-
-            if (!string.IsNullOrEmpty(bookingIdText) &&
-                int.TryParse(bookingIdText, out int id))
-            {
-                query = query.Where(b => b.BookingId == id);
-            }
-
-            if (!string.IsNullOrEmpty(customerNameText))
-            {
-                query = query.Where(b =>
-                    !string.IsNullOrEmpty(b.Customer.FullName) &&
-                    b.Customer.FullName.IndexOf(customerNameText, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-
-            if (!string.IsNullOrEmpty(carRegText))
-            {
-                query = query.Where(b =>
-                    !string.IsNullOrEmpty(b.Vehicle.Registation) &&
-                    b.Vehicle.Registation.IndexOf(carRegText, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-
-            var filteredBookings = query.ToList();
             _bookingsTable.DisplayBookingsAsync(filteredBookings);
         }
 
@@ -103,7 +72,7 @@ namespace Valet_Parking_System.SubForms
 
             if (addedToDb)
             {
-                // Optional: MainLanding.LoadTables();
+                MainLanding.LoadTables();
             }
             else
             {
@@ -117,7 +86,7 @@ namespace Valet_Parking_System.SubForms
 
             if (editedInDb)
             {
-                // Optional: MainLanding.LoadTables();
+                MainLanding.LoadTables();
             }
             else
             {

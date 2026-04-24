@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.Repository.CRUD;
 
@@ -6,9 +8,8 @@ namespace Valet_Parking_System.SubForms
 {
     public partial class AdminSubForm : UserControl
     {
-
         public Operator UsingOperator;
-
+        public MainLanding MainLanding;
         //-----------------------------Constructor-----------------------------
 
         public AdminSubForm()
@@ -21,6 +22,10 @@ namespace Valet_Parking_System.SubForms
 
         //-----------------------------Data Loading-----------------------------
 
+        public void SetMainLanding(MainLanding mainLanding)
+        {
+            MainLanding = mainLanding;
+        }
         public void LoadParkingSpaces(List<ParkingSpace> parkingSpaces, List<Operator> loadedOperators)
         {
             parkingSpacesTable.LoadParkingSpacesAsync(parkingSpaces);
@@ -31,10 +36,11 @@ namespace Valet_Parking_System.SubForms
 
         public void OnSpaceAdd(ParkingSpace spaceData)
         {
-            bool added = AdminRepository.AddSpace(spaceData);
+            bool addedToDb = AdminRepository.AddSpace(spaceData);
 
-            if (added)
+            if (addedToDb)
             {
+                MainLanding.LoadTables();
                 MessageBox.Show("Space created", "Success");
             }
             else
@@ -45,10 +51,11 @@ namespace Valet_Parking_System.SubForms
 
         public void EditSpace(ParkingSpace spaceData)
         {
-            bool edited = AdminRepository.EditSpace(spaceData);
+            bool editedInDb = AdminRepository.EditSpace(spaceData);
 
-            if (edited)
+            if (editedInDb)
             {
+                MainLanding.LoadTables();
                 MessageBox.Show("Space edited", "Success");
             }
             else
@@ -59,10 +66,11 @@ namespace Valet_Parking_System.SubForms
 
         public void RemoveSpace(ParkingSpace spaceData)
         {
-            bool removed = AdminRepository.RemoveSpace(spaceData);
+            bool removedFromDb = AdminRepository.RemoveSpace(spaceData);
 
-            if (removed)
+            if (removedFromDb)
             {
+                MainLanding.LoadTables();
                 MessageBox.Show("Space removed", "Success");
             }
             else
@@ -75,9 +83,9 @@ namespace Valet_Parking_System.SubForms
 
         internal void OnOperatorAdd(Operator operatorData)
         {
-            bool added = AdminRepository.AddOperator(operatorData);
+            bool addedToDb = AdminRepository.AddOperator(operatorData);
 
-            if (added)
+            if (addedToDb)
             {
                 MessageBox.Show("Operator created", "Success");
             }
@@ -89,9 +97,9 @@ namespace Valet_Parking_System.SubForms
 
         internal void EditOperator(Operator operatorData)
         {
-            bool edited = AdminRepository.EditOperator(operatorData);
+            bool editedInDb = AdminRepository.EditOperator(operatorData);
 
-            if (edited)
+            if (editedInDb)
             {
                 MessageBox.Show("Operator edited", "Success");
             }
@@ -103,9 +111,9 @@ namespace Valet_Parking_System.SubForms
 
         internal void RemoveOperator(Operator operatorData)
         {
-            bool removed = AdminRepository.RemoveOperator(operatorData);
+            bool removedFromDb = AdminRepository.RemoveOperator(operatorData);
 
-            if (removed)
+            if (removedFromDb)
             {
                 MessageBox.Show("Operator removed", "Success");
             }

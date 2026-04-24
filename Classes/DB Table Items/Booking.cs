@@ -153,19 +153,64 @@ namespace Valet_Parking_System.Classes
 
         public string GetAddSql()
         {
-            return "";
+            return $@"
+        INSERT INTO Bookings
+        (
+            CustomerId,
+            BookingOperatorId,
+            StorageOperatorId,
+            RetrievalOperatorId,
+            HandingOverOperatorId,
+            ParkingSpaceId,
+            VehicleId,
+            DateFrom,
+            DateTo,
+            TimeFrom,
+            TimeTo,
+            Status
+        )
+        VALUES
+        (
+            {Customer.CustomerID},
+            {(BookingOperator != null ? BookingOperator.OperatorID.ToString() : "NULL")},
+            {(StorageOperator != null ? StorageOperator.OperatorID.ToString() : "NULL")},
+            {(RetrievalOperator != null ? RetrievalOperator.OperatorID.ToString() : "NULL")},
+            {(HandingOverOperator != null ? HandingOverOperator.OperatorID.ToString() : "NULL")},
+            {(ParkingSpace != null ? ParkingSpace.SpaceID.ToString() : "NULL")},
+            {(Vehicle != null ? Vehicle.ID.ToString() : "NULL")},
+            '{DateFrom}',
+            '{DateTo}',
+            '{TimeFrom}',
+            '{TimeTo}',
+            '{Status}'
+        );";
         }
 
         public string GetUpdateSql()
         {
-        
-
-            return "";
+            return $@"
+        UPDATE Bookings
+        SET
+            CustomerId = {Customer.CustomerID},
+            BookingOperatorId = {(BookingOperator != null ? BookingOperator.OperatorID.ToString() : "NULL")},
+            StorageOperatorId = {(StorageOperator != null ? StorageOperator.OperatorID.ToString() : "NULL")},
+            RetrievalOperatorId = {(RetrievalOperator != null ? RetrievalOperator.OperatorID.ToString() : "NULL")},
+            HandingOverOperatorId = {(HandingOverOperator != null ? HandingOverOperator.OperatorID.ToString() : "NULL")},
+            ParkingSpaceId = {(ParkingSpace != null ? ParkingSpace.SpaceID.ToString() : "NULL")},
+            VehicleId = {(Vehicle != null ? Vehicle.ID.ToString() : "NULL")},
+            DateFrom = '{DateFrom}',
+            DateTo = '{DateTo}',
+            TimeFrom = '{TimeFrom}',
+            TimeTo = '{TimeTo}',
+            Status = '{Status}'
+        WHERE BookingId = {BookingId};";
         }
 
         public string GetRemoveSql()
         {
-            return "";
+            return $@"
+        DELETE FROM Bookings
+        WHERE BookingId = {BookingId};";
         }
 
     }

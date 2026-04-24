@@ -1,147 +1,45 @@
 ﻿using Oracle.ManagedDataAccess.Client;
+using System.Diagnostics;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.DataAccessLayer;
+using Valet_Parking_System.Helpers;
 
 namespace Valet_Parking_System.Repository.CRUD
 {
-    internal class AdminRepository
+    internal static class AdminRepository
     {
-        internal static bool AddSpace(ParkingSpace spacedata)
+        //-----------------------------Parking Spaces-----------------------------
+
+        internal static bool AddSpace(ParkingSpace spaceData)
         {
-            try
-            {
-                string sql = spacedata.GetAddSql();
-
-                using (OracleConnection conn = OracleDbContext.GetConnection())
-                {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    {
-                        int rows = cmd.ExecuteNonQuery();
-                        return rows > 0;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return DataBaseHelper.ExecuteNonQuery(spaceData.GetAddSql(), "AddSpace");
         }
 
-        internal static bool EditSpace(ParkingSpace spacedata)
+        internal static bool EditSpace(ParkingSpace spaceData)
         {
-            try
-            {
-                string sql = spacedata.GetUpdateSql();
-
-                using (OracleConnection conn = OracleDbContext.GetConnection())
-                {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    {
-                        int rows = cmd.ExecuteNonQuery();
-                        return rows > 0;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return DataBaseHelper.ExecuteNonQuery(spaceData.GetUpdateSql(), "EditSpace");
         }
 
-        internal static bool RemoveSpace(ParkingSpace spacedata)
+        internal static bool RemoveSpace(ParkingSpace spaceData)
         {
-            try
-            {
-                string sql = spacedata.GetRemoveSql();
-
-                using (OracleConnection conn = OracleDbContext.GetConnection())
-                {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    {
-                        int rows = cmd.ExecuteNonQuery();
-                        return rows > 0;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return DataBaseHelper.ExecuteNonQuery(spaceData.GetRemoveSql(), "RemoveSpace");
         }
 
-        internal static bool AddOperator(Operator operatordata)
+        //-----------------------------Operators-----------------------------
+
+        internal static bool AddOperator(Operator operatorData)
         {
-            try
-            {
-                string sql = operatordata.GetAddSql();
-
-                using (OracleConnection conn = OracleDbContext.GetConnection())
-                {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    {
-                        int rows = cmd.ExecuteNonQuery();
-                        return rows > 0;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return DataBaseHelper.ExecuteNonQuery(operatorData.GetAddSql(), "AddOperator");
         }
 
-        internal static bool EditOperator(Operator operatordata)
+        internal static bool EditOperator(Operator operatorData)
         {
-            try
-            {
-                string sql = operatordata.GetUpdateSql();
-
-                using (OracleConnection conn = OracleDbContext.GetConnection())
-                {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    {
-                        int rows = cmd.ExecuteNonQuery();
-                        return rows > 0;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return DataBaseHelper.ExecuteNonQuery(operatorData.GetUpdateSql(), "EditOperator");
         }
 
-        internal static bool RemoveOperator(Operator operatordata)
+        internal static bool RemoveOperator(Operator operatorData)
         {
-            try
-            {
-                string sql = operatordata.GetRemoveSql();
-
-                using (OracleConnection conn = OracleDbContext.GetConnection())
-                {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    {
-                        int rows = cmd.ExecuteNonQuery();
-                        return rows > 0;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
+            return DataBaseHelper.ExecuteNonQuery(operatorData.GetRemoveSql(), "RemoveOperator");
+        } 
     }
 }

@@ -1,22 +1,25 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.DataAccessLayer;
+using Valet_Parking_System.Helpers;
 
 namespace Valet_Parking_System.Repository.CRUD
 {
-    internal class Customer_repository
+    internal static class CustomerRepository
     {
         internal static bool AddCustomer(Customer customer)
         {
             try
             {
-                return true;
+                return DataBaseHelper.ExecuteNonQuery(customer.GetAddSql(), "AddCustomer");
             }
             catch (Exception ex)
             {
-               return false;
+                Debug.WriteLine($"AddCustomer failed: {ex.Message}");
+                return false;
             }
         }
 
@@ -24,10 +27,11 @@ namespace Valet_Parking_System.Repository.CRUD
         {
             try
             {
-                return true;
+                return DataBaseHelper.ExecuteNonQuery(customer.GetUpdateSql(), "EditCustomer");
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"EditCustomer failed: {ex.Message}");
                 return false;
             }
         }
@@ -36,13 +40,13 @@ namespace Valet_Parking_System.Repository.CRUD
         {
             try
             {
-                return true;
+                return DataBaseHelper.ExecuteNonQuery(customer.GetRemoveSql(), "RemoveCustomer");
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"RemoveCustomer failed: {ex.Message}");
                 return false;
             }
-           
         }
     }
 }

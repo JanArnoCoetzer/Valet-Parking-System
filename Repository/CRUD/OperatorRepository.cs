@@ -1,49 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Repository.CRUD;
 
 namespace Valet_Parking_System.Repository.CRUD
 {
-    internal class OperatorRepository
+    internal static class OperatorRepository
     {
-        internal static bool SetStorageOperator(Booking bookingdata, Operator usingOperator)
+        internal static bool SetStorageOperator(Booking bookingData, Operator usingOperator)
         {
             try
             {
-                return true;
+                bookingData.StorageOperator = usingOperator;
+                return ExecuteBookingUpdate(bookingData, "SetStorageOperator");
             }
             catch (Exception ex)
             {
-                return false;
-            }
-        }
-        internal static bool SetHandingOffOperator(Booking bookingdata, Operator usingOperator)
-        {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
+                Debug.WriteLine($"SetStorageOperator failed: {ex.Message}");
                 return false;
             }
         }
 
-        internal static bool SetRetrievalOperator(Booking bookingdata, Operator usingOperator)
+        internal static bool SetHandingOffOperator(Booking bookingData, Operator usingOperator)
         {
             try
             {
-                return true;
+                bookingData.HandingOverOperator = usingOperator;
+                return ExecuteBookingUpdate(bookingData, "SetHandingOffOperator");
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"SetHandingOffOperator failed: {ex.Message}");
                 return false;
             }
         }
 
-        
+        internal static bool SetRetrievalOperator(Booking bookingData, Operator usingOperator)
+        {
+            try
+            {
+                bookingData.RetrievalOperator = usingOperator;
+                return ExecuteBookingUpdate(bookingData, "SetRetrievalOperator");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"SetRetrievalOperator failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        private static bool ExecuteBookingUpdate(Booking bookingData, string operationName)
+        {
+            try
+            {
+                return BookingRepository.EditBooking(bookingData);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"{operationName} failed: {ex.Message}");
+                return false;
+            }
+        }
     }
 }
