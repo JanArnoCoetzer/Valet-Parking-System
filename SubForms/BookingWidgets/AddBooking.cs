@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.Vehicle;
 using Valet_Parking_System.Helpers;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets
@@ -30,7 +31,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 txtCarReg.Text.Trim().ToUpper(),
                 txtCarModel.Text.Trim(),
                 txtCarColor.Text.Trim(),
-                "pending"
+                VehicleStatus.AwaitingOperator
             );
 
             Booking booking = new Booking

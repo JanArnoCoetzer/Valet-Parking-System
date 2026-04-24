@@ -68,9 +68,16 @@ namespace Valet_Parking_System.SubForms
         {
             booking.ParkingSpace = ParkingServices.GetNextAvailableSpace(_loadedParking);
 
-            bool addedToDb = BookingsService.AddBooking(booking, UsingOperator);
+            bool customerAdded = CustomerService.AddCustomer(booking.Customer);
+            bool vehicleAdded = VehicleService.AddVehicle(booking.Vehicle);
+            bool bookingAdded = false;
 
-            if (addedToDb)
+            if (customerAdded && vehicleAdded)
+            {
+                bookingAdded = BookingsService.AddBooking(booking, UsingOperator);
+            }
+
+            if (customerAdded && vehicleAdded && bookingAdded)
             {
                 MainLanding.LoadTables();
             }
@@ -82,11 +89,24 @@ namespace Valet_Parking_System.SubForms
 
         public void EditBooking(Booking booking)
         {
-            bool editedInDb = BookingsService.EditBooking(booking, UsingOperator);
-
-            if (editedInDb)
+            if (booking == null || booking.Customer == null || booking.Vehicle == null || UsingOperator == null)
             {
-                MainLanding.LoadTables();
+                MessageBox.Show("Booking data is incomplete.");
+                return;
+            }
+
+            bool customerEdited = CustomerService.EditCustomer(booking.Customer);
+            bool vehicleEdited = VehicleService.EditVehicle(booking.Vehicle);
+            bool bookingEdited = false;
+
+            if (customerEdited && vehicleEdited)
+            {
+                bookingEdited = BookingsService.EditBooking(booking, UsingOperator);
+            }
+
+            if (customerEdited && vehicleEdited && bookingEdited)
+            {
+                MainLanding?.LoadTables();
             }
             else
             {

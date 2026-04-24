@@ -160,10 +160,12 @@ namespace Valet_Parking_System.Classes
             var opAdmin = new Operator(
                     1, "A","Admin", todayStr, GenerateRandomAddress(), GenerateRandomPhone(), "Admin@gmail.com"
                     );
+            opAdmin.Password = "Admin";
             operators.Add(opAdmin);
             var opOperator = new Operator(
                     2, "O","Operator", todayStr, GenerateRandomAddress(), GenerateRandomPhone(), "Operator@gmail.com"
                     );
+            opOperator.Password = "Operator";
             operators.Add(opOperator);
 
             for (int i = 3; i < amount; i++)
