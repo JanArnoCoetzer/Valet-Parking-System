@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
 using Valet_Parking_System.SubForms.OperatorWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.OperatorWidgets
@@ -16,7 +17,7 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
         public CarStorageWidget()
         {
             InitializeComponent();
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            RegionHelper.ApplyRoundedRegion(this, 20);
         }
 
         //-----------------------------Parent Setup-----------------------------
@@ -111,15 +112,5 @@ namespace Valet_Parking_System.SubForms.OperatorWidgets
                 Parent.SetStatusStored(SelectedBooking);
             }
         }
-
-        //-----------------------------Rendering-----------------------------
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect, int nTopRect,
-            int nRightRect, int nBottomRect,
-            int nWidthEllipse, int nHeightEllipse
-        );
     }
 }

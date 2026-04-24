@@ -43,7 +43,7 @@ namespace Valet_Parking_System.SubForms
             _bookingsTable.DisplayBookingsAsync(_loadedBookings);
         }
 
-        public void setMainLanding(MainLanding mainLanding)
+        public void SetMainLanding(MainLanding mainLanding)
         {
             MainLanding = mainLanding;
         }

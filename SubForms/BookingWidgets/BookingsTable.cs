@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets;
 
@@ -20,8 +21,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
         public BookingsTable(List<Booking> bookings)
         {
             InitializeComponent();
-            InitialiseRoundedBorders();
-        }
+            RegionHelper.ApplyRoundedRegion(this, 20);        }
 
         public BookingsTable() : this(null)
         {
@@ -153,20 +153,5 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 informationPanelWindow.Show(this);
             }
         }
-
-        //-----------------------------Rendering-----------------------------
-
-        private void InitialiseRoundedBorders()
-        {
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
-        }
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect, int nTopRect,
-            int nRightRect, int nBottomRect,
-            int nWidthEllipse, int nHeightEllipse
-        );
     }
 }

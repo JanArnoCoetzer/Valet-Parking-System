@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
 using Valet_Parking_System.SubForms.AdminWidgets.DataElements;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets
@@ -15,7 +16,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
         public ParkingSpacesTable()
         {
             InitializeComponent();
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
+            RegionHelper.ApplyRoundedRegion(this, 20);
         }
 
         //-----------------------------Parent Setup-----------------------------
@@ -111,18 +112,5 @@ namespace Valet_Parking_System.SubForms.AdminWidgets
                 parent.EditSpace(editedSpace);
             }
         }
-
-        //-----------------------------Rendering-----------------------------
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
     }
 }

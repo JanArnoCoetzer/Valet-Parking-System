@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
 using Valet_Parking_System.SubForms;
 
 namespace Valet_Parking_System
@@ -68,13 +69,13 @@ namespace Valet_Parking_System
         };
 
             FormBorderStyle = FormBorderStyle.None;
-            Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 20, 20));
+            RegionHelper.ApplyRoundedRegion(this, 20);
         }
 
         private void SetMainLandingReferences()
         {
-            _loginUC.setMainLanding(this);
-            _bookingsUC.setMainLanding(this);
+            _loginUC.SetMainLanding(this);
+            _bookingsUC.SetMainLanding(this);
             _operatorUC.SetMainLanding(this);
         }
 
@@ -247,15 +248,6 @@ namespace Valet_Parking_System
             }
         }
 
-        //---------------------------------Interop---------------------------------
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse);
+     
     }
 }

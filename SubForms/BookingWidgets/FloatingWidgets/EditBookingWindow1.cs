@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets
 {
@@ -18,9 +19,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             editBookingWidget.SetBookingData(bookingData);
             editBookingWidget.SetParentForm(this);
 
-            Region = System.Drawing.Region.FromHrgn(
-                CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30)
-            );
+            RegionHelper.ApplyRoundedRegion(this, 20);
         }
 
         //-----------------------------Actions-----------------------------
@@ -31,17 +30,6 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             Dispose();
         }
 
-        //-----------------------------Rendering-----------------------------
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
+       
     }
 }

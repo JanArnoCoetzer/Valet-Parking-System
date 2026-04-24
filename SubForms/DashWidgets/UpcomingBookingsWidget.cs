@@ -4,6 +4,8 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
+using Valet_Parking_System.Services;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
 using Valet_Parking_System.SubForms.DashWidgets.DataElements;
 
@@ -18,7 +20,7 @@ namespace Valet_Parking_System.SubForms.Widgets
         public UpcomingbookingsWidget()
         {
             InitializeComponent();
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 20, 20));
+            RegionHelper.ApplyRoundedRegion(this, 20);
         }
 
         //-----------------------------Display-----------------------------
@@ -27,7 +29,7 @@ namespace Valet_Parking_System.SubForms.Widgets
         {
             UpcomingBookingsTableContentPanel.Controls.Clear();
 
-            List<Booking> filteredBookings = FilterNearest(bookings);
+            List<Booking> filteredBookings = BookingsService.FilterNearest(bookings);
 
             foreach (Booking booking in filteredBookings)
             {
@@ -36,74 +38,11 @@ namespace Valet_Parking_System.SubForms.Widgets
             }
         }
 
-        private List<Booking> FilterNearest(List<Booking> bookings)
-        {
-            if (bookings == null || bookings.Count == 0)
-            {
-                return new List<Booking>();
-            }
-
-            try
-            {
-                DateTime now = DateTime.Now;
-
-                return bookings
-                    .Where(b => b.Status == StoredStatus)
-                    .Select(b =>
-                    {
-                        bool isValidDateTime = DateTime.TryParseExact(
-                            $"{b.DateTo} {b.TimeTo}",
-                            "dd/MM/yyyy HH:mm",
-                            CultureInfo.InvariantCulture,
-                            DateTimeStyles.None,
-                            out DateTime pickupDateTime
-                        );
-
-                        return new
-                        {
-                            Booking = b,
-                            IsValidDateTime = isValidDateTime,
-                            PickupDateTime = pickupDateTime
-                        };
-                    })
-                    .Where(x => x.IsValidDateTime)
-                    .Where(x => x.PickupDateTime.Date == now.Date)
-                    .Where(x => x.PickupDateTime >= now)
-                    .OrderBy(x => x.PickupDateTime)
-                    .Select(x => x.Booking)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"FilterNearest failed: {ex.Message}");
-                MessageBox.Show(
-                    $"Error loading bookings: {ex.Message}",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-
-                return new List<Booking>();
-            }
-        }
-
         internal void ClearTable()
         {
             UpcomingBookingsTableContentPanel.Controls.Clear();
         }
 
-        //-----------------------------Rendering-----------------------------
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
     } 
 }
 

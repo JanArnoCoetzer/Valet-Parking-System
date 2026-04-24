@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Helpers;
 
 namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
 {
@@ -18,7 +19,7 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
             widget.SetOperatorData(operatorData);
             widget.SetParentForm(this);
 
-            Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, Size.Width, Size.Height, 30, 30));
+            RegionHelper.ApplyRoundedRegion(this, 30);
         }
 
         //-----------------------------Actions-----------------------------
@@ -29,17 +30,5 @@ namespace Valet_Parking_System.SubForms.AdminWidgets.FloatingWidgets
             Dispose();
         }
 
-        //-----------------------------Rendering-----------------------------
-
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn
-        (
-            int nLeftRect,
-            int nTopRect,
-            int nRightRect,
-            int nBottomRect,
-            int nWidthEllipse,
-            int nHeightEllipse
-        );
     }
 }
