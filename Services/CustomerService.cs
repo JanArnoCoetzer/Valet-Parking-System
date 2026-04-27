@@ -5,15 +5,15 @@ namespace Valet_Parking_System.Services
 {
     internal class CustomerService
     {
-        public static bool AddCustomer(Customer customer)
+        internal static int AddCustomerAndReturnId(Customer customer)
         {
             if (customer == null)
-                return false;
+                return -1;
 
             if (customer.ValidateCustomer() != 0)
-                return false;
+                return -1;
 
-            return CustomerRepository.AddCustomer(customer);
+            return CustomerRepository.AddCustomerAndReturnId(customer);
         }
 
         public static bool EditCustomer(Customer customer)
@@ -34,5 +34,7 @@ namespace Valet_Parking_System.Services
 
             return CustomerRepository.RemoveCustomer(customer);
         }
+
+        
     }
 }

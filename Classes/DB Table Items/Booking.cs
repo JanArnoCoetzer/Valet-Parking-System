@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using Valet_Parking_System.Classes.Constants.Database;
 
 namespace Valet_Parking_System.Classes
 {
@@ -8,34 +9,18 @@ namespace Valet_Parking_System.Classes
         //Automatic
         public int BookingId { get; set; } = 0;
         public Customer Customer { get; set; } = null;
-        //public string FullName 
-        //public string Telephone 
-        //public string Address 
+        public int CustomerId { get; set; } = 0;
         public Operator BookingOperator { get; set; } = null;
         public Operator StorageOperator { get; set; } = null;
         public Operator RetrievalOperator { get; set; } = null;
         public Operator HandingOverOperator { get; set; } = null;
-        //public int operatorID 
-        //public string fullName 
-        //public string datejoined 
-        //public string fulladdress 
-        //public string telephone 
-        //public string email
 
         public List<int> EditedOperatorsIds { get; set; } = null;
 
         public ParkingSpace ParkingSpace { get; set; } = null;
-        //public int SpaceID;
-        //public string LotIdentifier;b
-        //public string Status;
+        public int ParkingSpaceId { get; set; } = 0;
         public Vehicle Vehicle { get; set; } = null;
-        //public string ID 
-        //public string Registation 
-        //public string Model
-        //public string Color 
-        //public string Status
-
-        
+        public int VehicleId { get; set; } = 0;
         public string DateFrom { get; set; } = "";
         public string DateTo { get; set; } = "";
         public string TimeTo { get; set; } = "";
@@ -43,50 +28,48 @@ namespace Valet_Parking_System.Classes
 
         public string Status { get; set; } = "Null";
 
-
-
         public int validationResault = -1;
 
         public int ValidateBooking()
         {
-            validationResault =  GetValidationCode();
+            validationResault = GetValidationCode();
             return validationResault;
         }
-        
-        public int GetValidationCode() 
+
+        public int GetValidationCode()
         {
             // 0 = VALID 
 
             // 1 FullName empty
-            if (string.IsNullOrWhiteSpace(this.Customer.FullName))
+            if (Customer == null || string.IsNullOrWhiteSpace(Customer.FullName))
                 return 1;
 
             // 2 FullName too long (>50 chars)
-            if (this.Customer.FullName.Length > 50)
+            if (Customer.FullName.Length > 50)
                 return 2;
 
             // 3 Phone empty
-            if (string.IsNullOrWhiteSpace(this.Customer.Telephone))
+            if (string.IsNullOrWhiteSpace(Customer.Telephone))
                 return 3;
 
             // 4 Phone too short (<10 digits)
-            var phoneDigits = new string(this.Customer.Telephone.Where(char.IsDigit).ToArray());
+            var phoneDigits = new string(Customer.Telephone.Where(char.IsDigit).ToArray());
             if (phoneDigits.Length < 10)
                 return 4;
 
             // 5 Address empty
-            if (string.IsNullOrWhiteSpace(this.Customer.Address))
+            if (string.IsNullOrWhiteSpace(Customer.Address))
                 return 5;
 
             // 6 Address too long (>100)
-            if (!string.IsNullOrWhiteSpace(this.Customer.Address) && this.Customer.Address.Length > 100)
+            if (Customer.Address.Length > 100)
                 return 6;
 
             // 7 CarReg empty
-            if (string.IsNullOrWhiteSpace(Vehicle.Registation))
+            if (Vehicle == null || string.IsNullOrWhiteSpace(Vehicle.Registation))
                 return 7;
 
-            // 8 CarReg invalid format (alphanumeric only)
+            // 8 CarReg invalid format
             if (!System.Text.RegularExpressions.Regex.IsMatch(Vehicle.Registation, @"^[A-Z0-9\s-]+$"))
                 return 8;
 
@@ -105,20 +88,18 @@ namespace Valet_Parking_System.Classes
             // 12 CarColor too long (>20)
             if (Vehicle.Color.Length > 20)
                 return 12;
+
             // 13 DateFrom empty/invalid
-            if (string.IsNullOrWhiteSpace(this.DateFrom) ||
-                !DateTime.TryParseExact(this.DateFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            if (string.IsNullOrWhiteSpace(DateFrom) ||
+                !DateTime.TryParseExact(DateFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
                 return 13;
 
             // 14 DateTo empty/invalid
-            if (string.IsNullOrWhiteSpace(this.DateTo) ||
-                !DateTime.TryParseExact(this.DateTo, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
+            if (string.IsNullOrWhiteSpace(DateTo) ||
+                !DateTime.TryParseExact(DateTo, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
                 return 14;
 
-            // 15 DateFrom >= DateTo
-            if (DateTime.ParseExact(this.DateFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture) >=
-                DateTime.ParseExact(this.DateTo, "dd/MM/yyyy", CultureInfo.InvariantCulture))
-                return 15;
+            
 
             // ALL PASS
             return 0;
@@ -126,7 +107,6 @@ namespace Valet_Parking_System.Classes
 
         public string GetValidationErrorMsg()
         {
-            
             string validationMsg = this.validationResault switch
             {
                 0 => "",
@@ -144,29 +124,30 @@ namespace Valet_Parking_System.Classes
                 12 => "Car color too long (>20 chars).",
                 13 => "Valid date from required (dd/MM/yyyy).",
                 14 => "Valid date to required (dd/MM/yyyy).",
-                15 => "Date to must be after date from.",
+                15 => "Valid time from required (HH:mm).",
+                16 => "Valid time to required (HH:mm).",
+                17 => "Booking end must be after booking start.",
                 _ => "Fix form errors."
             };
             return validationMsg;
-            
         }
 
         public string GetAddSql()
         {
             return $@"
-        INSERT INTO Bookings
+        INSERT INTO {DBTableName.Bookings}
         (
-            CustomerId,
-            BookingOperatorId,
-            StorageOperatorId,
-            RetrievalOperatorId,
-            HandingOverOperatorId,
-            ParkingSpaceId,
-            VehicleId,
-            DateFrom,
-            DateTo,
-            TimeFrom,
-            TimeTo,
+            Customer_ID,
+            Booking_Operator_ID,
+            Storage_Operator_ID,
+            Retrieval_Operator_ID,
+            Handing_Over_Operator_ID,
+            Parking_Space_ID,
+            Vehicle_ID,
+            Date_From,
+            Date_To,
+            Time_From,
+            Time_To,
             Status
         )
         VALUES
@@ -183,36 +164,34 @@ namespace Valet_Parking_System.Classes
             '{TimeFrom}',
             '{TimeTo}',
             '{Status}'
-        );";
+        )";
         }
 
         public string GetUpdateSql()
         {
             return $@"
-        UPDATE Bookings
+        UPDATE {DBTableName.Bookings}
         SET
-            CustomerId = {Customer.CustomerID},
-            BookingOperatorId = {(BookingOperator != null ? BookingOperator.OperatorID.ToString() : "NULL")},
-            StorageOperatorId = {(StorageOperator != null ? StorageOperator.OperatorID.ToString() : "NULL")},
-            RetrievalOperatorId = {(RetrievalOperator != null ? RetrievalOperator.OperatorID.ToString() : "NULL")},
-            HandingOverOperatorId = {(HandingOverOperator != null ? HandingOverOperator.OperatorID.ToString() : "NULL")},
-            ParkingSpaceId = {(ParkingSpace != null ? ParkingSpace.SpaceID.ToString() : "NULL")},
-            VehicleId = {(Vehicle != null ? Vehicle.ID.ToString() : "NULL")},
-            DateFrom = '{DateFrom}',
-            DateTo = '{DateTo}',
-            TimeFrom = '{TimeFrom}',
-            TimeTo = '{TimeTo}',
+            Customer_ID = {Customer.CustomerID},
+            Booking_Operator_ID = {(BookingOperator != null ? BookingOperator.OperatorID.ToString() : "NULL")},
+            Storage_Operator_ID = {(StorageOperator != null ? StorageOperator.OperatorID.ToString() : "NULL")},
+            Retrieval_Operator_ID = {(RetrievalOperator != null ? RetrievalOperator.OperatorID.ToString() : "NULL")},
+            Handing_Over_Operator_ID = {(HandingOverOperator != null ? HandingOverOperator.OperatorID.ToString() : "NULL")},
+            Parking_Space_ID = {(ParkingSpace != null ? ParkingSpace.SpaceID.ToString() : "NULL")},
+            Vehicle_ID = {(Vehicle != null ? Vehicle.ID.ToString() : "NULL")},
+            Date_From = '{DateFrom}',
+            Date_To = '{DateTo}',
+            Time_From = '{TimeFrom}',
+            Time_To = '{TimeTo}',
             Status = '{Status}'
-        WHERE BookingId = {BookingId};";
+        WHERE Booking_ID = {BookingId}";
         }
 
         public string GetRemoveSql()
         {
             return $@"
-        DELETE FROM Bookings
-        WHERE BookingId = {BookingId};";
+        DELETE FROM {DBTableName.Bookings}
+        WHERE Booking_ID = {BookingId}";
         }
-
     }
-
 }

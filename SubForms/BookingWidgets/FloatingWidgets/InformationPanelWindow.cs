@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.Helpers;
 
@@ -17,8 +18,6 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets
 
             this.selectedBooking = selectedBooking;
 
-            
-
             carInformation.SetInformation(selectedBooking.Vehicle);
             customerInformation.SetInformation(selectedBooking.Customer);
             storageInformation.SetInformation(
@@ -26,7 +25,7 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets
                 selectedBooking.TimeFrom,
                 selectedBooking.DateTo,
                 selectedBooking.TimeTo,
-                selectedBooking.ParkingSpace,
+                selectedBooking.ParkingSpace.LotIdentifier,
                 selectedBooking.StorageOperator
             );
         }

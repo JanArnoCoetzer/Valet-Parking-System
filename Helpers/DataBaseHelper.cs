@@ -27,5 +27,26 @@ namespace Valet_Parking_System.Helpers
                 return false;
             }
         }
+
+        public static int ExecuteScalarInt(string sql, string operationName)
+        {
+            try
+            {
+                using OracleConnection conn = OracleDbContext.GetOpenConnection();
+                using OracleCommand cmd = new OracleCommand(sql, conn);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result == null || result == DBNull.Value)
+                    return -1;
+
+                return Convert.ToInt32(result);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"{operationName} failed: {ex.Message}");
+                return -1;
+            }
+        }
     }
 }

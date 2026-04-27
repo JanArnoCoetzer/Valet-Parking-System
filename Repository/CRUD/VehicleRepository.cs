@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.Database;
 using Valet_Parking_System.DataAccessLayer;
 using Valet_Parking_System.Helpers;
 
@@ -10,16 +11,40 @@ namespace Valet_Parking_System.Repository.CRUD
 {
     internal static class VehicleRepository
     {
-        internal static bool AddVehicle(Vehicle vehicle)
+
+
+        internal static int AddVehicleAndReturnId(Vehicle vehicle)
         {
+            if (vehicle == null)
+                return -1;
+
             try
             {
-                return DataBaseHelper.ExecuteNonQuery(vehicle.GetAddSql(), "AddVehicle");
+                bool success = DataBaseHelper.ExecuteNonQuery(vehicle.GetAddSql(), "AddVehicle");
+
+                if (!success)
+                    return -1;
+
+                string sql =
+                    "SELECT MAX(ID) FROM " + DBTableName.Vehicles +
+                    " WHERE Registration = '" + vehicle.Registation + "'" +
+                    " AND Model = '" + vehicle.Model + "'" +
+                    " AND Color = '" + vehicle.Color + "'" +
+                    " AND Status = '" + vehicle.Status + "'";
+
+                int newId = DataBaseHelper.ExecuteScalarInt(sql, "GetVehicleId");
+
+                if (newId > 0)
+                {
+                    vehicle.ID = newId;
+                }
+
+                return newId;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"AddVehicle failed: {ex.Message}");
-                return false;
+                Debug.WriteLine($"AddVehicleAndReturnId failed: {ex.Message}");
+                return -1;
             }
         }
 

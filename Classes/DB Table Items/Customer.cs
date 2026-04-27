@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using Valet_Parking_System.Classes.Constants.Database;
 
 namespace Valet_Parking_System.Classes
 {
@@ -17,7 +18,7 @@ namespace Valet_Parking_System.Classes
 
         public int validationResault = -1;
 
-        public Customer(int ID,string fullName, string telephone, string address) 
+        public Customer(int ID, string fullName, string telephone, string address)
         {
             CustomerID = ID;
             FullName = fullName;
@@ -84,8 +85,8 @@ namespace Valet_Parking_System.Classes
 
         public string GetAddSql()
         {
-            string sql = "INSERT INTO Customer " +
-                         "(FullName, Telephone, Address) " +
+            string sql = "INSERT INTO " + DBTableName.Customers + " " +
+                         "(Full_Name, Telephone, Address) " +
                          "VALUES ('" + FullName + "', '" + Telephone + "', '" + Address + "')";
 
             return sql;
@@ -93,18 +94,18 @@ namespace Valet_Parking_System.Classes
 
         public string GetUpdateSql()
         {
-            string sql = "UPDATE Customer SET " +
-                         "FullName = '" + FullName + "', " +
+            string sql = "UPDATE " + DBTableName.Customers + " SET " +
+                         "Full_Name = '" + FullName + "', " +
                          "Telephone = '" + Telephone + "', " +
                          "Address = '" + Address + "' " +
-                         "WHERE CustomerID = " + CustomerID;
+                         "WHERE Customer_ID = " + CustomerID;
 
             return sql;
         }
 
         public string GetRemoveSql()
         {
-            string sql = "DELETE FROM Customer WHERE CustomerID = " + CustomerID;
+            string sql = "DELETE FROM " + DBTableName.Customers + " WHERE Customer_ID = " + CustomerID;
             return sql;
         }
     }

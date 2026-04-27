@@ -4,20 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Repository.CRUD;
+using Valet_Parking_System.Repository.Queries;
 
 namespace Valet_Parking_System.Services
 {
     public  class ParkingServices
     {
-        public static ParkingSpace GetNextAvailableSpace(List<ParkingSpace> parkingspaces)
+        public static ParkingSpace GetNextAvailableSpace()
         {
-            if (parkingspaces == null || parkingspaces.Count == 0)
-                return null;
+            int id = DataQueryRepository.GetAvailableParkingSpaceId();
+            return DataQueryRepository.GetParkingSpaceById(id);
+        }
 
-            return parkingspaces
-                .Where(ps => ps.Available)
-                .OrderBy(ps => ps.SpaceID)
-                .FirstOrDefault();
+        public static bool SetStatus(ParkingSpace parkingSpace, string status)
+        {
+
+            if (parkingSpace == null)
+                return false;
+
+            if (string.IsNullOrWhiteSpace(status))
+                return false;
+
+            parkingSpace.Status = status;
+
+            return ParkingSpaceRepository.EditParkingSpace(parkingSpace);
         }
     }
 }

@@ -139,6 +139,10 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
 
         private void BtnMarkForRetrieval_Click(object sender, EventArgs e)
         {
+            if (selectedBooking != null)
+            {
+                parentForm.MarkForRetrieval(selectedBooking);
+            }
         }
 
         private void BtnInformation_Click(object sender, EventArgs e)

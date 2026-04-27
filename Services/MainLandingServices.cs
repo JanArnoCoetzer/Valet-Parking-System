@@ -39,7 +39,7 @@ namespace Valet_Parking_System.Services
 
         internal static MainlandingData LoadAllDataFromDb()
         {
-            return new MainlandingData
+            MainlandingData data = new MainlandingData
             {
                 Bookings = DataQueryRepository.LoadBookings(),
                 ParkingSpaces = DataQueryRepository.LoadParkingSpaces(),
@@ -47,7 +47,18 @@ namespace Valet_Parking_System.Services
                 Customers = DataQueryRepository.LoadCustomers(),
                 Vehicles = DataQueryRepository.LoadVehicles()
             };
+
+            foreach (Booking booking in data.Bookings)
+            {
+                booking.Customer = DataQueryRepository.GetCustomerById(booking.CustomerId);
+                booking.Vehicle = DataQueryRepository.GetVehicleById(booking.VehicleId);
+                booking.ParkingSpace = DataQueryRepository.GetParkingSpaceById(booking.VehicleId);
+            }
+
+            return data;
         }
+
+     
 
         //-----------------------------Permissions-----------------------------
 

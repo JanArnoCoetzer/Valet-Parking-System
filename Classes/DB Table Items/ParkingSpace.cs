@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Valet_Parking_System.Classes.Constants.Database;
 
 namespace Valet_Parking_System.Classes
 {
@@ -17,14 +18,14 @@ namespace Valet_Parking_System.Classes
         public ParkingSpace(int spaceID, string lotIdentifier, string status)
         {
             SpaceID = spaceID;
-            LotIdentifier = lotIdentifier;       
+            LotIdentifier = lotIdentifier;
             setStatus(status);
         }
 
 
         public void setStatus(string status)
         {
-            
+
             switch (status)
             {
                 case "Available":
@@ -45,30 +46,30 @@ namespace Valet_Parking_System.Classes
                 default:
                     Available = false;
                     Status = "Error";
-                    Debug.WriteLine("Error settign status in Class ParkingSpace.setStatus() with status being ("+status+")");
+                    Debug.WriteLine("Error settign status in Class ParkingSpace.setStatus() with status being (" + status + ")");
                     break;
             }
         }
 
         public string GetAddSql()
         {
-            string sql = "INSERT INTO ParkingSpace (SpaceID, LotIdentifier, Status) VALUES (" +
+            string sql = "INSERT INTO " + DBTableName.ParkingSpaces + " (Space_ID, Lot_Identifier, Status) VALUES (" +
                          SpaceID + ", '" + LotIdentifier + "', '" + Status + "')";
             return sql;
         }
 
         public string GetUpdateSql()
         {
-            string sql = "UPDATE ParkingSpace SET " +
-                         "LotIdentifier = '" + LotIdentifier + "', " +
+            string sql = "UPDATE " + DBTableName.ParkingSpaces + " SET " +
+                         "Lot_Identifier = '" + LotIdentifier + "', " +
                          "Status = '" + Status + "' " +
-                         "WHERE SpaceID = " + SpaceID;
+                         "WHERE Space_ID = " + SpaceID;
             return sql;
         }
 
         public string GetRemoveSql()
         {
-            string sql = "DELETE FROM ParkingSpace WHERE SpaceID = " + SpaceID;
+            string sql = "DELETE FROM " + DBTableName.ParkingSpaces + " WHERE Space_ID = " + SpaceID;
             return sql;
         }
     }

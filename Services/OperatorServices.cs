@@ -1,4 +1,5 @@
 ﻿using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.ParkingSpace;
 using Valet_Parking_System.Classes.Constants.Vehicle;
 using Valet_Parking_System.Repository.Archive;
 using Valet_Parking_System.Repository.CRUD;
@@ -18,6 +19,7 @@ namespace Valet_Parking_System.Services
 
         public static bool SetStatusAwaitingOwner(Booking bookingData, Operator usingOperator)
         {
+            bool ParkingUpdated = ParkingServices.SetStatus(bookingData.ParkingSpace, ParkingSpaceStatus.Available);
             bool statusUpdated = BookingRepository.UpdateBookingStatus(bookingData, BookingStatuses.AwaitingOwner);
             bool retrievalOperatorSet = OperatorRepository.SetRetrievalOperator(bookingData, usingOperator);
             bool vehicleStatusSet = VehicleService.SetStatus(bookingData.Vehicle, VehicleStatus.AwaitingOwner);
@@ -45,5 +47,15 @@ namespace Valet_Parking_System.Services
 
             return BookingsService.DeleteBooking(bookingData, usingOperator);
         }
+
+        internal static bool SetStatusAwaitingPickUp(Booking bookingData, Operator usingOperator)
+        {
+            bool statusUpdated = BookingRepository.UpdateBookingStatus(bookingData, BookingStatuses.AwaitingPickUp);
+            bool storageOperatorSet = OperatorRepository.SetStorageOperator(bookingData, usingOperator);
+            bool vehicleStatusSet = VehicleService.SetStatus(bookingData.Vehicle, VehicleStatus.AwaitingOperator);
+
+            return statusUpdated && storageOperatorSet && vehicleStatusSet;
+        }
     }
+    
 }

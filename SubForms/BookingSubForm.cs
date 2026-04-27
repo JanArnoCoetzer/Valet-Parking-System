@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.ParkingSpace;
 using Valet_Parking_System.Services;
 using Valet_Parking_System.SubForms.BookingWidgets;
 using Valet_Parking_System.SubForms.BookingWidgets.DataElements;
@@ -66,24 +67,39 @@ namespace Valet_Parking_System.SubForms
 
         private void OnBookingCreated(object sender, Booking booking)
         {
-            booking.ParkingSpace = ParkingServices.GetNextAvailableSpace(_loadedParking);
 
-            bool customerAdded = CustomerService.AddCustomer(booking.Customer);
-            bool vehicleAdded = VehicleService.AddVehicle(booking.Vehicle);
-            bool bookingAdded = false;
+            int customerId = CustomerService.AddCustomerAndReturnId(booking.Customer);
 
-            if (customerAdded && vehicleAdded)
+            if (customerId <= 0)
             {
-                bookingAdded = BookingsService.AddBooking(booking, UsingOperator);
+                MessageBox.Show("Customer could not be added.");
+                return;
             }
 
-            if (customerAdded && vehicleAdded && bookingAdded)
+            booking.Customer.CustomerID = customerId;
+
+            int vehicleId = VehicleService.AddVehicleAndReturnId(booking.Vehicle);
+            if (vehicleId <= 0)
             {
+                MessageBox.Show("Vehicle could not be added.");
+                return;
+            }
+
+            booking.Vehicle.ID = vehicleId;
+
+            bool bookingAdded = BookingsService.AddBooking(booking, UsingOperator);
+
+            if (bookingAdded)
+            {
+                ParkingServices.SetStatus(booking.ParkingSpace, ParkingSpaceStatus.Occupied);
                 MainLanding.LoadTables();
             }
             else
             {
                 MessageBox.Show("Booking could not be added.");
+                CustomerService.RemoveCustomer(booking.Customer);
+                VehicleService.RemoveVehicle(booking.Vehicle);
+                ParkingServices.SetStatus(booking.ParkingSpace,ParkingSpaceStatus.Available);
             }
         }
 
@@ -106,11 +122,23 @@ namespace Valet_Parking_System.SubForms
 
             if (customerEdited && vehicleEdited && bookingEdited)
             {
-                MainLanding?.LoadTables();
+                MainLanding.LoadTables();
             }
             else
             {
                 MessageBox.Show("Booking could not be updated.");
+            }
+        }
+
+        internal void MarkForRetrieval(Booking selectedBooking)
+        {
+            if (OperatorServices.SetStatusAwaitingPickUp(selectedBooking, UsingOperator)) 
+            {
+                MainLanding.LoadTables();
+            }
+            else
+            {
+                MessageBox.Show("Could not mark for retrieval.");
             }
         }
     }

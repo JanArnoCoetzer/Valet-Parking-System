@@ -1,7 +1,10 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.ParkingSpace;
 using Valet_Parking_System.Classes.Constants.Vehicle;
 using Valet_Parking_System.Helpers;
+using Valet_Parking_System.Services;
 
 namespace Valet_Parking_System.SubForms.BookingWidgets
 {
@@ -11,6 +14,11 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
         {
             InitializeComponent();
             RegionHelper.ApplyRoundedRegion(this, 20);
+
+            txtDateFrom.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            TxtTimeFrom.Text = DateTime.Now.ToString("HH:mm");
+            txtDateTo.Text = DateTime.Now.AddHours(1).ToString("dd/MM/yyyy");
+            txtTimeTo.Text = DateTime.Now.AddHours(1).ToString("HH:mm");
         }
 
         //-----------------------------Events-----------------------------
@@ -34,13 +42,22 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
                 VehicleStatus.AwaitingOperator
             );
 
+            ParkingSpace parkingspace = ParkingServices.GetNextAvailableSpace();
+
+            Debug.WriteLine(parkingspace.LotIdentifier);
             Booking booking = new Booking
             {
                 Customer = customer,
                 Vehicle = vehicle,
-                DateFrom = dateFromPicker.Text,
-                DateTo = dateToPicker.Text
+                ParkingSpace = parkingspace,
+                DateFrom = txtDateFrom.Text,
+                TimeFrom = txtTimeTo.Text,
+                DateTo = txtDateTo.Text,
+                TimeTo = txtTimeTo.Text,
+                Status = BookingStatuses.AwaitingStorage
             };
+
+            
 
             int validationCode = booking.ValidateBooking();
 
@@ -67,10 +84,15 @@ namespace Valet_Parking_System.SubForms.BookingWidgets
             txtCarReg.Clear();
             txtCarModel.Clear();
             txtCarColor.Clear();
-            dateFromPicker.Text = "";
-            dateToPicker.Text = "";
+            txtDateFrom.Text = "";
+            txtDateTo.Text = "";
             ValidationErrorLabel.Text = "";
             ValidationErrorLabel.Visible = false;
+
+            txtDateFrom.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            TxtTimeFrom.Text = DateTime.Now.ToString("HH:mm");
+            txtDateTo.Text = DateTime.Now.AddHours(1).ToString("dd/MM/yyyy");
+            txtTimeTo.Text = DateTime.Now.AddHours(1).ToString("HH:mm");
         }
 
         

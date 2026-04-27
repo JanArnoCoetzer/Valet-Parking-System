@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Valet_Parking_System.Classes;
+using Valet_Parking_System.Classes.Constants.ParkingSpace;
 using Valet_Parking_System.Services;
 
 namespace Valet_Parking_System.SubForms
@@ -58,6 +59,7 @@ namespace Valet_Parking_System.SubForms
 
         public void SetStatusStored(Booking bookingData)
         {
+
             if (bookingData != null && UsingOperator != null)
             {
                 bool success = OperatorServices.SetStatusStored(bookingData, UsingOperator);
@@ -82,9 +84,10 @@ namespace Valet_Parking_System.SubForms
             if (bookingData != null && UsingOperator != null)
             {
                 bool success = OperatorServices.SetStatusAwaitingOwner(bookingData, UsingOperator);
-
+                
                 if (success)
                 {
+                    ParkingServices.SetStatus(bookingData.ParkingSpace,ParkingSpaceStatus.Available);
                     MainLanding.LoadTables();
                 }
                 else

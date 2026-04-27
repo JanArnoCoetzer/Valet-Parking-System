@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Valet_Parking_System.Classes;
 using Valet_Parking_System.Helpers;
 
@@ -21,26 +22,21 @@ namespace Valet_Parking_System.SubForms.BookingWidgets.FloatingWidgets.Informati
             string timeFrom,
             string dateTo,
             string timeTo,
-            ParkingSpace parkingSpace,
+            string parkingSpace,
             Operator storageOperator)
         {
-            if (parkingSpace == null || storageOperator == null)
-            {
-                return;
-            }
+            txtSpace.Text = string.IsNullOrWhiteSpace(parkingSpace) ? "N/A" : parkingSpace;
 
-            txtSpace.Text = parkingSpace.LotIdentifier.ToString();
+            txtDatestored.Text = string.IsNullOrWhiteSpace(dateFrom) ? "N/A" : dateFrom;
+            txtTimestored.Text = string.IsNullOrWhiteSpace(timeFrom) ? "N/A" : timeFrom;
+            txtDatepickup.Text = string.IsNullOrWhiteSpace(dateTo) ? "N/A" : dateTo;
+            txtTimepickup.Text = string.IsNullOrWhiteSpace(timeTo) ? "N/A" : timeTo;
 
-            txtDatestored.Text = dateFrom;
-            txtTimestored.Text = timeFrom;
-            txtDatepickup.Text = dateTo;
-            txtTimepickup.Text = timeTo;
-
-            txtStorageName.Text = storageOperator.fullName;
-            txtStorageTelephone.Text = storageOperator.telephone;
-            txtStorageEmail.Text = storageOperator.email;
+            txtStorageName.Text = storageOperator?.fullName ?? "N/A";
+            txtStorageTelephone.Text = storageOperator?.telephone ?? "N/A";
+            txtStorageEmail.Text = storageOperator?.email ?? "N/A";
         }
 
-       
+
     }
 }

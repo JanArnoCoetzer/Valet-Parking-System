@@ -5,7 +5,6 @@ namespace Valet_Parking_System.Services
 {
     internal class VehicleService
     {
-
         public static bool SetStatus(Vehicle vehicle, string status)
         {
             if (vehicle == null || string.IsNullOrWhiteSpace(status))
@@ -15,15 +14,20 @@ namespace Valet_Parking_System.Services
             return VehicleRepository.EditVehicle(vehicle);
         }
 
-
-        public static bool AddVehicle(Vehicle vehicle)
+        internal static int AddVehicleAndReturnId(Vehicle vehicle)
         {
             if (vehicle == null)
-                return false;
+                return -1;
 
-            return VehicleRepository.AddVehicle(vehicle);
+            int newId = VehicleRepository.AddVehicleAndReturnId(vehicle);
+
+            if (newId > 0)
+            {
+                vehicle.ID = newId;
+            }
+
+            return newId;
         }
-
         public static bool EditVehicle(Vehicle vehicle)
         {
             if (vehicle == null)
@@ -40,6 +44,6 @@ namespace Valet_Parking_System.Services
             return VehicleRepository.RemoveVehicle(vehicle);
         }
 
-
+        
     }
 }

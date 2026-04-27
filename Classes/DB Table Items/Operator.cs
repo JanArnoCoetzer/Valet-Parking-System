@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Valet_Parking_System.Classes.Constants.Database;
 
 namespace Valet_Parking_System.Classes
 {
@@ -21,7 +22,7 @@ namespace Valet_Parking_System.Classes
         {
         }
 
-        public Operator(int operatorID,string permissions,string fullName, string datejoined, string address, string telephone, string email)
+        public Operator(int operatorID, string permissions, string fullName, string datejoined, string address, string telephone, string email)
         {
             this.OperatorID = operatorID;
             this.Permissions = permissions;
@@ -101,26 +102,26 @@ namespace Valet_Parking_System.Classes
 
         public string GetAddSql()
         {
-            string sql = "INSERT INTO OperatorTable (operatorID, fullName, datejoined, fulladdress, telephone, email) VALUES (" +
+            string sql = "INSERT INTO " + DBTableName.Operators + " (Operator_ID, Full_Name, Date_Joined, Full_Address, Telephone, Email) VALUES (" +
                          OperatorID + ", '" + fullName + "', '" + datejoined + "', '" + fulladdress + "', '" + telephone + "', '" + email + "')";
             return sql;
         }
 
         public string GetUpdateSql()
         {
-            string sql = "UPDATE OperatorTable SET " +
-                         "fullName = '" + fullName + "', " +
-                         "datejoined = '" + datejoined + "', " +
-                         "fulladdress = '" + fulladdress + "', " +
-                         "telephone = '" + telephone + "', " +
-                         "email = '" + email + "' " +
-                         "WHERE operatorID = " + OperatorID;
+            string sql = "UPDATE " + DBTableName.Operators + " SET " +
+                         "Full_Name = '" + fullName + "', " +
+                         "Date_Joined = '" + datejoined + "', " +
+                         "Full_Address = '" + fulladdress + "', " +
+                         "Telephone = '" + telephone + "', " +
+                         "Email = '" + email + "' " +
+                         "WHERE Operator_ID = " + OperatorID;
             return sql;
         }
 
         public string GetRemoveSql()
         {
-            string sql = "DELETE FROM OperatorTable WHERE operatorID = " + OperatorID;
+            string sql = "DELETE FROM " + DBTableName.Operators + " WHERE Operator_ID = " + OperatorID;
             return sql;
         }
     }

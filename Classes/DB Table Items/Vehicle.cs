@@ -1,4 +1,6 @@
-﻿namespace Valet_Parking_System.Classes
+﻿using Valet_Parking_System.Classes.Constants.Database;
+
+namespace Valet_Parking_System.Classes
 {
     public class Vehicle
     {
@@ -19,15 +21,15 @@
 
         public string GetAddSql()
         {
-            string sql = "INSERT INTO VehicleTable (ID, Registation, Model, Color, Status) VALUES (" +
-                         ID + ", '" + Registation + "', '" + Model + "', '" + Color + "', '" + Status + "')";
+            string sql = "INSERT INTO " + DBTableName.Vehicles + " (Registration, Model, Color, Status) VALUES ('" +
+                         Registation + "', '" + Model + "', '" + Color + "', '" + Status + "')";
             return sql;
         }
 
         public string GetUpdateSql()
         {
-            string sql = "UPDATE VehicleTable SET " +
-                         "Registation = '" + Registation + "', " +
+            string sql = "UPDATE " + DBTableName.Vehicles + " SET " +
+                         "Registration = '" + Registation + "', " +
                          "Model = '" + Model + "', " +
                          "Color = '" + Color + "', " +
                          "Status = '" + Status + "' " +
@@ -37,7 +39,7 @@
 
         public string GetRemoveSql()
         {
-            string sql = "DELETE FROM VehicleTable WHERE ID = " + ID;
+            string sql = "DELETE FROM " + DBTableName.Vehicles + " WHERE ID = " + ID;
             return sql;
         }
     }
