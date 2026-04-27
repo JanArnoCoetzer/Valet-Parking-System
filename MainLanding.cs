@@ -1,5 +1,6 @@
 ﻿using Valet_Parking_System.Classes;
 using Valet_Parking_System.Classes.Constants.Operator;
+using Valet_Parking_System.DataAccessLayer;
 using Valet_Parking_System.Helpers;
 using Valet_Parking_System.Services;
 using Valet_Parking_System.SubForms;
@@ -10,30 +11,40 @@ namespace Valet_Parking_System
     public partial class MainLanding : Form
     {
         private System.Windows.Forms.Timer _updateTimer;
-        private Operator _usingOperator;
+
+        
+        private Operator _usingOperator;// Operator loged in as
+
+
+        //---------------------------------SubViews---------------------------------
         private Panel _content;
         private Panel _activePanel;
-
         private readonly LoginSubform _loginUC = new();
         private readonly DashBoardSubForm _dashBoardUC = new();
         private readonly BookingSubForm _bookingsUC = new();
         private readonly OperatorSubForm _operatorUC = new();
         private readonly AdminSubForm _adminUC = new();
-
         private readonly List<UserControl> _subViews = new();
         private Dictionary<Button, Panel> _buttonPanels;
 
 
+        //---------------------------------DBTables---------------------------------
         public List<Booking> LoadedBookings { get; private set; }
         public List<ParkingSpace> LoadedParkingSpaces { get; private set; }
         public List<Operator> LoadedOperators { get; private set; }
         public List<Customer> LoadedCustomers { get; private set; }
         public List<Vehicle> LoadedVehicles { get; private set; }
 
-        private const int CustomerAmount = 50;
-        private const int OperatorAmount = 16;
-        private const bool UseLogin = true;
-        private const bool UseDataBase = false;
+
+        //---------------------------------ChangableVars---------------------------------
+
+        private const int CustomerAmount = 50; // Set Amount of customers
+        private const int OperatorAmount = 16;//Set Amount of Operators
+        private const int RefreshTablesRate = 10; // how long in seconds before the software automaticly refreshes data
+
+        private const bool UseLogin = true; //(UserName:Admin Password:Admin) OR  (Username:Operator Password:Operator)
+        private bool UseDataBase = true;   // set to false to skip checking if there is a database
+                                          //my mtu password gives an invalid login attempt so forced to generate tables
 
         //---------------------------------Constructor---------------------------------
 
@@ -41,10 +52,14 @@ namespace Valet_Parking_System
         {
             InitializeComponent();
             SetMainLandingReferences();
+            
             InitializeGui();
-            LoadTables();
+
+            //Tries connecting if UseDataBase = true - if timeout 15 seconds will generate data
+            TestDB();
+           
             SetLoginState();
-            StartUpdateCycle(10);
+            StartUpdateCycle(RefreshTablesRate);
         }
 
         //---------------------------------Setup---------------------------------
@@ -75,6 +90,8 @@ namespace Valet_Parking_System
             RegionHelper.ApplyRoundedRegion(this, 20);
         }
 
+       
+
         private void SetMainLandingReferences()
         {
             _loginUC.SetMainLanding(this);
@@ -98,9 +115,26 @@ namespace Valet_Parking_System
 
         //---------------------------------Data Loading---------------------------------
 
+        public void TestDB() 
+        {
+            if (UseDataBase)
+            {
+                UseDataBase = OracleDbContext.TestConnection();
+            }
+
+            if (UseDataBase)
+            {
+                LoadTables();
+            }
+            else
+            {
+                GenerateTables();
+            }
+        }
         public void LoadTables()
         {
             MainlandingData Data = new MainlandingData();
+
             if (!UseDataBase)
             {
                  Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount);
@@ -110,6 +144,13 @@ namespace Valet_Parking_System
                  Data = MainLandingServices.LoadAllDataFromDb();
             }
 
+            UpdateTables(Data);
+        }
+
+        public void GenerateTables() 
+        {
+            MainlandingData Data = new MainlandingData();
+            Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount);
             UpdateTables(Data);
         }
 
@@ -191,11 +232,10 @@ namespace Valet_Parking_System
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
-            if (UseDataBase) 
+            if (UseDataBase)
             {
                 UpdateTables(MainLandingServices.LoadAllDataFromDb());
             }
-            
         }
 
         //---------------------------------Navigation Events---------------------------------

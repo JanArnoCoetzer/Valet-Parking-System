@@ -1,6 +1,5 @@
 ﻿using Oracle.ManagedDataAccess.Client;
-using System.Diagnostics;
-using Valet_Parking_System.Classes.Constants.StaticDatabase;
+using System.Data;
 
 namespace Valet_Parking_System.DataAccessLayer
 {
@@ -8,31 +7,35 @@ namespace Valet_Parking_System.DataAccessLayer
     {
         private static string BuildConnectionString()
         {
-            string user = Logins_db.get_username();
-            string pass = Logins_db.get_password();
+            return "Data Source=studentoracle:1521/orcl;User ID=t00206990;Password=Wiarno911;";
+        }
 
-            return $"Data Source=oracle/orcl;User Id={user};Password={pass};";
+        public static OracleConnection GetConnection()
+        {
+            return new OracleConnection(BuildConnectionString());
         }
 
         public static bool TestConnection()
         {
             try
             {
-                using OracleConnection conn = GetOpenConnection();
-                Debug.WriteLine("Login successful");
-                return true;
+                using (OracleConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    return conn.State == ConnectionState.Open;
+                }
             }
-            catch (Exception ex)
+            catch
             {
-                Debug.WriteLine($"Login failed: {ex.Message}");
+                //timeout is 15 seconds
+                MessageBox.Show(
+                $"General error: {"DataBase Connection Failed, Will Generate Data"}",
+                "Application Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
                 return false;
             }
-        }
-
-        public static OracleConnection GetConnection()
-        {
-            string connectionString = BuildConnectionString();
-            return new OracleConnection(connectionString);
         }
 
         public static OracleConnection GetOpenConnection()
