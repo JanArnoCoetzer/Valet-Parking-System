@@ -40,7 +40,7 @@ namespace Valet_Parking_System
 
         private const int CustomerAmount = 50; // Set Amount of customers
         private const int OperatorAmount = 16;//Set Amount of Operators
-        private const int RefreshTablesRate = 10; // how long in seconds before the software automaticly refreshes data
+        private const int RefreshTablesRate = 25; // how long in seconds before the software automaticly refreshes data
 
         private const bool UseLogin = true; //(UserName:Admin Password:Admin) OR  (Username:Operator Password:Operator)
         private bool UseDataBase = true;   // set to false to skip checking if there is a database
@@ -124,10 +124,12 @@ namespace Valet_Parking_System
 
             if (UseDataBase)
             {
+                ConnectionText.Text = "DatabaseConnected";
                 LoadTables();
             }
             else
             {
+                ConnectionText.Text = "GeneratedTables";
                 GenerateTables();
             }
         }
