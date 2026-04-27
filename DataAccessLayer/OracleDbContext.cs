@@ -7,7 +7,7 @@ namespace Valet_Parking_System.DataAccessLayer
     {
         private static string BuildConnectionString()
         {
-            return "Data Source=studentoracle:1521/orcl;User ID=t00206990;Password=Wiarno911;";
+            return "Data Source = localhost/orcl; User ID = SYSTEM; Password = 159632478";
         }
 
         public static OracleConnection GetConnection()
