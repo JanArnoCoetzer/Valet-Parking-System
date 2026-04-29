@@ -5,9 +5,10 @@ namespace Valet_Parking_System.DataAccessLayer
 {
     internal static class OracleDbContext
     {
+        public static string DBConnectionString = "Data Source = localhost/orcl; User ID = SYSTEM; Password = 159632478";
         private static string BuildConnectionString()
         {
-            return "Data Source = localhost/orcl; User ID = SYSTEM; Password = 159632478";
+            return DBConnectionString;
         }
 
         public static OracleConnection GetConnection()

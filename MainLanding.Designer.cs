@@ -42,13 +42,18 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             UserNameLabel = new Label();
             label2 = new Label();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            BtnMyDb = new Button();
             ConnectionText = new Label();
+            BtnUniDb = new Button();
+            BtnGenerateTables = new Button();
             tableLayoutPanel4 = new TableLayoutPanel();
             ContentPanel = new Panel();
             panel1 = new Panel();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
@@ -234,7 +239,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel2.Controls.Add(UserNameLabel, 3, 0);
             tableLayoutPanel2.Controls.Add(label2, 1, 0);
-            tableLayoutPanel2.Controls.Add(ConnectionText, 2, 0);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel5, 2, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 0);
             tableLayoutPanel2.Margin = new Padding(0);
@@ -273,19 +278,76 @@
             label2.Text = "ValetParking";
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 4;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel5.Controls.Add(BtnMyDb, 1, 0);
+            tableLayoutPanel5.Controls.Add(ConnectionText, 3, 0);
+            tableLayoutPanel5.Controls.Add(BtnUniDb, 0, 0);
+            tableLayoutPanel5.Controls.Add(BtnGenerateTables, 2, 0);
+            tableLayoutPanel5.Location = new Point(274, 3);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 1;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.Size = new Size(686, 54);
+            tableLayoutPanel5.TabIndex = 2;
+            // 
+            // BtnMyDb
+            // 
+            BtnMyDb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            BtnMyDb.BackColor = Color.FromArgb(57, 62, 73);
+            BtnMyDb.FlatStyle = FlatStyle.Flat;
+            BtnMyDb.Location = new Point(174, 10);
+            BtnMyDb.Name = "BtnMyDb";
+            BtnMyDb.Size = new Size(165, 34);
+            BtnMyDb.TabIndex = 6;
+            BtnMyDb.Text = "My DB";
+            BtnMyDb.UseVisualStyleBackColor = false;
+            BtnMyDb.Click += BtnMyDb_Click;
+            // 
             // ConnectionText
             // 
+            ConnectionText.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             ConnectionText.AutoSize = true;
-            ConnectionText.Dock = DockStyle.Bottom;
             ConnectionText.Font = new Font("Dubai", 8F);
             ConnectionText.ForeColor = SystemColors.ButtonHighlight;
-            ConnectionText.Location = new Point(275, 33);
+            ConnectionText.Location = new Point(517, 13);
             ConnectionText.Margin = new Padding(4, 0, 4, 0);
             ConnectionText.Name = "ConnectionText";
-            ConnectionText.Size = new Size(684, 27);
-            ConnectionText.TabIndex = 2;
+            ConnectionText.Size = new Size(165, 27);
+            ConnectionText.TabIndex = 4;
             ConnectionText.Text = "ConnectionText";
             ConnectionText.TextAlign = ContentAlignment.BottomLeft;
+            // 
+            // BtnUniDb
+            // 
+            BtnUniDb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            BtnUniDb.BackColor = Color.FromArgb(57, 62, 73);
+            BtnUniDb.FlatStyle = FlatStyle.Flat;
+            BtnUniDb.Location = new Point(3, 10);
+            BtnUniDb.Name = "BtnUniDb";
+            BtnUniDb.Size = new Size(165, 34);
+            BtnUniDb.TabIndex = 5;
+            BtnUniDb.Text = "Uni DB";
+            BtnUniDb.UseVisualStyleBackColor = false;
+            BtnUniDb.Click += BtnUniDb_Click;
+            // 
+            // BtnGenerateTables
+            // 
+            BtnGenerateTables.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            BtnGenerateTables.BackColor = Color.FromArgb(57, 62, 73);
+            BtnGenerateTables.FlatStyle = FlatStyle.Flat;
+            BtnGenerateTables.Location = new Point(345, 10);
+            BtnGenerateTables.Name = "BtnGenerateTables";
+            BtnGenerateTables.Size = new Size(165, 34);
+            BtnGenerateTables.TabIndex = 7;
+            BtnGenerateTables.Text = "Generate Tables";
+            BtnGenerateTables.UseVisualStyleBackColor = false;
+            BtnGenerateTables.Click += BtnGenerateTables_Click;
             // 
             // tableLayoutPanel4
             // 
@@ -342,6 +404,8 @@
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            tableLayoutPanel5.ResumeLayout(false);
+            tableLayoutPanel5.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -364,6 +428,10 @@
         private Label UserNameLabel;
         private Button OperatorButton;
         private Panel OperatorHoverPanel;
+        private TableLayoutPanel tableLayoutPanel5;
         private Label ConnectionText;
+        private Button BtnMyDb;
+        private Button BtnUniDb;
+        private Button BtnGenerateTables;
     }
 }
