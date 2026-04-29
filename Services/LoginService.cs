@@ -1,4 +1,5 @@
-﻿using Valet_Parking_System.Classes;
+﻿using System.Diagnostics;
+using Valet_Parking_System.Classes;
 using Valet_Parking_System.Classes.Constants.Login;
 
 namespace Valet_Parking_System.Services
@@ -26,6 +27,7 @@ namespace Valet_Parking_System.Services
 
         public static Operator FindOperator(List<Operator> operators, string name, string password)
         {
+
             if (operators == null || operators.Count == 0)
             {
                 return null;

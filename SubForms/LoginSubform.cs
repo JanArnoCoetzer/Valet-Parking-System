@@ -1,4 +1,5 @@
-﻿using Valet_Parking_System.Classes;
+﻿using System.Diagnostics;
+using Valet_Parking_System.Classes;
 using Valet_Parking_System.Classes.Constants.Login;
 using Valet_Parking_System.Services;
 
@@ -32,14 +33,14 @@ namespace Valet_Parking_System.SubForms
         //-----------------------------Authentication-----------------------------
 
         public LoginResult CheckOperatorForLogin(string name, string password)
-        {
+        {        
             return LoginService.CheckLogin(_loadedOperators, name, password);
         }
 
         public void LogInAsOperator(string name, string password)
         {
+           
             Operator foundOperator = LoginService.FindOperator(_loadedOperators, name, password);
-
             if (foundOperator == null)
             {
                 MessageBox.Show("Operator not found.");

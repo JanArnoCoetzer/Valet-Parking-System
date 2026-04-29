@@ -5,9 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Valet_Parking_System.DataAccessLayer;
 
-namespace Valet_Parking_System.Helpers
+namespace Valet_Parking_System.DataAccessLayer
 {
     internal class DataBaseHelper
     {

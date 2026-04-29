@@ -56,12 +56,6 @@ namespace Valet_Parking_System
 
             InitializeGui();
 
-
-
-            //Tries connecting if UseDataBase = true - if timeout 15 seconds will generate data
-
-
-
             StartUpdateCycle(RefreshTablesRate);
         }
 
@@ -124,7 +118,7 @@ namespace Valet_Parking_System
 
             if (UseMyDataBase)
             {
-                OracleDbContext.DBConnectionString = "Data Source = localhost/orcl; User ID = SYSTEM; Password = 159632478";
+
                 UseMyDataBase = OracleDbContext.TestConnection();
                 ConnectionText.Text = "MyDatabaseConnected";
                 LoadTables();
@@ -132,7 +126,6 @@ namespace Valet_Parking_System
 
             if (UseUniDataBase)
             {
-                OracleDbContext.DBConnectionString = "Data Source = localhost/orcl; User ID = t00206990; Password = sVsALN5KWdCxqy";
                 UseMyDataBase = OracleDbContext.TestConnection();
                 ConnectionText.Text = "UniDatabaseConnected";
                 LoadTables();
@@ -147,16 +140,20 @@ namespace Valet_Parking_System
         public void LoadTables()
         {
             MainlandingData Data = new MainlandingData();
-
-            if (!UseMyDataBase)
+            if (UseGeneratedTables)
             {
                 Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount);
             }
-            else
+            if (UseMyDataBase) 
             {
+                OracleDbContext.DBConnectionString = "Data Source = localhost/orcl; User ID = SYSTEM; Password = 159632478";
                 Data = MainLandingServices.LoadAllDataFromDb();
             }
-
+            if (UseUniDataBase) 
+            {
+                OracleDbContext.DBConnectionString = "Data Source = oracle/orcl; User ID = t00206990; Password = sVsALN5KWdCxqy";
+                Data = MainLandingServices.LoadAllDataFromDb();
+            }
             UpdateTables(Data);
         }
 
