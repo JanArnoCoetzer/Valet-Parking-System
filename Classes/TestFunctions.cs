@@ -124,34 +124,53 @@ namespace Valet_Parking_System.Classes
             return bookings;
         }
 
-        public static List<ParkingSpace> CreateTestParking()
+        public static List<ParkingSpace> CreateTestParking(int totalSpaces)
         {
+            int spacesPerFloor = 50;
+            int floorsPerBuilding = 3;
             var parkingSpaces = new List<ParkingSpace>();
 
-            char[] buildings = { 'A', 'B' };
-            char[] floors = { 'A', 'B', 'C' };
+            if (totalSpaces <= 0 || spacesPerFloor <= 0 || floorsPerBuilding <= 0)
+                return parkingSpaces;
 
-            int spaceId = 1;
-
-            foreach (char building in buildings)
+            for (int i = 0; i < totalSpaces; i++)
             {
-                foreach (char floor in floors)
-                {
-                    for (int spaceNum = 1; spaceNum <= 50; spaceNum++)
-                    {
-                        var space = new ParkingSpace(
-                            spaceId++,
-                            $"{building}_{floor}{spaceNum:D2}",
-                            "Available"
-                        );
-                        parkingSpaces.Add(space);
-                    }
-                }
+                int spaceId = i + 1;
+
+                int floorGlobalIndex = i / spacesPerFloor;
+                int buildingIndex = floorGlobalIndex / floorsPerBuilding;
+                int floorIndex = floorGlobalIndex % floorsPerBuilding;
+                int spaceNumberOnFloor = (i % spacesPerFloor) + 1;
+
+                string buildingCode = GetAlphabetCode(buildingIndex);
+                string floorCode = GetAlphabetCode(floorIndex);
+
+                var space = new ParkingSpace(
+                    spaceId,
+                    $"{buildingCode}_{floorCode}{spaceNumberOnFloor:D2}",
+                    "Available"
+                );
+
+                parkingSpaces.Add(space);
             }
 
             return parkingSpaces;
         }
 
+        private static string GetAlphabetCode(int index)
+        {
+            index++;
+            string result = string.Empty;
+
+            while (index > 0)
+            {
+                index--;
+                result = (char)('A' + (index % 26)) + result;
+                index /= 26;
+            }
+
+            return result;
+        }
         public static List<Operator> CreateTestOperators(int amount = 15)
         {
             var operators = new List<Operator>();

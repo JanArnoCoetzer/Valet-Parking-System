@@ -45,7 +45,6 @@
             tableLayoutPanel5 = new TableLayoutPanel();
             BtnMyDb = new Button();
             ConnectionText = new Label();
-            BtnUniDb = new Button();
             BtnGenerateTables = new Button();
             tableLayoutPanel4 = new TableLayoutPanel();
             ContentPanel = new Panel();
@@ -280,15 +279,14 @@
             // 
             // tableLayoutPanel5
             // 
-            tableLayoutPanel5.ColumnCount = 4;
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel5.Controls.Add(BtnMyDb, 1, 0);
-            tableLayoutPanel5.Controls.Add(ConnectionText, 3, 0);
-            tableLayoutPanel5.Controls.Add(BtnUniDb, 0, 0);
-            tableLayoutPanel5.Controls.Add(BtnGenerateTables, 2, 0);
+            tableLayoutPanel5.ColumnCount = 3;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel5.Controls.Add(BtnMyDb, 0, 0);
+            tableLayoutPanel5.Controls.Add(ConnectionText, 2, 0);
+            tableLayoutPanel5.Controls.Add(BtnGenerateTables, 1, 0);
             tableLayoutPanel5.Location = new Point(274, 3);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
@@ -301,9 +299,9 @@
             BtnMyDb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             BtnMyDb.BackColor = Color.FromArgb(57, 62, 73);
             BtnMyDb.FlatStyle = FlatStyle.Flat;
-            BtnMyDb.Location = new Point(174, 10);
+            BtnMyDb.Location = new Point(3, 10);
             BtnMyDb.Name = "BtnMyDb";
-            BtnMyDb.Size = new Size(165, 34);
+            BtnMyDb.Size = new Size(222, 34);
             BtnMyDb.TabIndex = 6;
             BtnMyDb.Text = "My DB";
             BtnMyDb.UseVisualStyleBackColor = false;
@@ -315,35 +313,22 @@
             ConnectionText.AutoSize = true;
             ConnectionText.Font = new Font("Dubai", 8F);
             ConnectionText.ForeColor = SystemColors.ButtonHighlight;
-            ConnectionText.Location = new Point(517, 13);
+            ConnectionText.Location = new Point(460, 13);
             ConnectionText.Margin = new Padding(4, 0, 4, 0);
             ConnectionText.Name = "ConnectionText";
-            ConnectionText.Size = new Size(165, 27);
+            ConnectionText.Size = new Size(222, 27);
             ConnectionText.TabIndex = 4;
             ConnectionText.Text = "ConnectionText";
             ConnectionText.TextAlign = ContentAlignment.BottomLeft;
-            // 
-            // BtnUniDb
-            // 
-            BtnUniDb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            BtnUniDb.BackColor = Color.FromArgb(57, 62, 73);
-            BtnUniDb.FlatStyle = FlatStyle.Flat;
-            BtnUniDb.Location = new Point(3, 10);
-            BtnUniDb.Name = "BtnUniDb";
-            BtnUniDb.Size = new Size(165, 34);
-            BtnUniDb.TabIndex = 5;
-            BtnUniDb.Text = "Uni DB";
-            BtnUniDb.UseVisualStyleBackColor = false;
-            BtnUniDb.Click += BtnUniDb_Click;
             // 
             // BtnGenerateTables
             // 
             BtnGenerateTables.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             BtnGenerateTables.BackColor = Color.FromArgb(57, 62, 73);
             BtnGenerateTables.FlatStyle = FlatStyle.Flat;
-            BtnGenerateTables.Location = new Point(345, 10);
+            BtnGenerateTables.Location = new Point(231, 10);
             BtnGenerateTables.Name = "BtnGenerateTables";
-            BtnGenerateTables.Size = new Size(165, 34);
+            BtnGenerateTables.Size = new Size(222, 34);
             BtnGenerateTables.TabIndex = 7;
             BtnGenerateTables.Text = "Generate Tables";
             BtnGenerateTables.UseVisualStyleBackColor = false;
@@ -431,7 +416,6 @@
         private TableLayoutPanel tableLayoutPanel5;
         private Label ConnectionText;
         private Button BtnMyDb;
-        private Button BtnUniDb;
         private Button BtnGenerateTables;
     }
 }

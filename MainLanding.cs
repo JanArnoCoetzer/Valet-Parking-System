@@ -39,14 +39,20 @@ namespace Valet_Parking_System
 
         //---------------------------------ChangableVars---------------------------------
 
-        private const int CustomerAmount = 50; // Set Amount of customers
-        private const int OperatorAmount = 16;//Set Amount of Operators
+        // db connection sql string located in DataAccessLayer.OracleDbContext.DBConnectionString
+   
+        private const int CustomerAmount = 50; // Set Amount of customers :used in generating tables Values Above 450 throws a System.ComponentModel.Win32Exception: 'Error creating window handle.
+                                                
+        private const int OperatorAmount = 16;//Set Amount of Operators :used in generating tables
         private const int RefreshTablesRate = 25; // how long in seconds before the software automaticly refreshes data
+        private const int ParkingSpacesFreeAmount = 50;
 
-        private const bool UseLogin = true; //(UserName:Admin Password:Admin) OR  (Username:Operator Password:Operator)
-        private bool UseMyDataBase = true;   // set to false to skip checking if there is a database
-        private bool UseUniDataBase = false;                                 //my mtu password gives an invalid login attempt so forced to generate tables
+        private const bool UseLogin = true; //(UserName:Admin Password:Admin) OR  (Username:Operator Password:Operator) //both in generated tables and in DbCreatetables for oracle
+        private bool UseMyDataBase = true;  
         private bool UseGeneratedTables = false;
+        private bool DBValid = false;
+
+        
         //---------------------------------Constructor---------------------------------
 
         public MainLanding()
@@ -119,16 +125,18 @@ namespace Valet_Parking_System
             if (UseMyDataBase)
             {
 
-                UseMyDataBase = OracleDbContext.TestConnection();
-                ConnectionText.Text = "MyDatabaseConnected";
-                LoadTables();
-            }
-
-            if (UseUniDataBase)
-            {
-                UseMyDataBase = OracleDbContext.TestConnection();
-                ConnectionText.Text = "UniDatabaseConnected";
-                LoadTables();
+                DBValid = OracleDbContext.TestConnection();
+                if (DBValid)
+                {
+                    ConnectionText.Text = "MyDatabaseConnected";
+                    LoadTables();
+                }
+                else
+                {
+                    UseGeneratedTables = true;
+                    UseMyDataBase = false;
+                }
+                
             }
 
             if (UseGeneratedTables)
@@ -142,25 +150,21 @@ namespace Valet_Parking_System
             MainlandingData Data = new MainlandingData();
             if (UseGeneratedTables)
             {
-                Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount);
+                Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount, CustomerAmount + ParkingSpacesFreeAmount);
             }
             if (UseMyDataBase) 
             {
                 OracleDbContext.DBConnectionString = "Data Source = localhost/orcl; User ID = SYSTEM; Password = 159632478";
                 Data = MainLandingServices.LoadAllDataFromDb();
             }
-            if (UseUniDataBase) 
-            {
-                OracleDbContext.DBConnectionString = "Data Source = oracle/orcl; User ID = t00206990; Password = sVsALN5KWdCxqy";
-                Data = MainLandingServices.LoadAllDataFromDb();
-            }
+            
             UpdateTables(Data);
         }
 
         public void GenerateTables()
         {
             MainlandingData Data = new MainlandingData();
-            Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount);
+            Data = MainLandingServices.LoadAllDataFromGenerators(CustomerAmount, OperatorAmount,CustomerAmount + ParkingSpacesFreeAmount);
             UpdateTables(Data);
         }
 
@@ -251,9 +255,7 @@ namespace Valet_Parking_System
         //---------------------------------Navigation Events---------------------------------
         private void BtnMyDb_Click(object sender, EventArgs e)
         {
-            UseUniDataBase = false;
             UseGeneratedTables = false;
-            Debug.Write("my DB");
             UseMyDataBase = true;
             TestDB();
             SetLoginState();
@@ -261,25 +263,13 @@ namespace Valet_Parking_System
 
         private void BtnGenerateTables_Click(object sender, EventArgs e)
         {
-            UseUniDataBase = false;
             UseMyDataBase = false;
-            Debug.Write("GeneratedTables");
             UseGeneratedTables = true;
             TestDB();
-
             SetLoginState();
         }
 
-        private void BtnUniDb_Click(object sender, EventArgs e)
-        {
-            UseGeneratedTables = false;
-            UseMyDataBase = false;
-
-            Debug.Write("Uni DB");
-            UseUniDataBase = true;
-            TestDB();
-            SetLoginState();
-        }
+       
         private void NavigationButton_Click(object sender, EventArgs e)
         {
             if (sender is not Button button || !_buttonPanels.TryGetValue(button, out Panel panel))

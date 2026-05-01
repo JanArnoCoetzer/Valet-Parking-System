@@ -10,9 +10,9 @@ namespace Valet_Parking_System.Services
         
 
         //-----------------------------Data Loading-----------------------------
-        internal static MainlandingData LoadAllDataFromGenerators(int customerAmount, int operatorAmount)
+        internal static MainlandingData LoadAllDataFromGenerators(int customerAmount, int operatorAmount, int parkingSpacesAmount)
         {
-            List<ParkingSpace> parkingSpaces = TestFunctions.CreateTestParking();
+            List<ParkingSpace> parkingSpaces = TestFunctions.CreateTestParking(parkingSpacesAmount);
             List<Customer> customers = TestFunctions.CreateTestCustomers(customerAmount);
             List<Vehicle> vehicles = TestFunctions.CreateTestVehcles(customerAmount);
             List<Operator> operators = TestFunctions.CreateTestOperators(operatorAmount);
